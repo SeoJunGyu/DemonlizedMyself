@@ -40,7 +40,7 @@ protected:
 	sf::Sprite* sprite;
 
 	bool isPlaying = false;
-	int currentFrame = 0; 
+	int currentFrame = 0;
 	int totalFrame = 0;
 	int checkFrame = 0;
 
@@ -69,8 +69,8 @@ public:
 	void Update(float dt);
 
 	bool IsPlaying() const { return isPlaying; }
-	void SetSpeed(float speed) 
-	{ 
+	void SetSpeed(float speed)
+	{
 		this->speed = speed;
 		checkFrame = this->speed > 0.f ? totalFrame : -1;
 	}
@@ -88,7 +88,7 @@ public:
 	void SetFrame(const AnimationFrame& frame);
 
 	//재생중인 애니메이션 가져오기
-	const std::string& GetCurrentClipId() const 
+	const std::string& GetCurrentClipId() const
 	{
 		if (currentClip == nullptr)
 			return emptyString;

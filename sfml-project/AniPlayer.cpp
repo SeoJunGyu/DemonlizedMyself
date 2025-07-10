@@ -43,7 +43,7 @@ void AniPlayer::Init()
 {
 	animator.SetTarget(&body); //갱신할 스프라이트를 애니메이터에 설정
 
-	//idle의 0번쨰 프레임에 호출된다.
+	//idle의 0번? 프레임에 호출된다.
 	animator.AddEvent("Idle", 0,
 		[]()
 		{
@@ -53,7 +53,7 @@ void AniPlayer::Init()
 
 	//점프의 0번째 프레임에 호출된다.
 	//특정 프레임에 어떤 함수를 호출할때 사용한다.
-	animator.AddEvent("Idle", 0,
+	animator.AddEvent("Jump", 0,
 		[]()
 		{
 			std::cout << "??" << std::endl;
@@ -109,7 +109,7 @@ void AniPlayer::Update(float dt)
 	//h 양수 : 오른쪽 방향 , h 음수 : 왼쪽 방향
 	if (h != 0.f)
 	{
-		SetScale(h > 0.f ? sf::Vector2f(1.0f, 1.0) : sf::Vector2f(- 1.f, 1.0f));
+		SetScale(h > 0.f ? sf::Vector2f(1.0f, 1.0) : sf::Vector2f(-1.f, 1.0f));
 	}
 
 	// Ani

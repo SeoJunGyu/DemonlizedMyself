@@ -11,7 +11,7 @@ bool AnimationClip::loadFromFile(const std::string& filePath)
 
 	//열 인덱스, 행 인덱스
 	id = doc.GetCell<std::string>(0, 0);
-	fps = doc.GetCell<int>(1, 0);	
+	fps = doc.GetCell<int>(1, 0);
 	loopType = (AnimationLoopTypes)doc.GetCell<int>(2, 0);
 
 	frames.clear();
@@ -21,8 +21,8 @@ bool AnimationClip::loadFromFile(const std::string& filePath)
 	{
 		auto row = doc.GetRow<std::string>(i);
 		frames.push_back(
-			{ 
-				row[0], 
+			{
+				row[0],
 				{ //좌부터 높이까지의 값은 '문자열'로 저장되있고, 그것을 int 형으로 바꾸는 것이다.
 				std::stoi(row[1]), std::stoi(row[2]), std::stoi(row[3]), std::stoi(row[4]) }
 			});

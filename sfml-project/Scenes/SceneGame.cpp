@@ -67,6 +67,16 @@ void SceneGame::Update(float dt)
 
 	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.2f });
 
+	if (InputMgr::GetKeyDown(sf::Keyboard::D)) 
+	{
+		monster->SetActive(false);
+	}
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << InputMgr::GetMousePosition().x << ", " << InputMgr::GetMousePosition().y << std::endl;
+	}
+
 	Scene::Update(dt);
 }
 

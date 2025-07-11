@@ -13,6 +13,7 @@ protected:
 	sf::Vector2f direction = {1.f, 0.f};
 
 	HitBox hitBox;
+	sf::FloatRect bound;
 
 	bool isBattle = false;
 	bool isAlive = true;

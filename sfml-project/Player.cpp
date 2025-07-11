@@ -51,8 +51,6 @@ void Player::Init()
 			std::cout << "!!" << std::endl;
 		}
 	);
-
-
 }
 
 void Player::Release()
@@ -87,25 +85,34 @@ void Player::Update(float dt)
 	{
 		if (!isBattle)
 		{
-			animator.Play("animations/warrior_Run.csv", true);
+			animator.Play("animations/warrior_Run.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Run")
 	{
 		attackTimer += dt;
-		if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
+		if (monster->GetActive() && Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 		{
 			isBattle = true;
-			SetPosition({ GetPosition().x + 100.f, GetPosition().y});
+			//SetPosition({ GetPosition().x + 100.f, GetPosition().y});
 			animator.Play("animations/warrior_Attack.csv");
 			//monster->OnDamage(damage);
 			attackTimer = 0.f;
 			speed = 0.f;
 		}
-		
+	}
+	else if (animator.GetCurrentClipId() == "Attack") 
+	{
+		if (!monster->GetActive()) 
+		{
+			animator.Play("animations/warrior_Run.csv");
+			isBattle = false;
+		}
 	}
 
-	hitBox.UpdateTransform(body, GetLocalBounds());
+	bound = GetLocalBounds();
+	bound.width *= 0.5f;
+	hitBox.UpdateTransform(body, bound);
 }
 
 void Player::Draw(sf::RenderWindow& window)

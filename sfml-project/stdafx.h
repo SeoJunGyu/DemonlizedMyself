@@ -28,3 +28,5 @@
 #include "Framework.h"
 #include "Animator.h"
 #include "TextGo.h"
+#include "SpriteGo.h"
+#include "HitBox.h"

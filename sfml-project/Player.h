@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 class Player :
     public GameObject
 {
@@ -9,8 +10,19 @@ protected:
 
 	sf::Vector2f gravity = { 0.f, 500.f }; //중력
 	sf::Vector2f velocity = { 0.f, 0.f };
-	bool isGrounded = true; //바닥 충돌 체크
-	float speed = 500.f;
+	sf::Vector2f direction = {1.f, 0.f};
+
+	HitBox hitBox;
+
+	bool isBattle = false;
+	bool isAlive = true;
+
+	float speed;
+	int damage;
+	int hp;
+	int maxHp;
+	float attackInterval = 0.f;
+	float attackTimer = 0.f;
 
 public:
 	Player(const std::string& name = "");
@@ -27,5 +39,21 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	sf::FloatRect GetLocalBounds() const override
+	{
+		return body.getLocalBounds();
+	}
+
+	sf::FloatRect GetGlobalBounds() const override
+	{
+		return body.getGlobalBounds();
+	}
+
+	const HitBox& GetHitBox() { return hitBox; }
+	void OnDamage(int damage);
+
+	bool GetAlive() const { return isAlive; }
+	void SetAlive(bool live) { isAlive = live; }
 };
 

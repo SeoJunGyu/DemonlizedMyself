@@ -63,6 +63,8 @@ void Player::Reset()
 
 	animator.Play("animations/warrior_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
 	SetOrigin(Origins::BC);
+	SetPosition({0.f, 0.f});
+	SetRotation(0.f);
 }
 
 void Player::Update(float dt)
@@ -70,68 +72,29 @@ void Player::Update(float dt)
 	//애니메이션 재생 + 이동
 	animator.Update(dt); //애니메이터 호출
 
-	float h = 0.f;
-	if (isGrounded)
-	{
-		h = InputMgr::GetAxis(Axis::Horizontal); //가로입력 검사
-		velocity.x = h * speed; //velocity : 속도
-	}
-	if (isGrounded && InputMgr::GetKeyDown(sf::Keyboard::Space))
-	{
-		//점프 코드
-		isGrounded = false;
-		velocity.y = -250.f; //공중으로 띄운다.
-		animator.Play("animations/warrior_Jump.csv");
-	}
-	if (!isGrounded)
-	{
-		velocity += gravity * dt; //아래로 가속도 적용
-	}
+	velocity = direction * speed;
 	position += velocity * dt;
-	if (position.y > 0.f) //바닥에 내려갈 경우
-	{
-		//바닥에 있다고 설정 / 속도 초기화
-		velocity.y = 0.f;
-		position.y = 0.f;
-		isGrounded = true;
-	}
-	SetPosition(position);
 
-	//h 양수 : 오른쪽 방향 , h 음수 : 왼쪽 방향
-	if (h != 0.f)
-	{
-		SetScale(h > 0.f ? sf::Vector2f(1.0f, 1.0) : sf::Vector2f(-1.f, 1.0f));
-	}
+	SetPosition(position);
 
 	// Ani
 	if (animator.GetCurrentClipId() == "Idle") //좌우키 안눌린 가만히 있는 자리 
 	{
-		if (h != 0.f)
+		if (!isBattle)
 		{
 			animator.Play("animations/warrior_Run.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Run")
 	{
-		if (h == 0.f)
-		{
-			animator.Play("animations/warrior_Idle.csv");
-		}
+		
 	}
-	else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
-	{
-		if (h == 0.f)
-		{
-			animator.Play("animations/warrior_Idle.csv");
-		}
-		else
-		{
-			animator.Play("animations/warrior_Run.csv");
-		}
-	}
+
+	hitBox.UpdateTransform(body, GetLocalBounds());
 }
 
 void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
+	hitBox.Draw(window);
 }

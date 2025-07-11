@@ -72,7 +72,7 @@ void Monster::Reset()
 
 void Monster::Update(float dt)
 {
-	if (animator.GetCurrentClipId() == "Attack") //좌우키 안눌린 가만히 있는 자리 
+	if (animator.GetCurrentClipId() == "Idle") //좌우키 안눌린 가만히 있는 자리 
 	{
 		if (!isBattle)
 		{
@@ -81,12 +81,16 @@ void Monster::Update(float dt)
 	}
 
 	attackTimer += dt;
-	if (animator.GetCurrentClipId() == "Run" && Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+	if (animator.GetCurrentClipId() == "Run")
 	{
-		isBattle = true;
-		animator.Play("animations/warrior_Attack.csv");
-		//player->OnDamage(damage);
-		attackTimer = 0.f;
+		if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+		{
+			isBattle = true;
+			animator.Play("animations/warrior_Attack.csv");
+			//player->OnDamage(damage);
+			attackTimer = 0.f;
+		}
+		
 	}
 
 	hitBox.UpdateTransform(body, GetLocalBounds());

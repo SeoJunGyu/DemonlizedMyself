@@ -51,6 +51,8 @@ void Player::Init()
 			std::cout << "!!" << std::endl;
 		}
 	);
+
+
 }
 
 void Player::Release()
@@ -93,7 +95,7 @@ void Player::Update(float dt)
 		attackTimer += dt;
 		if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 		{
-			
+
 			isBattle = true;
 			SetPosition({ GetPosition().x + 150.f, GetPosition().y});
 			animator.Play("animations/warrior_Attack.csv");

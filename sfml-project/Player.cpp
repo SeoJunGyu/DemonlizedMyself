@@ -95,9 +95,8 @@ void Player::Update(float dt)
 		attackTimer += dt;
 		if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 		{
-
 			isBattle = true;
-			SetPosition({ GetPosition().x + 150.f, GetPosition().y});
+			SetPosition({ GetPosition().x + 100.f, GetPosition().y});
 			animator.Play("animations/warrior_Attack.csv");
 			//monster->OnDamage(damage);
 			attackTimer = 0.f;

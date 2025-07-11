@@ -72,6 +72,8 @@ void Monster::Reset()
 
 void Monster::Update(float dt)
 {
+	animator.Update(dt); //애니메이터 호출
+
 	if (animator.GetCurrentClipId() == "Idle") //좌우키 안눌린 가만히 있는 자리 
 	{
 		if (!isBattle)
@@ -90,10 +92,11 @@ void Monster::Update(float dt)
 			//player->OnDamage(damage);
 			attackTimer = 0.f;
 		}
-		
+
 	}
 
 	hitBox.UpdateTransform(body, GetLocalBounds());
+	
 }
 
 void Monster::Draw(sf::RenderWindow& window)

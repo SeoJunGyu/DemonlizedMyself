@@ -1,5 +1,4 @@
 #pragma once
-#include "Animator.h"
 
 class AniPlayer : public GameObject
 {
@@ -7,7 +6,7 @@ protected:
 	sf::Sprite body;
 	Animator animator;
 
-	sf::Vector2f gravity = { 0.f, 500.f }; //중겨ㅏㄱ
+	sf::Vector2f gravity = { 0.f, 500.f }; //중력
 	sf::Vector2f velocity = { 0.f, 0.f };
 	bool isGrounded = true; //바닥 충돌 체크
 	float speed = 500.f;

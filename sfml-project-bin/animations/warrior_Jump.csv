@@ -1,0 +1,12 @@
+ID,FPS,"LoopType (0: Single, 1: Loop)",,,
+Jump,10,0,,,
+,,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT,"FLIPX (0:Fale, 1:True)"
+graphics/Warrior_Sheet-Effect.png,345,264,69,44,0
+graphics/Warrior_Sheet-Effect.png,0,308,69,44,0
+graphics/Warrior_Sheet-Effect.png,69,308,69,44,0
+graphics/Warrior_Sheet-Effect.png,138,308,69,44,0
+graphics/Warrior_Sheet-Effect.png,207,308,69,44,0
+graphics/Warrior_Sheet-Effect.png,276,308,69,44,0
+graphics/Warrior_Sheet-Effect.png,345,308,69,44,0
+graphics/Warrior_Sheet-Effect.png,0,352,69,44,0

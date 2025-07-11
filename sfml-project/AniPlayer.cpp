@@ -70,7 +70,7 @@ void AniPlayer::Reset()
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
 
-	animator.Play("animations/idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
+	animator.Play("animations/warrior_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
 	SetOrigin(Origins::BC);
 }
 
@@ -90,7 +90,7 @@ void AniPlayer::Update(float dt)
 		//점프 코드
 		isGrounded = false;
 		velocity.y = -250.f; //공중으로 띄운다.
-		animator.Play("animations/jump.csv");
+		animator.Play("animations/warrior_Jump.csv");
 	}
 	if (!isGrounded)
 	{
@@ -117,25 +117,25 @@ void AniPlayer::Update(float dt)
 	{
 		if (h != 0.f)
 		{
-			animator.Play("animations/run.csv");
+			animator.Play("animations/warrior_Run.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Run")
 	{
 		if (h == 0.f)
 		{
-			animator.Play("animations/idle.csv");
+			animator.Play("animations/warrior_Idle.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
 	{
 		if (h == 0.f)
 		{
-			animator.Play("animations/idle.csv");
+			animator.Play("animations/warrior_Idle.csv");
 		}
 		else
 		{
-			animator.Play("animations/run.csv");
+			animator.Play("animations/warrior_Run.csv");
 		}
 	}
 }

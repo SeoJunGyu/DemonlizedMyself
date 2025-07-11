@@ -7,7 +7,7 @@ protected:
 
 	std::list<GameObject*> objectsToAdd;
 	std::list<GameObject*> objectsToRemove;
-
+	
 	std::vector<std::string> texIds;
 	std::vector<std::string> fontIds;
 	std::vector<std::string> soundIds;

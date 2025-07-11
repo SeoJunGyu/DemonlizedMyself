@@ -66,16 +66,27 @@ void Monster::Reset()
 
 	animator.Play("animations/warrior_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
 	SetOrigin(Origins::BC);
-	SetPosition({ 0.f, 0.f });
+	SetPosition({ 500.f, 0.f });
 	SetRotation(0.f);
 }
 
 void Monster::Update(float dt)
 {
-	attackTimer += dt;
-	if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+	if (animator.GetCurrentClipId() == "Attack") //좌우키 안눌린 가만히 있는 자리 
 	{
+		if (!isBattle)
+		{
+			animator.Play("animations/warrior_Run.csv");
+		}
+	}
 
+	attackTimer += dt;
+	if (animator.GetCurrentClipId() == "Run" && Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+	{
+		isBattle = true;
+		animator.Play("animations/warrior_Attack.csv");
+		//player->OnDamage(damage);
+		attackTimer = 0.f;
 	}
 
 	hitBox.UpdateTransform(body, GetLocalBounds());

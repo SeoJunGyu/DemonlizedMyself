@@ -17,7 +17,7 @@ protected:
 	bool isBattle = false;
 	bool isAlive = true;
 
-	float speed;
+	float speed = 300.f;
 	int damage;
 	int hp;
 	int maxHp;

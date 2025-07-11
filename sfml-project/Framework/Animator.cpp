@@ -94,7 +94,7 @@ void Animator::Play(AnimationClip* clip, bool clearQueue)
 	totalFrame = clip->frames.size();
 	checkFrame = this->speed > 0.f ? totalFrame : -1; //양수인 경유 : 한개 벼 
 	currentFrame = speed > 0.f ? 0 : totalFrame - 1;
-
+	
 	frameDuration = 1.f / clip->fps;
 	accumTime = 0.f;
 	SetFrame(currentClip->frames[currentFrame]);

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Monster.h"
 
 Player::Player(const std::string& name)
 	: GameObject(name)
@@ -77,16 +78,29 @@ void Player::Update(float dt)
 
 	SetPosition(position);
 
+	Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+
 	// Ani
 	if (animator.GetCurrentClipId() == "Idle") //좌우키 안눌린 가만히 있는 자리 
 	{
 		if (!isBattle)
 		{
-			animator.Play("animations/warrior_Run.csv");
+			animator.Play("animations/warrior_Run.csv", true);
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Run")
 	{
+		attackTimer += dt;
+		if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
+		{
+			
+			isBattle = true;
+			SetPosition({ GetPosition().x + 150.f, GetPosition().y});
+			animator.Play("animations/warrior_Attack.csv");
+			//monster->OnDamage(damage);
+			attackTimer = 0.f;
+			speed = 0.f;
+		}
 		
 	}
 
@@ -97,4 +111,19 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
 	hitBox.Draw(window);
+}
+
+void Player::OnDamage(int damage)
+{
+	if (!isAlive)
+	{
+		return;
+	}
+
+	hp = Utils::Clamp(hp - damage, 0, maxHp);
+	if (hp == 0)
+	{
+		hp = 0;
+		isAlive = false;
+	}
 }

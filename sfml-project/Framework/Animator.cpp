@@ -3,6 +3,9 @@
 
 const std::string Animator::emptyString = "";
 
+//특정 클립 / 프레임에 이벤트 등록
+//해당 프레임에 도달하면 등록된 콜백 실행
+//타격, 이펙트, 사운드 드리거 등에 유용
 void Animator::AddEvent(const std::string& id, int frame, std::function<void()> action)
 {
 	auto key = std::pair<std::string, int>(id, frame);
@@ -25,6 +28,8 @@ void Animator::Update(float dt)
 		return;
 
 	//std::fabs : 절댓값 사용
+	//누적시간 체크 -> 다음 프레임으로 전환
+	//누적시간이 프레임 지속시간보다 크거나 같고, 프레임 전환 후 AnimationEvent가 있으면 action() 실행
 	accumTime += dt * std::fabs(speed);
 	if (accumTime < frameDuration)
 		return;
@@ -72,9 +77,11 @@ void Animator::Update(float dt)
 	}
 }
 
+//AnimationClip을 Id로 가져와 Play(AnimationClip*) 호출
 void Animator::Play(const std::string& clipId, bool clearQueue)
 {
-	//Get 함수로 플레이 시키는 함수 
+	//Get 함수로 플레이 시키는 함수
+	//frameDuration 계산 후 첫 프레임 재생(SetFrame)
 	Play(&ANI_CLIP_MGR.Get(clipId), clearQueue);
 }
 
@@ -100,6 +107,7 @@ void Animator::Play(AnimationClip* clip, bool clearQueue)
 	SetFrame(currentClip->frames[currentFrame]);
 }
 
+//플레이큐에 애니메이션이 쌓인다.
 void Animator::PlayQueue(const std::string& clipId)
 {
 	playQueue.push(clipId);
@@ -112,6 +120,7 @@ void Animator::Stop()
 
 void Animator::SetFrame(const AnimationFrame& frame)
 {
+	//현재 프레임의 텍스처와 영역을 스프라이트에 반영
 	sprite->setTexture(TEXTURE_MGR.Get(frame.texId));
 	sprite->setTextureRect(frame.texCoord);
 	//sprite->

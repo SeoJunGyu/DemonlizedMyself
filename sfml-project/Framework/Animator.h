@@ -34,19 +34,19 @@ protected:
 	static const std::string emptyString;
 	//std::string, int : 어떤 매니메이션의 프레임, 인덱스
 	std::unordered_map<std::pair<std::string, int>, AnimationEvent, AnimationEventHash> events; //<키, 벨류, 카운터 클래스> / 헤시 테이블 : 해시 함수가 리턴하는 값으로 데이터가 어디 있는지 반환하는 자료구조다.
-	std::queue<std::string> playQueue; //
+	std::queue<std::string> playQueue; //다음에 재생할 클립들
 
-	AnimationClip* currentClip; //스프라이트 
-	sf::Sprite* sprite;
+	AnimationClip* currentClip; //현재 재싱 중인 애니메이션 
+	sf::Sprite* sprite; //애니메이션 적용 대상
 
-	bool isPlaying = false;
-	int currentFrame = 0;
-	int totalFrame = 0;
+	bool isPlaying = false; 
+	int currentFrame = 0; //현재 프레임 인덱스
+	int totalFrame = 0; //전체 프레임 수
 	int checkFrame = 0;
 
-	float frameDuration = 0.f;
-	float accumTime = 0.f;
-	float speed = 1.f;
+	float frameDuration = 0.f; //각 프레임 지속시간
+	float accumTime = 0.f; //누적 시간
+	float speed = 1.f; //재생 속도(음수면 역재생)
 
 public:
 	Animator() = default;

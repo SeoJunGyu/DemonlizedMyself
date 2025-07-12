@@ -51,6 +51,13 @@ void Player::Init()
 			std::cout << "!!" << std::endl;
 		}
 	);
+
+	animator.AddEvent("Attack", 5,
+		[]()
+		{
+			
+		}
+	);
 }
 
 void Player::Release()
@@ -96,7 +103,7 @@ void Player::Update(float dt)
 			isBattle = true;
 			//SetPosition({ GetPosition().x + 100.f, GetPosition().y});
 			animator.Play("animations/warrior_Attack.csv");
-			//monster->OnDamage(damage);
+			monster->OnDamage(damage);
 			attackTimer = 0.f;
 			speed = 0.f;
 		}
@@ -113,6 +120,8 @@ void Player::Update(float dt)
 	bound = GetLocalBounds();
 	bound.width *= 0.5f;
 	hitBox.UpdateTransform(body, bound);
+	std::cout << animator.GetCurrentClipId() << std::endl;
+	std::cout << animator.IsPlaying() << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window)

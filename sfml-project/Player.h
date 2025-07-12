@@ -17,11 +17,12 @@ protected:
 
 	bool isBattle = false;
 	bool isAlive = true;
+	bool isHit = false;
 
 	float speed = 300.f;
-	int damage;
-	int hp;
-	int maxHp;
+	int damage = 10;
+	int hp = 0;
+	int maxHp = 100;
 	float attackInterval = 0.f;
 	float attackTimer = 0.f;
 

@@ -64,38 +64,45 @@ void Monster::Reset()
 
 	player = (Player*)SCENE_MGR.GetCurrentScene()->FindGameObject("Player");
 
-	animator.Play("animations/warrior_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
+	animator.Play("animations/HeroKnight_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
+
 	SetOrigin(Origins::BC);
 	SetPosition({ 500.f, 0.f });
 	SetRotation(0.f);
+
+	hp = maxHp;
 }
 
 void Monster::Update(float dt)
 {
 	animator.Update(dt); //애니메이터 호출
 
-	if (animator.GetCurrentClipId() == "Idle") //좌우키 안눌린 가만히 있는 자리 
+	if (animator.GetCurrentClipId() == "Attack") //좌우키 안눌린 가만히 있는 자리 
 	{
 		if (!isBattle)
 		{
-			animator.Play("animations/warrior_Run.csv");
+			animator.Play("animations/HeroKnight_Idle.csv");
 		}
 	}
 
 	attackTimer += dt;
-	if (animator.GetCurrentClipId() == "Run")
+	if (animator.GetCurrentClipId() == "Idle")
 	{
 		if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 		{
 			isBattle = true;
-			animator.Play("animations/warrior_Attack.csv");
+			animator.Play("animations/HeroKnight_Attack.csv");
 			//player->OnDamage(damage);
 			attackTimer = 0.f;
 		}
 
 	}
 
-	hitBox.UpdateTransform(body, GetLocalBounds());
+	bound = player->GetLocalBounds();
+	//bound.width = GetLocalBounds().width * 0.5f;
+	//bound.height = GetLocalBounds().height * 0.5f;
+	
+	hitBox.UpdateTransform(body, bound);
 	
 }
 
@@ -117,5 +124,8 @@ void Monster::OnDamage(int damage)
 	{
 		hp = 0;
 		isAlive = false;
+		SetActive(false);
+		std::cout << hp << std::endl;
 	}
+	std::cout << hp << std::endl;
 }

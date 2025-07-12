@@ -12,18 +12,21 @@ void SceneGame::Init()
 {
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");
+	texIds.push_back("graphics/HeroKnight.png");
+	
 
 	fontIds.push_back("fonts/DS-DIGIT.ttf");
 
 	//애니메이션 로드
 	ANI_CLIP_MGR.Load("animations/warrior_Idle.csv");
-	ANI_CLIP_MGR.Load("animations/warrior_Jump.csv");
 	ANI_CLIP_MGR.Load("animations/warrior_Run.csv");
 	ANI_CLIP_MGR.Load("animations/warrior_Attack.csv");
+	ANI_CLIP_MGR.Load("animations/HeroKnight_Idle.csv");
+	ANI_CLIP_MGR.Load("animations/HeroKnight_Attack.csv");
 
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
-
+	
 	TextGo* go = new TextGo("fonts/DS-DIGIT.ttf");
 	go->SetString("Game");
 	//go->GetText().setString("데브 2");
@@ -42,6 +45,7 @@ void SceneGame::Init()
 	monster = (Monster*)AddGameObject(new Monster("Monster"));
 	monster->SetPosition({ 500.f, 0.f });
 	monster->SetScale({ -2.5f, 2.5f });
+	//monster->SetScale({ 1.f, 1.f });
 
 	Scene::Init();
 }

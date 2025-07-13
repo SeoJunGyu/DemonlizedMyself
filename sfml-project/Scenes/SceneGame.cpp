@@ -2,6 +2,7 @@
 #include "SceneGame.h"
 #include "Player.h"
 #include "Monster.h"
+#include "UiHud.h"
 
 SceneGame::SceneGame()
 	: Scene(SceneIds::Game)
@@ -22,6 +23,19 @@ void SceneGame::Init()
 	texIds.push_back("graphics/HeroKnight.png");
 
 	fontIds.push_back("fonts/DS-DIGIT.ttf");
+	fontIds.push_back("fonts/Maplestory_Light.ttf");
+
+	//텍스트 테스트
+	TextGo* go = new TextGo("fonts/Maplestory_Light.ttf");
+	//go->SetString("Game");
+	//go->GetText().setString("게임 2");
+	go->GetText().setString(L"게임");
+	go->SetCharacterSize(30);
+	go->SetFillColor(sf::Color::White);
+	go->sortingLayer = SortingLayers::UI;
+	go->sortingOrder = 0;
+
+	AddGameObject(go);
 
 	//애니메이션 로드
 	ANI_CLIP_MGR.Load("animations/warrior_Idle.csv");
@@ -32,18 +46,6 @@ void SceneGame::Init()
 
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
-	
-	//테스트 텍스트
-	TextGo* go = new TextGo("fonts/DS-DIGIT.ttf");
-	go->SetString("Game");
-	//go->GetText().setString("데브 2");
-	//go->GetText().setString(L"데브 2");
-	go->SetCharacterSize(30);
-	go->SetFillColor(sf::Color::White);
-	go->sortingLayer = SortingLayers::UI;
-	go->sortingOrder = 0;
-
-	AddGameObject(go);
 
 	//플레이어 생성
 	player = (Player*)AddGameObject(new Player("Player"));
@@ -66,6 +68,10 @@ void SceneGame::Init()
 	//백그라운드 설정
 	SetBackGround();
 
+	//Ui설정
+	uiHud = (UiHud*)AddGameObject(new UiHud("UiHud"));
+	uiHud->sortingLayer = SortingLayers::UI;
+
 	Scene::Init();
 }
 
@@ -81,7 +87,22 @@ void SceneGame::Enter()
 	worldView.setSize(size);
 	worldView.setCenter({ playerPos.x, playerPos.y - size.y * 0.25f });
 
+	SetBackGround();
+
 	Scene::Enter();
+}
+
+void SceneGame::Exit()
+{
+	for (Monster* monster : monsterList)
+	{
+		monster->SetActive(false);
+		monsterPool.push_back(monster);
+	}
+
+	monsterList.clear();
+
+	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)

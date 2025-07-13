@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Monster.h"
 #include "Player.h"
+#include "SceneGame.h"
 
 Monster::Monster(const std::string& name)
 	: GameObject(name)
@@ -51,6 +52,76 @@ void Monster::Init()
 			
 		}
 	);
+
+	switch (type)
+	{
+	case Monster::HeroKnight:
+		animator.AddEvent("Attack", 2,
+			[this]()
+			{
+				SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+				if (!scene)
+				{
+					return;
+				}
+
+				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+				{
+					player->OnDamage(damage);
+				}
+			}
+		);
+
+		animator.AddEvent("Attack", 7,
+			[this]()
+			{
+				SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+				if (!scene)
+				{
+					return;
+				}
+
+				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+				{
+					player->OnDamage(damage);
+				}
+			}
+		);
+		break;
+	case Monster::Worrior:
+		animator.AddEvent("Attack", 5,
+			[this]()
+			{
+				SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+				if (!scene)
+				{
+					return;
+				}
+
+				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+				{
+					player->OnDamage(damage);
+				}
+			}
+		);
+
+		animator.AddEvent("Attack", 9,
+			[this]()
+			{
+				SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+				if (!scene)
+				{
+					return;
+				}
+
+				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
+				{
+					player->OnDamage(damage);
+				}
+			}
+		);
+		break;
+	}
 }
 
 void Monster::Release()

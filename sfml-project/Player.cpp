@@ -128,6 +128,9 @@ void Player::Reset()
 	SetOrigin(Origins::BC);
 	SetPosition({0.f, 0.f});
 	SetRotation(0.f);
+
+	speed = 300.f;
+	hp = maxHp;
 }
 
 void Player::Update(float dt)
@@ -172,6 +175,7 @@ void Player::Update(float dt)
 
 	//std::cout << animator.GetCurrentClipId() << std::endl;
 	//std::cout << animator.IsPlaying() << std::endl;
+	std::cout << GetPosition().x << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -191,6 +195,6 @@ void Player::OnDamage(int damage)
 	if (hp == 0)
 	{
 		hp = 0;
-		isAlive = false;
+		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
 }

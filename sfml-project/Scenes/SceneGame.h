@@ -4,13 +4,14 @@
 class SpriteGo;
 class Player;
 class Monster;
+class UiHud;
 
 class SceneGame :
     public Scene
 {
 protected:
 	Player* player = nullptr;
-	//Monster* monster = nullptr;
+	UiHud* uiHud = nullptr;
 
 	// Monster
 	std::list<Monster*> monsterList;
@@ -31,7 +32,7 @@ public:
 
 	void Init() override;
 	void Enter() override;
-
+	void Exit() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 

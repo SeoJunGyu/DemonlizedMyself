@@ -29,7 +29,7 @@ protected:
 	float speed = 300.f;
 	int damage = 20;
 	int hp = 0;
-	int maxHp = 50;
+	int maxHp = 100;
 	float attackInterval = 0.f;
 	float attackTimer = 0.f;
 

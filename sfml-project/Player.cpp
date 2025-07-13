@@ -53,9 +53,28 @@ void Player::Init()
 	);
 
 	animator.AddEvent("Attack", 5,
-		[]()
+		[this]()
 		{
-			
+			Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+
+			if (monster && monster->GetActive())
+			{
+				monster->OnDamage(damage);
+				
+			}
+		}
+	);
+
+	animator.AddEvent("Attack", 9,
+		[this]()
+		{
+			Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+
+			if (monster && monster->GetActive())
+			{
+				monster->OnDamage(damage);
+
+			}
 		}
 	);
 }
@@ -103,7 +122,6 @@ void Player::Update(float dt)
 			isBattle = true;
 			//SetPosition({ GetPosition().x + 100.f, GetPosition().y});
 			animator.Play("animations/warrior_Attack.csv");
-			monster->OnDamage(damage);
 			attackTimer = 0.f;
 			speed = 0.f;
 		}
@@ -114,14 +132,16 @@ void Player::Update(float dt)
 		{
 			animator.Play("animations/warrior_Run.csv");
 			isBattle = false;
+			speed = 300.f;
 		}
 	}
 
 	bound = GetLocalBounds();
 	bound.width *= 0.5f;
 	hitBox.UpdateTransform(body, bound);
-	std::cout << animator.GetCurrentClipId() << std::endl;
-	std::cout << animator.IsPlaying() << std::endl;
+
+	//std::cout << animator.GetCurrentClipId() << std::endl;
+	//std::cout << animator.IsPlaying() << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window)

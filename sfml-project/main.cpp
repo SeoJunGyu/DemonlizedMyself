@@ -2,7 +2,7 @@
 
 int main()
 {
-    FRAMEWORK.Init(720, 1080, "DemonlizedMyself");
+    FRAMEWORK.Init(720, 1000, "DemonlizedMyself");
     FRAMEWORK.Do();
     FRAMEWORK.Release();
 

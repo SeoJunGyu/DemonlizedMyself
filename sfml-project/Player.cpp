@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Monster.h"
+#include "SceneGame.h"
 
 Player::Player(const std::string& name)
 	: GameObject(name)
@@ -48,19 +49,32 @@ void Player::Init()
 	animator.AddEvent("Idle", 0,
 		[]()
 		{
-			std::cout << "!!" << std::endl;
+			
 		}
 	);
 
 	animator.AddEvent("Attack", 5,
 		[this]()
 		{
-			Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
-
-			if (monster && monster->GetActive())
+			SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+			//Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+			if (!scene)
 			{
-				monster->OnDamage(damage);
-				
+				return;
+			}
+
+			for (Monster* monster : scene->GetMonsters())
+			{
+				if (!monster->GetActive())
+				{
+					continue;
+				}
+
+				if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
+				{
+					monster->OnDamage(damage);
+					//std::cout << monster->GetHp() << std::endl;
+				}
 			}
 		}
 	);
@@ -68,12 +82,25 @@ void Player::Init()
 	animator.AddEvent("Attack", 9,
 		[this]()
 		{
-			Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
-
-			if (monster && monster->GetActive())
+			SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+			//Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+			if (!scene)
 			{
-				monster->OnDamage(damage);
+				return;
+			}
 
+			for (Monster* monster : scene->GetMonsters())
+			{
+				if (!monster->GetActive())
+				{
+					continue;
+				}
+
+				if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
+				{
+					monster->OnDamage(damage);
+					//std::cout << monster->GetHp() << std::endl;
+				}
 			}
 		}
 	);
@@ -85,10 +112,19 @@ void Player::Release()
 
 void Player::Reset()
 {
+	if (SCENE_MGR.GetCurrentSceneId() == SceneIds::Game)
+	{
+		sceneGame = (SceneGame*)SCENE_MGR.GetCurrentScene();
+	}
+	else
+	{
+		sceneGame = nullptr;
+	}
+
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
 
-	animator.Play("animations/warrior_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
+	animator.Play("animations/warrior_Run.csv"); //아이들 애이메이션 경로 넘겨서 플레이
 	SetOrigin(Origins::BC);
 	SetPosition({0.f, 0.f});
 	SetRotation(0.f);
@@ -104,36 +140,30 @@ void Player::Update(float dt)
 
 	SetPosition(position);
 
-	Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+	//Monster* monster = (Monster*)SCENE_MGR.GetCurrentScene()->FindGameObject("Monster");
+	const auto list = sceneGame->GetMonsters();
+	isBattle = false;
 
 	// Ani
-	if (animator.GetCurrentClipId() == "Idle") //좌우키 안눌린 가만히 있는 자리 
+	for (auto monster : list)
 	{
-		if (!isBattle)
-		{
-			animator.Play("animations/warrior_Run.csv");
-		}
-	}
-	else if (animator.GetCurrentClipId() == "Run")
-	{
-		attackTimer += dt;
 		if (monster->GetActive() && Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 		{
 			isBattle = true;
-			//SetPosition({ GetPosition().x + 100.f, GetPosition().y});
-			animator.Play("animations/warrior_Attack.csv");
-			attackTimer = 0.f;
-			speed = 0.f;
+			if (animator.GetCurrentClipId() == "Run")
+			{
+				animator.Play("animations/warrior_Attack.csv");
+				speed = 0.f;
+			}
+			
+			break;
 		}
 	}
-	else if (animator.GetCurrentClipId() == "Attack") 
+
+	if (!isBattle && animator.GetCurrentClipId() == "Attack")
 	{
-		if (!monster->GetActive()) 
-		{
-			animator.Play("animations/warrior_Run.csv");
-			isBattle = false;
-			speed = 300.f;
-		}
+		animator.Play("animations/warrior_Run.csv");
+		speed = 300.f;
 	}
 
 	bound = GetLocalBounds();

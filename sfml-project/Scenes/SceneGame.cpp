@@ -51,10 +51,17 @@ void SceneGame::Init()
 	player->SetScale({ 2.5f, 2.5f });
 
 	//몬스터 생성
+	/*
 	monster = (Monster*)AddGameObject(new Monster("Monster"));
 	monster->SetPosition({ 500.f, 0.f });
-	monster->SetScale({ -2.5f, 2.5f });
-	//monster->SetScale({ 1.f, 1.f });
+	*/
+	for (int i = 0; i < 100; i++)
+	{
+		Monster* monster = (Monster*)AddGameObject(new Monster());
+		monster->SetActive(false);
+		monster->SetScale({ -2.5f, 2.5f });
+		monsterPool.push_back(monster);
+	}
 
 	//백그라운드 설정
 	SetBackGround();
@@ -84,14 +91,29 @@ void SceneGame::Update(float dt)
 
 	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.2f });
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::D)) 
-	{
-		monster->SetActive(false);
-	}
-
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		std::cout << InputMgr::GetMousePosition().x << ", " << InputMgr::GetMousePosition().y << std::endl;
+	}
+
+	//몬스터 풀 관리
+	auto it = monsterList.begin();
+	while (it != monsterList.end())
+	{
+		if (!(*it)->GetActive())
+		{
+			monsterPool.push_back(*it);
+			it = monsterList.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	if (monsterList.size() < maxSpawn)
+	{
+		SpawnMonster(4);
 	}
 
 	UpdateBackGround();
@@ -171,5 +193,42 @@ void SceneGame::UpdateBackGround()
 		
 		groundList.pop_front();
 		groundList.push_back(first);
+	}
+}
+
+void SceneGame::SpawnMonster(int count)
+{
+	float baseX = player->GetPosition().x + 300.f;
+	if (!monsterList.empty())
+	{
+		baseX = monsterList.back()->GetPosition().x + 300.f;
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		//i / groupSize : 몇번째 그룹인지 확인 (groupsize가 한 그룹 마리수)
+		float offsetX = spawnSpace * (i + 1) + (i / groupSize) * groupSpace; //spawnSpace * (i + 1) : 한 그룹 내의 간격 / (i / groupSize) * groupSpace : 그룹별 간격
+		float spawnX = baseX + offsetX; //기준점부터 그룹 위치 설정
+
+		Monster* monster = nullptr;
+
+		if (monsterPool.empty())
+		{
+			monster = (Monster*)AddGameObject(new Monster("Monster"));
+			monster->Init();
+		}
+		else
+		{
+			monster = monsterPool.front();
+			monsterPool.pop_front();
+			monster->SetActive(true);
+		}
+
+		monster->SetAlive(true);
+		monster->SetType((Monster::Type)Utils::RandomRange(0, (int)Monster::TotalType));
+		monster->Reset();
+		monster->SetPosition({ spawnX, player->GetPosition().y });
+		monsterList.push_back(monster);
+		
 	}
 }

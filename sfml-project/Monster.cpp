@@ -48,7 +48,7 @@ void Monster::Init()
 	animator.AddEvent("Idle", 0,
 		[]()
 		{
-			std::cout << "??" << std::endl;
+			
 		}
 	);
 }
@@ -64,7 +64,7 @@ void Monster::Reset()
 
 	player = (Player*)SCENE_MGR.GetCurrentScene()->FindGameObject("Player");
 
-	animator.Play("animations/HeroKnight_Idle.csv"); //아이들 애이메이션 경로 넘겨서 플레이
+	SetType(type);
 
 	SetOrigin(Origins::BC);
 	SetPosition({ 500.f, 0.f });
@@ -81,7 +81,17 @@ void Monster::Update(float dt)
 	{
 		if (!isBattle)
 		{
-			animator.Play("animations/HeroKnight_Idle.csv");
+			switch (type)
+			{
+			case Monster::HeroKnight:
+				animator.Play("animations/HeroKnight_Idle.csv");
+				break;
+			case Monster::Worrior:
+				animator.Play("animations/warrior_Idle.csv");
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -91,7 +101,17 @@ void Monster::Update(float dt)
 		if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 		{
 			isBattle = true;
-			animator.Play("animations/HeroKnight_Attack.csv");
+			switch (type)
+			{
+			case Monster::HeroKnight:
+				animator.Play("animations/HeroKnight_Attack.csv");
+				break;
+			case Monster::Worrior:
+				animator.Play("animations/warrior_Attack.csv");
+				break;
+			default:
+				break;
+			}
 			//player->OnDamage(damage);
 			attackTimer = 0.f;
 		}
@@ -125,7 +145,26 @@ void Monster::OnDamage(int damage)
 		hp = 0;
 		isAlive = false;
 		SetActive(false);
-		std::cout << hp << std::endl;
 	}
-	std::cout << hp << std::endl;
+	//std::cout << hp << std::endl;
+}
+
+void Monster::SetType(Type type)
+{
+	this->type = type;
+
+	switch (type)
+	{
+	case Monster::HeroKnight:
+		animator.Play("animations/HeroKnight_Idle.csv");
+		damage = 20;
+		maxHp = 100;
+		break;
+	case Monster::Worrior:
+		animator.Play("animations/warrior_Idle.csv");
+		damage = 20;
+		maxHp = 100;
+		break;
+	}
+
 }

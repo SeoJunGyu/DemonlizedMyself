@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
+class SceneGame;
+class Monster;
+
 class Player :
     public GameObject
 {
@@ -8,21 +11,25 @@ protected:
 	sf::Sprite body;
 	Animator animator;
 
-	sf::Vector2f gravity = { 0.f, 500.f }; //중력
 	sf::Vector2f velocity = { 0.f, 0.f };
 	sf::Vector2f direction = {1.f, 0.f};
 
 	HitBox hitBox;
-	sf::FloatRect bound;
+	sf::FloatRect bound; //히트박스 크기설정용
 
+	SceneGame* sceneGame;
+	Monster* monster;
+
+	//플래그 변수
 	bool isBattle = false;
 	bool isAlive = true;
 	bool isHit = false;
 
+	//배틀 설정 변수
 	float speed = 300.f;
-	int damage = 10;
+	int damage = 20;
 	int hp = 0;
-	int maxHp = 100;
+	int maxHp = 50;
 	float attackInterval = 0.f;
 	float attackTimer = 0.f;
 

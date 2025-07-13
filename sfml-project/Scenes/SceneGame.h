@@ -10,7 +10,15 @@ class SceneGame :
 {
 protected:
 	Player* player = nullptr;
-	Monster* monster = nullptr;
+	//Monster* monster = nullptr;
+
+	// Monster
+	std::list<Monster*> monsterList;
+	std::list<Monster*> monsterPool;
+	int maxSpawn = 20; //최대 스폰 수
+	float spawnSpace = 150.f; //몬스터 간격
+	float groupSpace = 300.f; //4마리 출력 후 그룹 간격
+	int groupSize = 4; //출력할 한 그룹 총 마리 수
 
 	// Background
 	std::vector<SpriteGo*> backList;
@@ -27,7 +35,11 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
+	const std::list<Monster*>& GetMonsters() const { return monsterList; }
+
 	void SetBackGround();
 	void UpdateBackGround();
+
+	void SpawnMonster(int count);
 };
 

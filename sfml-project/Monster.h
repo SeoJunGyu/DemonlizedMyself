@@ -6,6 +6,14 @@ class Player;
 class Monster :
     public GameObject
 {
+public:
+	enum Type
+	{
+		HeroKnight,
+		Worrior,
+	};
+	static const int TotalType = 2;
+
 protected:
 	sf::Sprite body;
 	Animator animator;
@@ -14,9 +22,13 @@ protected:
 	HitBox hitBox;
 	sf::FloatRect bound;
 
+	Type type = Type::HeroKnight;
+
+	//플래그 변수
 	bool isBattle = false;
 	bool isAlive = true;
 
+	//배틀 설정 변수
 	int damage = 10;
 	int hp = 0;
 	int maxHp = 100;
@@ -54,5 +66,11 @@ public:
 
 	bool GetAlive() const { return isAlive; }
 	void SetAlive(bool live) { isAlive = live; }
+
+	int GetHp() const { return hp; }
+
+	Animator GetAnimator() const { return animator; }
+
+	void SetType(Type type);
 };
 

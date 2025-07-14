@@ -175,7 +175,7 @@ void Player::Update(float dt)
 
 	//std::cout << animator.GetCurrentClipId() << std::endl;
 	//std::cout << animator.IsPlaying() << std::endl;
-	std::cout << GetPosition().x << std::endl;
+	//std::cout << GetPosition().x << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window)

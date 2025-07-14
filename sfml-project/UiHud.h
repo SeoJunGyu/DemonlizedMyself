@@ -9,7 +9,12 @@ class UiHud :
 protected:
 	std::string fontId = "fonts/Maplestory_Light.ttf";
 
+	sf::RectangleShape topBack; //상단 UI 배경
 	sf::RectangleShape back;
+
+	sf::Text textTime;
+	int second;
+	float time;
 
 	// 플레이어 정보
 	sf::Text textLevel;
@@ -68,5 +73,12 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	// Update
+	void UpdateTextTime(float time);
+
+	// Set
+	void SetTextTime(float time);
+	void SetTextLevel(int level);
 };
 

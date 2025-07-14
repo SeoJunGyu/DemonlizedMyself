@@ -26,6 +26,9 @@ protected:
 	std::list<SpriteGo*> groundList;
 	int backCount = 0;
 
+	// Stat Data
+	int level;
+
 public:
 	SceneGame();
 	~SceneGame() = default;

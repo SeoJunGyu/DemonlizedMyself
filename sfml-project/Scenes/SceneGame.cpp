@@ -26,6 +26,7 @@ void SceneGame::Init()
 	fontIds.push_back("fonts/Maplestory_Light.ttf");
 
 	//텍스트 테스트
+	/*
 	TextGo* go = new TextGo("fonts/Maplestory_Light.ttf");
 	//go->SetString("Game");
 	//go->GetText().setString("게임 2");
@@ -36,6 +37,8 @@ void SceneGame::Init()
 	go->sortingOrder = 0;
 
 	AddGameObject(go);
+	*/
+	
 
 	//애니메이션 로드
 	ANI_CLIP_MGR.Load("animations/warrior_Idle.csv");
@@ -72,6 +75,9 @@ void SceneGame::Init()
 	uiHud = (UiHud*)AddGameObject(new UiHud("UiHud"));
 	uiHud->sortingLayer = SortingLayers::UI;
 
+	//Stat 설정
+	level = 0;
+
 	Scene::Init();
 }
 
@@ -90,6 +96,8 @@ void SceneGame::Enter()
 	SetBackGround();
 
 	Scene::Enter();
+
+	uiHud->SetTextLevel(level);
 }
 
 void SceneGame::Exit()

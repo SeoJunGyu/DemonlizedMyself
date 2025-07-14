@@ -142,6 +142,16 @@ void Monster::Reset()
 	SetRotation(0.f);
 
 	hp = maxHp;
+
+	hpBarbg.setFillColor(sf::Color::White);
+	hpBarbg.setSize({ 30.f, 5.f });
+	Utils::SetOrigin(hpBarbg, Origins::ML);
+
+	hpBar.setFillColor(sf::Color::Red);
+	hpBar.setSize({ 30.f, 5.f });
+	Utils::SetOrigin(hpBar, Origins::ML);
+
+	per = hpBar.getSize().x / hp;
 }
 
 void Monster::Update(float dt)
@@ -165,6 +175,8 @@ void Monster::Update(float dt)
 			}
 		}
 	}
+
+	UpdateHpBar();
 
 	attackTimer += dt;
 	if (animator.GetCurrentClipId() == "Idle")
@@ -201,6 +213,11 @@ void Monster::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
 	hitBox.Draw(window);
+	if (hp != maxHp && isAlive)
+	{
+		window.draw(hpBarbg);
+		window.draw(hpBar);
+	}
 }
 
 void Monster::OnDamage(int damage)
@@ -220,6 +237,15 @@ void Monster::OnDamage(int damage)
 	//std::cout << hp << std::endl;
 }
 
+void Monster::UpdateHpBar()
+{
+	hpBarbg.setPosition(hpBar.getPosition());
+	hpBar.setPosition(position.x, GetGlobalBounds().top + GetGlobalBounds().height + hpBarOffset.y);
+
+	float fill = per * hp;
+	hpBar.setSize({ fill, 5 });
+}
+
 void Monster::SetType(Type type)
 {
 	this->type = type;
@@ -228,12 +254,12 @@ void Monster::SetType(Type type)
 	{
 	case Monster::HeroKnight:
 		animator.Play("animations/HeroKnight_Idle.csv");
-		damage = 20;
+		damage = 2;
 		maxHp = 100;
 		break;
 	case Monster::Worrior:
 		animator.Play("animations/warrior_Idle.csv");
-		damage = 20;
+		damage = 1;
 		maxHp = 100;
 		break;
 	}

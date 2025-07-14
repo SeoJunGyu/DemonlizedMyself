@@ -24,6 +24,11 @@ protected:
 
 	Type type = Type::HeroKnight;
 
+	sf::RectangleShape hpBar;
+	sf::RectangleShape hpBarbg;
+	sf::Vector2f hpBarOffset = { 0.f, 5.f };
+	float per = 0.f;
+
 	//플래그 변수
 	bool isBattle = false;
 	bool isAlive = true;
@@ -68,6 +73,7 @@ public:
 	void SetAlive(bool live) { isAlive = live; }
 
 	int GetHp() const { return hp; }
+	void UpdateHpBar();
 
 	Animator GetAnimator() const { return animator; }
 

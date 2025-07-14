@@ -4,7 +4,8 @@
 
 class SceneGame;
 
-class Button : public TextGo
+class Button 
+	: public TextGo
 {
 protected:
 	sf::RectangleShape mouse;
@@ -19,7 +20,7 @@ protected:
 	std::function<void()> func = nullptr;
 	bool isPressed = false;
 public:
-	SceneGame* scene;
+
 
 	Button(const std::string& fontId = "", const std::string& name = "");
 	~Button() override = default;

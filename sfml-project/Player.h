@@ -33,6 +33,19 @@ protected:
 	float attackInterval = 0.f;
 	float attackTimer = 0.f;
 
+	float exp = 0.f;
+	float maxExp = 100.f;
+
+	int level = 1;
+	int gold = 0;
+	int gem = 0;
+	int statPoints = 0;
+
+	int strLevel = 0;
+	int dexLevel = 0;
+	int agiLevel = 0;
+	int lukLevel = 0;
+
 public:
 	Player(const std::string& name = "");
 	virtual ~Player() = default;
@@ -65,7 +78,16 @@ public:
 	bool GetAlive() const { return isAlive; }
 	void SetAlive(bool live) { isAlive = live; }
 
+	// Data Getter / Setter
 	int GetHp() const { return hp; }
 	int GetMaxHp() const { return maxHp; }
+
+	float GetExp() const { return exp; }
+	float GetMaxExp() const { return maxExp; }
+
+	int GetLevel() const { return level; }
+
+	int GetGold() const { return gold; }
+	int GetGem() const { return gem; }
 };
 

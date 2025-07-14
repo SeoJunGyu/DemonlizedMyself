@@ -5,6 +5,8 @@ class SpriteGo;
 class Player;
 class Monster;
 class UiHud;
+class StatUiHud;
+class Button;
 
 class SceneGame :
     public Scene
@@ -12,6 +14,7 @@ class SceneGame :
 protected:
 	Player* player = nullptr;
 	UiHud* uiHud = nullptr;
+	StatUiHud* statUi = nullptr;
 
 	// Monster
 	std::list<Monster*> monsterList;
@@ -26,8 +29,7 @@ protected:
 	std::list<SpriteGo*> groundList;
 	int backCount = 0;
 
-	// Stat Data
-	int level;
+	Button* btnSurrender = nullptr;
 
 public:
 	SceneGame();

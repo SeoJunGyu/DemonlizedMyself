@@ -167,6 +167,14 @@ void Player::Update(float dt)
 	{
 		animator.Play("animations/warrior_Run.csv");
 		speed = 300.f;
+		exp++;
+		gold += 10;
+		gem += 1;
+		if (exp >= maxExp)
+		{
+			exp = 0.f;
+			level++;
+		}
 	}
 
 	bound = GetLocalBounds();

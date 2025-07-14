@@ -3,7 +3,7 @@
 #include "HitBox.h"
 #include "SceneGame.h"
 
-Button::Button(const std::string& fontId, const std::string& name) : TextGo("fonts/zombiecontrol.ttf" ,name)
+Button::Button(const std::string& fontId, const std::string& name) : TextGo(fontId ,name)
 {
 
 }

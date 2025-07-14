@@ -78,13 +78,13 @@
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="UiHud.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="StatUiHud.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonGo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,13 +161,13 @@
     <ClInclude Include="Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="UiHud.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="StatUiHud.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonGo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

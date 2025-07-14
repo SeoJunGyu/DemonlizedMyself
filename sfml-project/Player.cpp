@@ -207,3 +207,8 @@ void Player::OnDamage(int damage)
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
 }
+
+void Player::OnDie()
+{
+	OnDamage(maxHp);
+}

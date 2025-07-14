@@ -4,7 +4,7 @@
 #include "Monster.h"
 #include "UiHud.h"
 #include "StatUiHud.h"
-#include "Button.h"
+#include "ButtonGo.h"
 
 SceneGame::SceneGame()
 	: Scene(SceneIds::Game)
@@ -111,32 +111,11 @@ void SceneGame::Enter()
 			i++;
 		}
 	}
-	
 
 	Scene::Enter();
 
-	uiHud->SetTextLevel(player->GetLevel());
-	uiHud->SetTextReward(player->GetGold(), player->GetGem());
-
-	btnSurrender = (Button*)AddGameObject(new Button("fonts/Maplestory_Light.ttf"));
-	btnSurrender->Init();
-	btnSurrender->setShapeSize({ 200.f, 200.f });
-	btnSurrender->setShapeFillColor(sf::Color::Yellow);
-	btnSurrender->setShapePosition({ 100.f, 500.f });
-
-	btnSurrender->setCharacterSize(btnSurrender->GetShape());
-	btnSurrender->setText("Surrender");
-	btnSurrender->setTextFillColor(sf::Color::Black);
-	btnSurrender->setTextPosition(btnSurrender->GetShape());
-	btnSurrender->setTextOrigin(Origins::MC);
-	btnSurrender->SetActive(true);
-	btnSurrender->setButtonPtr([this]()
-		{
-			std::cout << "항복 버튼 클릭" << std::endl;
-		}
-	);
-	//btnSurrender->sortingLayer = SortingLayers::UI;
-	//btnSurrender->sortingOrder = 0;
+	//SetButton();
+	
 }
 
 void SceneGame::Exit()
@@ -197,6 +176,8 @@ void SceneGame::Update(float dt)
 	uiHud->SetTextReward(player->GetGold(), player->GetGem());
 
 	Scene::Update(dt);
+
+	//uiHud->SetSurrender();
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -271,6 +252,19 @@ void SceneGame::UpdateBackGround()
 		groundList.push_back(first);
 	}
 }
+
+/*
+void SceneGame::SetButton()
+{
+	// 항복 버튼
+	btnSurrender = (ButtonGo*)AddGameObject(new ButtonGo());
+	btnSurrender->sortingLayer = SortingLayers::UI;
+	btnSurrender->sortingOrder = 10;
+	uiHud->SetBtnSurrender(btnSurrender);
+
+}
+*/
+
 
 void SceneGame::SpawnMonster(int count)
 {

@@ -1,8 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
-class Button;
+class ButtonGo;
 class Player;
+class SceneGame;
 
 class UiHud :
     public GameObject
@@ -34,8 +35,8 @@ protected:
 	sf::RectangleShape expBar;
 	sf::RectangleShape expBarbg; //53 53 63
 	float expPer = 0.f;
-	
-	Button* btnSurrender = nullptr;
+
+	//ButtonGo* btnSurrender = nullptr;
 
 public:
 	UiHud(const std::string& name = "");
@@ -57,6 +58,7 @@ public:
 	void SetTextLevel(int level);
 	void SetTextReward(int gold, int gem);
 
-	Button* GetBtnSurrender() const { return btnSurrender; }
+	//void SetBtnSurrender(ButtonGo* btn) { btnSurrender = btn; }
+	//void SetSurrender();
 };
 

@@ -74,6 +74,7 @@ public:
 
 	const HitBox& GetHitBox() { return hitBox; }
 	void OnDamage(int damage);
+	void OnDie();
 
 	bool GetAlive() const { return isAlive; }
 	void SetAlive(bool live) { isAlive = live; }

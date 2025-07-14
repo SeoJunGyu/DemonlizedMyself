@@ -22,6 +22,7 @@ protected:
 	// 경험치
 	sf::RectangleShape expBar;
 	sf::RectangleShape expBarbg; //53 53 63
+	sf::Text textExp;
 	float expPer = 0.f;
 
 	// 스탯 창
@@ -58,5 +59,8 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	// Update
+	void UpdateExpBar();
 };
 

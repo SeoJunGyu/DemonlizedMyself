@@ -6,7 +6,7 @@ class Player;
 class Monster;
 class UiHud;
 class StatUiHud;
-class Button;
+class ButtonGo;
 
 class SceneGame :
     public Scene
@@ -29,12 +29,13 @@ protected:
 	std::list<SpriteGo*> groundList;
 	int backCount = 0;
 
-	Button* btnSurrender = nullptr;
-
+	//Button* btnSurrender = nullptr;
+	//ButtonGo* btnSurrender = nullptr;
+	
 public:
 	SceneGame();
 	~SceneGame() = default;
-
+	
 	void Init() override;
 	void Enter() override;
 	void Exit() override;
@@ -45,6 +46,8 @@ public:
 
 	void SetBackGround();
 	void UpdateBackGround();
+
+	//void SetButton();
 
 	void SpawnMonster(int count);
 };

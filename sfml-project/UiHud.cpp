@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "UiHud.h"
-#include "Button.h"
+#include "ButtonGo.h"
 #include "Player.h"
+#include "SceneGame.h"
 
 UiHud::UiHud(const std::string& name)
 	: GameObject(name)
@@ -14,6 +15,8 @@ void UiHud::Init()
 	sortingOrder = 0;
 
 	auto size = FRAMEWORK.GetWindowSizeF();
+
+	//scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
 
 	//최상단 : 46 69 85
 	//상단 버튼 : 22 30 43
@@ -33,26 +36,6 @@ void UiHud::Init()
 	Utils::SetOrigin(gemBack, Origins::ML);
 	gemBack.setPosition({ goldBack.getPosition().x + goldBack.getLocalBounds().width + 10.f, topBack.getPosition().y + topBack.getLocalBounds().height * 0.5f });
 	gemBack.setFillColor(sf::Color(32, 43, 61, 255));
-
-	btnSurrender = new Button("fonts/Maplestory_Light.ttf");
-	btnSurrender->Init();
-	btnSurrender->setShapeSize({ 200.f, 200.f });
-	btnSurrender->setShapeFillColor(sf::Color::Yellow);
-	btnSurrender->setShapePosition({ 100.f, 500.f });
-
-	btnSurrender->setCharacterSize(btnSurrender->GetShape());
-	btnSurrender->setText("Surrender");
-	btnSurrender->setTextFillColor(sf::Color::Black);
-	btnSurrender->setTextPosition(btnSurrender->GetShape());
-	btnSurrender->setTextOrigin(Origins::MC);
-	btnSurrender->SetActive(true);
-	btnSurrender->setButtonPtr([this]()
-		{
-			std::cout << "항복 버튼 클릭" << std::endl;
-		}
-	);
-	btnSurrender->sortingLayer = SortingLayers::UI;
-	btnSurrender->sortingOrder = 0;
 }
 
 void UiHud::Release()
@@ -93,6 +76,7 @@ void UiHud::Reset()
 	Utils::SetOrigin(expBar, Origins::ML);
 
 	expPer = expBar.getSize().x / player->GetMaxExp();
+	
 }
 
 void UiHud::Update(float dt)
@@ -101,6 +85,7 @@ void UiHud::Update(float dt)
 	UpdateHpBar();
 	UpdateExpBar();
 
+	
 }
 
 void UiHud::Draw(sf::RenderWindow& window)
@@ -122,13 +107,6 @@ void UiHud::Draw(sf::RenderWindow& window)
 	//플레이어 exp
 	window.draw(expBarbg);
 	window.draw(expBar);
-
-	/*
-	if (btnSurrender)
-	{
-		btnSurrender->Draw(window);
-	}
-	*/
 	
 }
 
@@ -203,3 +181,20 @@ void UiHud::SetTextReward(int gold, int gem)
 
 	Utils::SetOrigin(textGem, Origins::MR);
 }
+
+/*
+void UiHud::SetSurrender()
+{
+	btnSurrender->SetText("Surrender");
+	btnSurrender->SetPosition({ playerHpBarbg.getPosition().x + playerHpBarbg.getLocalBounds().width + GetLocalBounds().width + 40.f, playerHpBarbg.getPosition().y });
+	btnSurrender->SetSize({ 50.f, 25.f });
+	btnSurrender->SetFontSize(10);
+	btnSurrender->SetClick([this]()
+		{
+			std::cout << "항복" << std::endl;
+		}
+	);
+
+}
+*/
+

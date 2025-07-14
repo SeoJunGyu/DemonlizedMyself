@@ -10,7 +10,11 @@ class UiHud :
 protected:
 	std::string fontId = "fonts/Maplestory_Light.ttf";
 
+	Player* player = nullptr;
+
 	sf::RectangleShape topBack; //상단 UI 배경
+	sf::RectangleShape goldBack;
+	sf::RectangleShape gemBack;
 	sf::RectangleShape back;
 
 	sf::Text textTime;
@@ -19,8 +23,8 @@ protected:
 	//TextGo* textLevel = nullptr;
 
 	// 플레이어 정보
-	sf::RectangleShape hpBar;
-	sf::RectangleShape hpBarbg; //53 53 63
+	sf::RectangleShape playerHpBar;
+	sf::RectangleShape playerHpBarbg; //53 53 63
 	float per = 0.f;
 
 	sf::Text textLevel;

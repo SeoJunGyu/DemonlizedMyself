@@ -64,5 +64,8 @@ public:
 
 	bool GetAlive() const { return isAlive; }
 	void SetAlive(bool live) { isAlive = live; }
+
+	int GetHp() const { return hp; }
+	int GetMaxHp() const { return maxHp; }
 };
 

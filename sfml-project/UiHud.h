@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 class Button;
+class Player;
 
 class UiHud :
     public GameObject
@@ -13,15 +14,19 @@ protected:
 	sf::RectangleShape back;
 
 	sf::Text textTime;
-	int second;
 	float time;
 
+	//TextGo* textLevel = nullptr;
+
 	// 플레이어 정보
+	sf::RectangleShape hpBar;
+	sf::RectangleShape hpBarbg; //53 53 63
+	float per = 0.f;
+
 	sf::Text textLevel;
 	sf::Text textExp;
 	sf::Text textGold;
 	sf::Text textGem;
-	sf::Text textDarkStone;
 	sf::Text textHp;
 
 	// 버튼
@@ -56,7 +61,6 @@ protected:
 	float maxExp = 100.f;
 	int gold = 0;
 	int gem = 0;
-	int darkStone = 0;
 	int statPoints = 0;
 
 	int strLevel = 0;
@@ -75,10 +79,11 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	// Update
+	void UpdateHpBar();
 	void UpdateTextTime(float time);
 
 	// Set
-	void SetTextTime(float time);
+	void SetTextTime(float t);
 	void SetTextLevel(int level);
 };
 

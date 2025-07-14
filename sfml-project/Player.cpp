@@ -195,6 +195,7 @@ void Player::OnDamage(int damage)
 	if (hp == 0)
 	{
 		hp = 0;
+		Reset();
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
 }

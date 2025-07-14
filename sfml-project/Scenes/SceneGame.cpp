@@ -93,10 +93,27 @@ void SceneGame::Enter()
 	worldView.setSize(size);
 	worldView.setCenter({ playerPos.x, playerPos.y - size.y * 0.25f });
 
-	SetBackGround();
+	if (groundList.empty())
+	{
+		SetBackGround();
+	}
+	else
+	{
+		float groundWidth = 48.f * 3.f;
+		int i = 0;
+		for (SpriteGo* ground : groundList)
+		{
+			sf::Vector2f pos;
+			ground->SetPosition({ player->GetPosition().x - (groundWidth * 4) + groundWidth * i, player->GetPosition().y });
+			i++;
+		}
+	}
+	
 
 	Scene::Enter();
 
+	
+	
 	uiHud->SetTextLevel(level);
 }
 
@@ -124,6 +141,10 @@ void SceneGame::Update(float dt)
 	{
 		std::cout << InputMgr::GetMousePosition().x << ", " << InputMgr::GetMousePosition().y << std::endl;
 	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::D))
+	{
+		SCENE_MGR.ChangeScene(SceneIds::Game);
+	}
 
 	//몬스터 풀 관리
 	auto it = monsterList.begin();
@@ -147,7 +168,7 @@ void SceneGame::Update(float dt)
 
 	UpdateBackGround();
 
-	//std::cout << player->GetPosition().x << std::endl; //플레이어 이동하고있는지 테스트
+	std::cout << player->GetPosition().x << std::endl; //플레이어 이동하고있는지 테스트
 
 	Scene::Update(dt);
 }

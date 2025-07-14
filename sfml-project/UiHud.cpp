@@ -26,6 +26,9 @@ void UiHud::Init()
 	back.setPosition({ 0.f, size.y * 0.5f });
 	back.setFillColor(sf::Color(32, 43, 61, 255));
 
+	//textLevel = new TextGo(fontId);
+	currentLevel = 0;
+
 	// 상단 UI 배치
 	
 }
@@ -36,7 +39,6 @@ void UiHud::Release()
 
 void UiHud::Reset()
 {
-	second = 0;
 	time = 0.f;
 
 	textLevel.setFont(FONT_MGR.Get(fontId));
@@ -46,6 +48,7 @@ void UiHud::Reset()
 void UiHud::Update(float dt)
 {
 	UpdateTextTime(dt);
+
 }
 
 void UiHud::Draw(sf::RenderWindow& window)
@@ -56,27 +59,42 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(textLevel);
 }
 
-void UiHud::UpdateTextTime(float time)
+void UiHud::UpdateHpBar()
 {
-	if (time / 60.f == 1)
-	{
-		second++;
-		time = 0;
-	}
-	textTime.setString(std::to_string(second) + "초" + std::to_string(time));
+
+}
+
+void UiHud::UpdateTextTime(float t)
+{
+	time += t;
+
+	textTime.setString(std::to_string(time));
+	textTime.setPosition(topBack.getLocalBounds().width, topBack.getLocalBounds().height + 30);
+	textTime.setCharacterSize(20);
+	textTime.setFillColor(sf::Color::Black);
+	Utils::SetOrigin(textTime, Origins::TR);
 }
 
 void UiHud::SetTextTime(float time)
 {
-	textTime.setString(std::to_string(second) + "초" + std::to_string(time));
+	textTime.setString(std::to_string(time));
 	textTime.setPosition(topBack.getLocalBounds().width, topBack.getLocalBounds().height + 30);
-	textTime.setCharacterSize(20);
-	textTime.setFillColor(sf::Color::Yellow);
-	Utils::SetOrigin(textTime, Origins::TR);
+	textTime.setCharacterSize(5);
+	textTime.setFillColor(sf::Color::Black);
+	Utils::SetOrigin(textTime, Origins::TL);
 }
 
 void UiHud::SetTextLevel(int level)
 {
+	/*
+	textLevel->GetText().setString("Lv " + std::to_string(level));
+	textLevel->SetPosition({ topBack.getPosition().x + 10, topBack.getPosition().y + 30 });
+	textLevel->GetText().setCharacterSize(50);
+	textLevel->SetFillColor(sf::Color::Black);
+	textLevel->SetOrigin(Origins::TL);
+	textLevel->sortingLayer = SortingLayers::UI;
+	textLevel->sortingOrder = 10;
+	*/
 	textLevel.setString("Lv " + std::to_string(level));
 	textLevel.setPosition(topBack.getPosition().x + 10, topBack.getPosition().y + 30);
 	textLevel.setCharacterSize(10);

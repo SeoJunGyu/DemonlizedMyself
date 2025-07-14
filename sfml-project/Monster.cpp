@@ -254,12 +254,12 @@ void Monster::SetType(Type type)
 	{
 	case Monster::HeroKnight:
 		animator.Play("animations/HeroKnight_Idle.csv");
-		damage = 2;
+		damage = 3;
 		maxHp = 100;
 		break;
 	case Monster::Worrior:
 		animator.Play("animations/warrior_Idle.csv");
-		damage = 1;
+		damage = 3;
 		maxHp = 100;
 		break;
 	}

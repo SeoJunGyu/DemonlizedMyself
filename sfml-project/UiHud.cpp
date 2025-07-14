@@ -98,7 +98,7 @@ void UiHud::UpdateHpBar()
 	playerHpBar.setSize({ fill, playerHpBar.getSize().y });
 
 	textHp.setString(std::to_string(player->GetHp()) + " / " + std::to_string(player->GetMaxHp()));
-	textHp.setPosition(playerHpBarbg.getPosition().x + playerHpBarbg.getLocalBounds().width * 0.5f, playerHpBarbg.getPosition().y + playerHpBarbg.getLocalBounds().height * 0.5f);
+	textHp.setPosition(playerHpBarbg.getPosition().x + playerHpBarbg.getLocalBounds().width * 0.5f, playerHpBarbg.getPosition().y + playerHpBarbg.getLocalBounds().height * 0.5f - 10.f);
 	textHp.setCharacterSize(10);
 	textHp.setFillColor(sf::Color::White);
 

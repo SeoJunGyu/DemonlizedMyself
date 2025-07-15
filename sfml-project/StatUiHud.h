@@ -27,24 +27,28 @@ protected:
 
 	// ½ºÅÈ Ã¢
 	sf::RectangleShape strBack;
-	sf::Text statNameStr;
-	sf::Text statValueStr;
-	sf::Text statLevelStr;
+	sf::RectangleShape dexBack;
+	sf::RectangleShape agiBack;
+	sf::RectangleShape lukBack;
+
+	sf::Text textStr;
+	sf::Text textValueStr;
+	sf::Text textLevelStr;
 	Button* btnStrUp = nullptr;
 
-	sf::Text statNameDex;
-	sf::Text statValueDex;
-	sf::Text statLevelDex;
+	sf::Text textDex;
+	sf::Text textValueDex;
+	sf::Text textLevelDex;
 	Button* btnDexUp = nullptr;
 
-	sf::Text statNameAgi;
-	sf::Text statValueAgi;
-	sf::Text statLevelAgi;
+	sf::Text textAgi;
+	sf::Text textValueAgi;
+	sf::Text textLevelAgi;
 	Button* btnAgiUp = nullptr;
 
-	sf::Text statNameLuk;
-	sf::Text statValueLuk;
-	sf::Text statLevelLuk;
+	sf::Text textLuk;
+	sf::Text textValueLuk;
+	sf::Text textLevelLuk;
 	Button* btnLukUp = nullptr;
 
 	// ¹öÆ°
@@ -63,5 +67,6 @@ public:
 
 	// Update
 	void UpdateExpBar();
+	void SetStat();
 };
 

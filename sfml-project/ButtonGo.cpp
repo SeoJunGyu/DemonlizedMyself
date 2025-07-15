@@ -34,7 +34,7 @@ void ButtonGo::Init()
     shape.setSize({ 100.f, 40.f });
     shape.setFillColor(normalColor);
 
-    text.setFont(FONT_MGR.Get(fontId));
+    //text.setFont(FONT_MGR.Get(fontId));
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
 }

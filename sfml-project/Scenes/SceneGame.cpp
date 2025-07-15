@@ -91,30 +91,56 @@ void SceneGame::Init()
 
 	// 스탯 업 버튼
 	btnStrUp = (ButtonGo*)AddGameObject(new ButtonGo("btnStrUp"));
-	btnStrUp->SetClick([]()
+	btnStrUp->SetClick([this]()
 		{
-
+			if (player->GetStatPoint() > 0)
+			{
+				player->SetStr(1);
+				player->SetStatPoint(1);
+			}
 		}
 	);
 
 	btnDexUp = (ButtonGo*)AddGameObject(new ButtonGo("btnDexUp"));
-	btnDexUp->SetClick([]()
+	btnDexUp->SetClick([this]()
 		{
-			
+			if (player->GetStatPoint() > 0)
+			{
+				player->SetDex(1);
+				player->SetStatPoint(1);
+			}
 		}
 	);
 
 	btnAgiUp = (ButtonGo*)AddGameObject(new ButtonGo("btnAgiUp"));
-	btnAgiUp->SetClick([]()
+	btnAgiUp->SetClick([this]()
 		{
-			
+			if (player->GetStatPoint() > 0)
+			{
+				player->SetAgi(1);
+				player->SetStatPoint(1);
+			}
 		}
 	);
 
 	btnLukUp = (ButtonGo*)AddGameObject(new ButtonGo("btnLukUp"));
-	btnLukUp->SetClick([]()
+	btnLukUp->SetClick([this]()
 		{
-			
+			if (player->GetStatPoint() > 0)
+			{
+				player->SetLuk(1);
+				player->SetStatPoint(1);
+			}
+		}
+	);
+
+	btnStatReset = (ButtonGo*)AddGameObject(new ButtonGo("btnStatReset"));
+	btnStatReset->SetClick([this]()
+		{
+			if (player->GetStatPoint() > 0)
+			{
+				player->StatReset();
+			}
 		}
 	);
 
@@ -152,7 +178,7 @@ void SceneGame::Enter()
 	Scene::Enter();
 
 	SetButton();
-
+	spawnCount = 0;
 }
 
 void SceneGame::Exit()
@@ -199,14 +225,14 @@ void SceneGame::Update(float dt)
 		}
 	}
 
-	if (monsterList.size() < maxSpawn)
+	if (spawnCount < maxSpawn)
 	{
 		SpawnMonster(4);
 	}
 
 	UpdateBackGround();
 
-	//std::cout << player->GetPosition().x << std::endl; //플레이어 이동하고있는지 테스트
+	//std::cout << spawnCount << std::endl; //플레이어 이동하고있는지 테스트
 
 	// 상단 UI 설정
 	uiHud->SetTextLevel(player->GetLevel());
@@ -340,12 +366,22 @@ void SceneGame::SetButton()
 	btnLukUp->SetFontSize(15);
 	btnLukUp->SetOrigin(Origins::MC);
 	btnLukUp->SetFillColor(sf::Color(67, 179, 105));
+
+	btnStatReset->sortingLayer = SortingLayers::UI;
+	btnStatReset->sortingOrder = 10;
+	btnStatReset->SetFont("fonts/Maplestory_Light.ttf");
+	btnStatReset->SetText("Stat Reset");
+	btnStatReset->SetPosition({ 611.f, 577.f });
+	btnStatReset->SetFontSize(15);
+	btnStatReset->SetOrigin(Origins::ML);
+	btnStatReset->SetTextOrigin();
+	btnStatReset->SetFillColor(sf::Color(184, 152, 91));
 	
 }
 
 void SceneGame::SpawnMonster(int count)
 {
-	float baseX = player->GetPosition().x + 300.f;
+	float baseX = player->GetPosition().x + 600.f;
 	if (!monsterList.empty())
 	{
 		baseX = monsterList.back()->GetPosition().x + 300.f;
@@ -376,6 +412,6 @@ void SceneGame::SpawnMonster(int count)
 		monster->Reset();
 		monster->SetPosition({ spawnX, player->GetPosition().y });
 		monsterList.push_back(monster);
-		
+		spawnCount++;
 	}
 }

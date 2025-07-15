@@ -49,6 +49,9 @@ void StatUiHud::Reset()
 	textLevel.setFont(FONT_MGR.Get(fontId));
 	textExp.setFont(FONT_MGR.Get(fontId));
 
+	textNameStatPoint.setFont(FONT_MGR.Get(fontId));
+	textStatPoint.setFont(FONT_MGR.Get(fontId));
+
 	textStr.setFont(FONT_MGR.Get(fontId));
 	textDex.setFont(FONT_MGR.Get(fontId));
 	textAgi.setFont(FONT_MGR.Get(fontId));
@@ -94,6 +97,9 @@ void StatUiHud::Draw(sf::RenderWindow& window)
 	window.draw(textLevel);
 
 	//플레이어 스탯
+	window.draw(textNameStatPoint);
+	window.draw(textStatPoint);
+
 	window.draw(textStr);
 	window.draw(textDex);
 	window.draw(textAgi);
@@ -142,6 +148,20 @@ void StatUiHud::UpdateExpBar()
 
 void StatUiHud::UpdateStat()
 {
+	auto size = FRAMEWORK.GetWindowSizeF();
+
+	textNameStatPoint.setString("StatPoint");
+	textNameStatPoint.setPosition({ size.x - 130.f, expBarbg.getPosition().y + expBarbg.getLocalBounds().height - 50.f});
+	textNameStatPoint.setCharacterSize(20);
+	textNameStatPoint.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textNameStatPoint, Origins::BR);
+
+	textStatPoint.setString(std::to_string(player->GetStatPoint()));
+	textStatPoint.setPosition({ size.x - 130.f, expBarbg.getPosition().y + expBarbg.getLocalBounds().height - 20.f });
+	textStatPoint.setCharacterSize(20);
+	textStatPoint.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textStatPoint, Origins::BR);
+
 	// STR
 	textValueStr.setString("Damage +" + std::to_string(player->GetDamage()));
 	textValueStr.setPosition({ textStr.getPosition().x + textStr.getLocalBounds().width + 30.f, textStr.getPosition().y});

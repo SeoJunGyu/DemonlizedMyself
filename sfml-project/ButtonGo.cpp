@@ -96,6 +96,12 @@ void ButtonGo::SetText(const std::string& str)
     Utils::SetOrigin(text, Origins::MC);
 }
 
+void ButtonGo::SetTextOrigin()
+{
+    Utils::SetOrigin(text, Origins::MC);
+    text.setPosition({ shape.getPosition().x + shape.getLocalBounds().width * 0.5f, shape.getPosition().y });
+}
+
 void ButtonGo::SetFontSize(unsigned int size)
 {
     text.setCharacterSize(size);

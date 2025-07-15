@@ -20,6 +20,7 @@ protected:
 	std::list<Monster*> monsterList;
 	std::list<Monster*> monsterPool;
 	int maxSpawn = 20; //최대 스폰 수
+	int spawnCount = 0;
 	float spawnSpace = 150.f; //몬스터 간격
 	float groupSpace = 300.f; //4마리 출력 후 그룹 간격
 	int groupSize = 4; //출력할 한 그룹 총 마리 수
@@ -35,6 +36,8 @@ protected:
 	ButtonGo* btnDexUp = nullptr;
 	ButtonGo* btnAgiUp = nullptr;
 	ButtonGo* btnLukUp = nullptr;
+
+	ButtonGo* btnStatReset = nullptr;
 	
 public:
 	SceneGame();

@@ -65,6 +65,7 @@ void Player::Init()
 
 			for (Monster* monster : scene->GetMonsters())
 			{
+				float baseDamage = damage;
 				if (!monster->GetActive())
 				{
 					continue;
@@ -72,9 +73,18 @@ void Player::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 				{
-					monster->OnDamage(damage);
-					//std::cout << monster->GetHp() << std::endl;
+					if (Utils::RandomRange(0.f, 1.f) < critChance)
+					{
+						damage *= critDamagePlus;
+						monster->OnDamage(damage);
+					}
+					else
+					{
+						monster->OnDamage(damage);
+					}
+					//std::cout << damage << std::endl;
 				}
+				damage = baseDamage;
 			}
 		}
 	);
@@ -167,13 +177,24 @@ void Player::Update(float dt)
 	{
 		animator.Play("animations/warrior_Run.csv");
 		speed = 300.f;
-		exp++;
-		gold += 10;
-		gem += 1;
+		exp+=40;
+
+		if (Utils::RandomRange(0.f, 1.f) < rewardChance)
+		{
+			gold += lukLevel * 0.5f;
+			gem += lukLevel * 0.3;
+		}
+		else
+		{
+			gold += 10;
+			gem += 1;
+		}
+		
 		if (exp >= maxExp)
 		{
 			exp = 0.f;
 			level++;
+			statPoints += 10;
 		}
 	}
 
@@ -211,4 +232,44 @@ void Player::OnDamage(int damage)
 void Player::OnDie()
 {
 	OnDamage(maxHp);
+}
+
+void Player::SetStr(int str)
+{
+	strLevel += str;
+	damage += str;
+}
+
+void Player::SetDex(float dex)
+{
+	dexLevel += dex;
+	critDamagePlus += dex * 0.01f;
+}
+
+void Player::SetAgi(float agi)
+{
+	agiLevel += agi;
+	critChance += agi * 0.01f;
+}
+
+void Player::SetLuk(int luk)
+{
+	lukLevel += luk;
+	rewardChance += luk * 0.01f;
+	maxHp += lukLevel * 0.01f * 10.f;
+}
+
+void Player::StatReset()
+{
+	statPoints += strLevel + dexLevel + agiLevel + lukLevel;
+	strLevel = 0;
+	dexLevel = 0;
+	agiLevel = 0;
+	lukLevel = 0;
+
+	maxHp = 100;
+	damage = 10;
+	critChance = 0.f;
+	critDamagePlus = 1.f;
+	rewardChance = 0.f;
 }

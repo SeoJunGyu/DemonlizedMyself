@@ -95,18 +95,22 @@ public:
 	int GetGold() const { return gold; }
 	int GetGem() const { return gem; }
 
-	void SetStr(int str) { strLevel += str; }
+	void SetStr(int str);
 	int GetStr() const { return strLevel; }
-	void SetDex(float dex) { dexLevel += dex; }
+	void SetDex(float dex);
 	int GetDex() const { return dexLevel; }
-	void SetAgi(float agi) { agiLevel += agi; }
+	void SetAgi(float agi);
 	int GetAgi() const { return agiLevel; }
-	void SetLuk(int luk) { lukLevel += luk; }
+	void SetLuk(int luk);
 	int GetLuk() const { return lukLevel; }
 
 	int GetDamage() const { return damage; }
 	float GetCriticalChance() const { return critChance; }
 	float GetCriticalDamagePlus() const { return critDamagePlus; }
 	float GetRewardChance() const { return rewardChance; }
+
+	void SetStatPoint(int minusPoint) { statPoints -= minusPoint; }
+	int GetStatPoint() const { return statPoints; }
+	void StatReset();
 };
 

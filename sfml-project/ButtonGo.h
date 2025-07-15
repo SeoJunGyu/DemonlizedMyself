@@ -34,6 +34,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SetText(const std::string& str);
+	void SetTextOrigin();
 	void SetFontSize(unsigned int size);
 	void SetSize(const sf::Vector2f& size);
 	void SetFillColor(const sf::Color& color);

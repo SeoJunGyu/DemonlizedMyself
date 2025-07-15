@@ -43,6 +43,8 @@ void Player::SetOrigin(Origins preset)
 
 void Player::Init()
 {
+	
+
 	animator.SetTarget(&body); //갱신할 스프라이트를 애니메이터에 설정
 
 	//idle의 0번? 프레임에 호출된다.
@@ -75,11 +77,13 @@ void Player::Init()
 				{
 					if (Utils::RandomRange(0.f, 1.f) < critChance)
 					{
+						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
 						damage *= critDamagePlus;
 						monster->OnDamage(damage);
 					}
 					else
 					{
+						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
 						monster->OnDamage(damage);
 					}
 					//std::cout << damage << std::endl;
@@ -108,7 +112,17 @@ void Player::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 				{
-					monster->OnDamage(damage);
+					if (Utils::RandomRange(0.f, 1.f) < critChance)
+					{
+						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+						damage *= critDamagePlus;
+						monster->OnDamage(damage);
+					}
+					else
+					{
+						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+						monster->OnDamage(damage);
+					}
 					//std::cout << monster->GetHp() << std::endl;
 				}
 			}
@@ -192,6 +206,7 @@ void Player::Update(float dt)
 		
 		if (exp >= maxExp)
 		{
+			SOUND_MGR.PlaySfx("audios/LevelUp.wav");
 			exp = 0.f;
 			level++;
 			statPoints += 10;
@@ -220,9 +235,11 @@ void Player::OnDamage(int damage)
 		return;
 	}
 
+	SOUND_MGR.PlaySfx("audios/hit.wav");
 	hp = Utils::Clamp(hp - damage, 0, maxHp);
 	if (hp == 0)
 	{
+		SOUNDBUFFER_MGR.Get("audios/Death.wav");
 		hp = 0;
 		Reset();
 		SCENE_MGR.ChangeScene(SceneIds::Game);

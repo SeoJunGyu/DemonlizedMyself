@@ -17,6 +17,7 @@ public:
 protected:
 	sf::Sprite body;
 	Animator animator;
+	sf::SoundBuffer buffer;
 
 	Player* player = nullptr;
 	HitBox hitBox;

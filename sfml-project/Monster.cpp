@@ -67,6 +67,7 @@ void Monster::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 				{
+					SOUND_MGR.PlaySfx(buffer);
 					player->OnDamage(damage);
 				}
 			}
@@ -83,6 +84,7 @@ void Monster::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 				{
+					SOUND_MGR.PlaySfx(buffer);
 					player->OnDamage(damage);
 				}
 			}
@@ -227,6 +229,7 @@ void Monster::OnDamage(int damage)
 		return;
 	}
 
+	SOUND_MGR.PlaySfx("audios/hit.wav");
 	hp = Utils::Clamp(hp - damage, 0, maxHp);
 	if (hp == 0)
 	{
@@ -256,11 +259,13 @@ void Monster::SetType(Type type)
 		animator.Play("animations/HeroKnight_Idle.csv");
 		damage = 3;
 		maxHp = 100;
+		buffer = SOUNDBUFFER_MGR.Get("audios/Hero_whoosh.wav");
 		break;
 	case Monster::Worrior:
 		animator.Play("animations/warrior_Idle.csv");
 		damage = 3;
 		maxHp = 100;
+		buffer = SOUNDBUFFER_MGR.Get("audios/Worrior_whoosh.wav");
 		break;
 	}
 

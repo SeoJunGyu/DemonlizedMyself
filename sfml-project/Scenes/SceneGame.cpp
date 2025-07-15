@@ -25,22 +25,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/HeroKnight.png");
 
 	fontIds.push_back("fonts/DS-DIGIT.ttf");
-	fontIds.push_back("fonts/Maplestory_Light.ttf");
-
-	//텍스트 테스트
-	/*
-	TextGo* go = new TextGo("fonts/Maplestory_Light.ttf");
-	//go->SetString("Game");
-	//go->GetText().setString("게임 2");
-	go->GetText().setString(L"게임");
-	go->SetCharacterSize(30);
-	go->SetFillColor(sf::Color::White);
-	go->sortingLayer = SortingLayers::UI;
-	go->sortingOrder = 0;
-
-	AddGameObject(go);
-	*/
-	
+	fontIds.push_back("fonts/Maplestory_Light.ttf");	
 
 	//애니메이션 로드
 	ANI_CLIP_MGR.Load("animations/warrior_Idle.csv");
@@ -48,6 +33,20 @@ void SceneGame::Init()
 	ANI_CLIP_MGR.Load("animations/warrior_Attack.csv");
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Idle.csv");
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Attack.csv");
+
+	SOUNDBUFFER_MGR.Load("audios/TitleBGM.wav");
+	SOUNDBUFFER_MGR.Load("audios/BattleBGM.wav");
+	SOUNDBUFFER_MGR.Load("audios/LevelUp.wav");
+	SOUNDBUFFER_MGR.Load("audios/StatUp.wav");
+	SOUNDBUFFER_MGR.Load("audios/StatUpFail.wav");
+	SOUNDBUFFER_MGR.Load("audios/Player_whoosh.wav");
+	SOUNDBUFFER_MGR.Load("audios/Worrior_whoosh.wav");
+	SOUNDBUFFER_MGR.Load("audios/Hero_whoosh.wav");
+	SOUNDBUFFER_MGR.Load("audios/hit.wav");
+	SOUNDBUFFER_MGR.Load("audios/Death.wav");
+
+	SOUND_MGR.Init(60);
+	sf::SoundBuffer& buffer = SOUNDBUFFER_MGR.Get("audios/BattleBGM.wav");
 
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
@@ -58,10 +57,6 @@ void SceneGame::Init()
 	player->SetScale({ 2.5f, 2.5f });
 
 	//몬스터 생성
-	/*
-	monster = (Monster*)AddGameObject(new Monster("Monster"));
-	monster->SetPosition({ 500.f, 0.f });
-	*/
 	for (int i = 0; i < 100; i++)
 	{
 		Monster* monster = (Monster*)AddGameObject(new Monster());
@@ -83,8 +78,9 @@ void SceneGame::Init()
 
 	// 항복 버튼
 	btnSurrender = (ButtonGo*)AddGameObject(new ButtonGo("btnSurrender"));
-	btnSurrender->SetClick([]()
+	btnSurrender->SetClick([this]()
 		{
+			//Enter();
 			SCENE_MGR.ChangeScene(SceneIds::Game);
 		}
 	);
@@ -95,8 +91,13 @@ void SceneGame::Init()
 		{
 			if (player->GetStatPoint() > 0)
 			{
+				SOUND_MGR.PlaySfx("audios/StatUp.wav");
 				player->SetStr(1);
 				player->SetStatPoint(1);
+			}
+			else
+			{
+				SOUND_MGR.PlaySfx("audios/StatUpFail.wav");
 			}
 		}
 	);
@@ -106,8 +107,13 @@ void SceneGame::Init()
 		{
 			if (player->GetStatPoint() > 0)
 			{
+				SOUND_MGR.PlaySfx("audios/StatUp.wav");
 				player->SetDex(1);
 				player->SetStatPoint(1);
+			}
+			else
+			{
+				SOUND_MGR.PlaySfx("audios/StatUpFail.wav");
 			}
 		}
 	);
@@ -117,8 +123,13 @@ void SceneGame::Init()
 		{
 			if (player->GetStatPoint() > 0)
 			{
+				SOUND_MGR.PlaySfx("audios/StatUp.wav");
 				player->SetAgi(1);
 				player->SetStatPoint(1);
+			}
+			else
+			{
+				SOUND_MGR.PlaySfx("audios/StatUpFail.wav");
 			}
 		}
 	);
@@ -128,8 +139,13 @@ void SceneGame::Init()
 		{
 			if (player->GetStatPoint() > 0)
 			{
+				SOUND_MGR.PlaySfx("audios/StatUp.wav");
 				player->SetLuk(1);
 				player->SetStatPoint(1);
+			}
+			else
+			{
+				SOUND_MGR.PlaySfx("audios/StatUpFail.wav");
 			}
 		}
 	);
@@ -139,6 +155,7 @@ void SceneGame::Init()
 		{
 			if (player->GetStatPoint() > 0)
 			{
+				SOUND_MGR.PlaySfx("audios/StatUpFail.wav");
 				player->StatReset();
 			}
 		}
@@ -149,6 +166,8 @@ void SceneGame::Init()
 
 void SceneGame::Enter()
 {
+	SOUND_MGR.PlayBgm("audios/BattleBGM.wav");
+
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
 	sf::Vector2f playerPos = player->GetPosition();
@@ -159,21 +178,7 @@ void SceneGame::Enter()
 	worldView.setSize(size);
 	worldView.setCenter({ playerPos.x, playerPos.y - size.y * 0.25f });
 
-	if (groundList.empty())
-	{
-		SetBackGround();
-	}
-	else
-	{
-		float groundWidth = 48.f * 3.f;
-		int i = 0;
-		for (SpriteGo* ground : groundList)
-		{
-			sf::Vector2f pos;
-			ground->SetPosition({ player->GetPosition().x - (groundWidth * 4) + groundWidth * i, player->GetPosition().y });
-			i++;
-		}
-	}
+	SetBackGround();
 
 	Scene::Enter();
 
@@ -191,11 +196,22 @@ void SceneGame::Exit()
 
 	monsterList.clear();
 
+	for (auto ground : groundList)
+	{
+		RemoveGameObject(ground);
+	}
+	groundList.clear();
+
+	SOUND_MGR.StopBgm();
+	SOUND_MGR.StopAllSfx();
+
 	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
+	SOUND_MGR.Update(dt);
+
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f playerPos = player->GetPosition();
 
@@ -245,6 +261,12 @@ void SceneGame::Update(float dt)
 		SetButton();
 		btnSurrender->Update(dt);
 	}
+	
+	if (spawnCount >= maxSpawn && monsterList.empty())
+	{
+		SCENE_MGR.ChangeScene(SceneIds::Game);
+	}
+	
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -277,20 +299,22 @@ void SceneGame::SetBackGround()
 		backCount++;
 	}
 
-	for (int i = 0; i < 8; i++)
+	if (groundList.empty())
 	{
-		auto ground = (SpriteGo*)AddGameObject(new SpriteGo("graphics/GrassGround.png"));
-		ground->SetScale({ 3.f, 3.f });
-		ground->SetOrigin(Origins::TC);
+		for (int i = 0; i < 8; i++)
+		{
+			auto ground = (SpriteGo*)AddGameObject(new SpriteGo("graphics/GrassGround.png"));
+			ground->SetScale({ 3.f, 3.f });
+			ground->SetOrigin(Origins::TC);
 
-		// 왼쪽부터 오른쪽으로 배치
-		ground->SetPosition({ player->GetPosition().x - (groundWidth * 4) + groundWidth * i, player->GetPosition().y});
-		ground->sortingLayer = SortingLayers::Background;
-		ground->sortingOrder = 1;
+			// 왼쪽부터 오른쪽으로 배치
+			ground->SetPosition({ player->GetPosition().x - (groundWidth * 4) + groundWidth * i, player->GetPosition().y });
+			ground->sortingLayer = SortingLayers::Background;
+			ground->sortingOrder = 1;
 
-		groundList.push_back(ground);
+			groundList.push_back(ground);
+		}
 	}
-	
 }
 
 void SceneGame::UpdateBackGround()
@@ -305,6 +329,7 @@ void SceneGame::UpdateBackGround()
 
 	//왼쪽 경계 검사
 	float leftBound = player->GetPosition().x - size.x * 0.5f - groundWidth;
+	float rightBound = player->GetPosition().x + size.x * 0.5f + groundWidth;
 
 	//앞쪽 바닥 왼쪽 경계 벗어나면 맨 뒤로 보내기
 	SpriteGo* first = groundList.front();
@@ -317,6 +342,18 @@ void SceneGame::UpdateBackGround()
 		
 		groundList.pop_front();
 		groundList.push_back(first);
+	}
+
+	SpriteGo* last = groundList.back();
+	if (last->GetPosition().x - groundWidth * 0.5f > rightBound)
+	{
+		SpriteGo* first = groundList.front();
+		sf::Vector2f newPos = first->GetPosition();
+		newPos.x -= groundWidth;
+		last->SetPosition({ newPos.x, newPos.y });
+
+		groundList.pop_back();
+		groundList.push_front(last);
 	}
 }
 
@@ -381,6 +418,12 @@ void SceneGame::SetButton()
 
 void SceneGame::SpawnMonster(int count)
 {
+	int spawnable = std::min(count, maxSpawn - spawnCount);
+	if (spawnable <= 0)
+	{
+		return;
+	}
+
 	float baseX = player->GetPosition().x + 600.f;
 	if (!monsterList.empty())
 	{

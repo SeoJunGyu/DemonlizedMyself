@@ -11,6 +11,9 @@ protected:
 
 	Player* player = nullptr;
 
+	sf::Sprite playerIcon;
+	std::string playerIcontexId = "graphics/Worrior_Icon.png";
+
 	sf::RectangleShape back;
 
 	//레벨, 경험치, 경험치바, 스탯 포인트, 스탯 텍스트, 스탯 레벨, 스탯 업 버튼

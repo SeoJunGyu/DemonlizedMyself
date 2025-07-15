@@ -48,6 +48,8 @@ void UiHud::Reset()
 	auto size = FRAMEWORK.GetWindowSizeF();
 	player = (Player*)SCENE_MGR.GetCurrentScene()->FindGameObject("Player");
 
+	playerIcon.setTexture(TEXTURE_MGR.Get(iconTexId), true);
+
 	time = 0.f;
 
 	textHp.setFont(FONT_MGR.Get(fontId));
@@ -99,6 +101,7 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(textGold);
 	window.draw(textGem);
 	window.draw(textTime);
+	window.draw(playerIcon);
 
 	//플레이어 hp
 	window.draw(playerHpBarbg);
@@ -162,11 +165,15 @@ void UiHud::SetTextTime(float time)
 void UiHud::SetTextLevel(int level)
 {
 	textLevel.setString("Lv " + std::to_string(level));
-	textLevel.setPosition(topBack.getPosition().x + 10, topBack.getPosition().y + 30);
+	textLevel.setPosition(topBack.getPosition().x + 20.f, topBack.getPosition().y + 35.f);
 	textLevel.setCharacterSize(10);
 	textLevel.setFillColor(sf::Color::White);
 
 	Utils::SetOrigin(textLevel, Origins::TL);
+
+	// PlayerIcon
+	playerIcon.setPosition({ textLevel.getPosition().x , textLevel.getPosition().y - 23.f });
+	playerIcon.setScale({ 1.2f, 1.2f });
 }
 
 void UiHud::SetTextReward(int gold, int gem)

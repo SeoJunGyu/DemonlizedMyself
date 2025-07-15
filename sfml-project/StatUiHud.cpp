@@ -66,6 +66,8 @@ void StatUiHud::Reset()
 	textLevelAgi.setFont(FONT_MGR.Get(fontId));
 	textLevelLuk.setFont(FONT_MGR.Get(fontId));
 
+	playerIcon.setTexture(TEXTURE_MGR.Get(playerIcontexId));
+
 	// Player ExpBar
 	expBarbg.setFillColor(sf::Color(53, 53, 63, 255));
 	expBarbg.setSize({ 300.f, 20.f });
@@ -93,6 +95,8 @@ void StatUiHud::Draw(sf::RenderWindow& window)
 	window.draw(dexBack);
 	window.draw(agiBack);
 	window.draw(lukBack);
+
+	window.draw(playerIcon);
 
 	window.draw(textLevel);
 
@@ -123,19 +127,22 @@ void StatUiHud::Draw(sf::RenderWindow& window)
 
 void StatUiHud::UpdateExpBar()
 {
+	// Exp Bar
 	expBarbg.setPosition(expBar.getPosition());
 	expBar.setPosition({ 100.f, back.getPosition().y + 100.f });
 
 	float fill = expPer * player->GetExp();
 	expBar.setSize({ fill, expBar.getSize().y });
 
-	textLevel.setString("Lv " + std::to_string(player->GetLevel()));
+	// TextLevel
+	textLevel.setString("Lv. " + std::to_string(player->GetLevel()) + " " + player->GetName());
 	textLevel.setPosition(expBar.getPosition().x, expBar.getPosition().y - 40);
 	textLevel.setCharacterSize(20);
 	textLevel.setFillColor(sf::Color::White);
 
 	Utils::SetOrigin(textLevel, Origins::TL);
 
+	// TextExp
 	std::stringstream tmp;
 	tmp << std::fixed << std::setprecision(4) << player->GetExp();
 	textExp.setString(tmp.str() + "%");
@@ -144,6 +151,10 @@ void StatUiHud::UpdateExpBar()
 	textExp.setFillColor(sf::Color::White);
 
 	Utils::SetOrigin(textExp, Origins::MC);
+
+	// PlayerIcon
+	playerIcon.setPosition({ textLevel.getPosition().x - 70.f , textLevel.getPosition().y + 8.f });
+	playerIcon.setScale({ 2.5f, 2.5f });
 }
 
 void StatUiHud::UpdateStat()

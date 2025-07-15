@@ -16,7 +16,7 @@ protected:
 	std::list<sf::Sound*> playing; //재생중 사운드 객체 리스트
 	std::list<sf::Sound*> waiting; //비 재생 사운드 객체 리스트
 
-	float sfxVolume = 20.f;
+	float sfxVolume = 10.f;
 	float bgmVolume = 100.f;
 
 public:

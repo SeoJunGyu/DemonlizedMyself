@@ -13,14 +13,15 @@ protected:
 
 	Player* player = nullptr;
 
+	sf::Sprite playerIcon;
+	std::string iconTexId = "graphics/Worrior_Icon.png";
+
 	sf::RectangleShape topBack; //상단 UI 배경
 	sf::RectangleShape goldBack;
 	sf::RectangleShape gemBack;
 
 	sf::Text textTime;
 	float time;
-
-	//TextGo* textLevel = nullptr;
 
 	// 플레이어 정보
 	sf::RectangleShape playerHpBar;

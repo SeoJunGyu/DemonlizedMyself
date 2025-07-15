@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "StatUiHud.h"
 #include "Player.h"
+#include <iomanip>
 
 StatUiHud::StatUiHud(const std::string& name)
 	: GameObject(name)

@@ -30,7 +30,7 @@ protected:
 	int backCount = 0;
 
 	//Button* btnSurrender = nullptr;
-	//ButtonGo* btnSurrender = nullptr;
+	ButtonGo* btnSurrender = nullptr;
 	
 public:
 	SceneGame();
@@ -47,7 +47,7 @@ public:
 	void SetBackGround();
 	void UpdateBackGround();
 
-	//void SetButton();
+	void SetButton();
 
 	void SpawnMonster(int count);
 };

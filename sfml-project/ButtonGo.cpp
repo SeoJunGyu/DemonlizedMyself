@@ -4,14 +4,7 @@
 ButtonGo::ButtonGo(const std::string& name)
 	: GameObject(name), fontId("fonts/Maplestory_Light.ttf")
 {
-    shape.setSize({ 100.f, 40.f });
-    shape.setFillColor(normalColor);
-    shape.setOrigin(shape.getSize() * 0.5f);
-
-    text.setFont(FONT_MGR.Get(fontId));
-    text.setCharacterSize(20);
-    text.setFillColor(sf::Color::White);
-    text.setOrigin(0.5f, 0.5f);
+    
 }
 
 void ButtonGo::SetPosition(const sf::Vector2f& pos)
@@ -38,6 +31,12 @@ void ButtonGo::SetOrigin(Origins preset)
 
 void ButtonGo::Init()
 {
+    shape.setSize({ 100.f, 40.f });
+    shape.setFillColor(normalColor);
+
+    text.setFont(FONT_MGR.Get(fontId));
+    text.setCharacterSize(20);
+    text.setFillColor(sf::Color::White);
 }
 
 void ButtonGo::Release()
@@ -100,7 +99,10 @@ void ButtonGo::SetText(const std::string& str)
 void ButtonGo::SetFontSize(unsigned int size)
 {
     text.setCharacterSize(size);
+    shape.setSize({ this->text.getString().getSize() * ((float)this->text.getCharacterSize() * 0.5f) + 10.f , (float)this->text.getCharacterSize() * 2.f });
     Utils::SetOrigin(text, Origins::MC);
+    text.setPosition({ text.getPosition().x, text.getPosition().y - 2.f });
+    Utils::SetOrigin(shape, Origins::MC);
 }
 
 void ButtonGo::SetSize(const sf::Vector2f& size)
@@ -115,7 +117,7 @@ void ButtonGo::SetFillColor(const sf::Color& color)
     shape.setFillColor(color);
 }
 
-void ButtonGo::SetClick(std::function<void()> func)
+void ButtonGo::SetFont(std::string fontId)
 {
-    onClick = func;
+    text.setFont(FONT_MGR.Get(fontId));
 }

@@ -26,6 +26,7 @@ protected:
 	float expPer = 0.f;
 
 	// Ω∫≈» √¢
+	sf::RectangleShape strBack;
 	sf::Text statNameStr;
 	sf::Text statValueStr;
 	sf::Text statLevelStr;

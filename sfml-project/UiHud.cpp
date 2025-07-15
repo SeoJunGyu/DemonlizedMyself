@@ -3,6 +3,7 @@
 #include "ButtonGo.h"
 #include "Player.h"
 #include "SceneGame.h"
+#include <iomanip>
 
 UiHud::UiHud(const std::string& name)
 	: GameObject(name)
@@ -138,8 +139,11 @@ void UiHud::UpdateExpBar()
 void UiHud::UpdateTextTime(float t)
 {
 	time += t;
+	std::stringstream tmp;
+	tmp << std::fixed << std::setprecision(3) << time;
 
-	textTime.setString(std::to_string(time));
+	//textTime.setString(std::to_string(time));
+	textTime.setString(tmp.str());
 	textTime.setPosition(topBack.getLocalBounds().width, topBack.getLocalBounds().height + 30);
 	textTime.setCharacterSize(20);
 	textTime.setFillColor(sf::Color::Black);
@@ -181,20 +185,3 @@ void UiHud::SetTextReward(int gold, int gem)
 
 	Utils::SetOrigin(textGem, Origins::MR);
 }
-
-/*
-void UiHud::SetSurrender()
-{
-	btnSurrender->SetText("Surrender");
-	btnSurrender->SetPosition({ playerHpBarbg.getPosition().x + playerHpBarbg.getLocalBounds().width + GetLocalBounds().width + 40.f, playerHpBarbg.getPosition().y });
-	btnSurrender->SetSize({ 50.f, 25.f });
-	btnSurrender->SetFontSize(10);
-	btnSurrender->SetClick([this]()
-		{
-			std::cout << "Ç×º¹" << std::endl;
-		}
-	);
-
-}
-*/
-

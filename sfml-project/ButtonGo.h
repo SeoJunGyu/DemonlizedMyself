@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 class ButtonGo :
     public GameObject
 {
@@ -36,7 +37,8 @@ public:
 	void SetFontSize(unsigned int size);
 	void SetSize(const sf::Vector2f& size);
 	void SetFillColor(const sf::Color& color);
-	void SetClick(std::function<void()> func);
+	void SetClick(std::function<void()> func) { onClick = func; }
+	void SetFont(std::string fontId);
 
 };
 

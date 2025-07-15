@@ -81,6 +81,13 @@ void SceneGame::Init()
 	statUi = (StatUiHud*)AddGameObject(new StatUiHud("StatUiHud"));
 	statUi->sortingLayer = SortingLayers::UI;
 
+	btnSurrender = (ButtonGo*)AddGameObject(new ButtonGo());
+	btnSurrender->SetClick([]()
+		{
+			SCENE_MGR.ChangeScene(SceneIds::Game);
+		}
+	);
+
 	Scene::Init();
 }
 
@@ -114,8 +121,8 @@ void SceneGame::Enter()
 
 	Scene::Enter();
 
-	//SetButton();
-	
+	SetButton();
+
 }
 
 void SceneGame::Exit()
@@ -177,7 +184,11 @@ void SceneGame::Update(float dt)
 
 	Scene::Update(dt);
 
-	//uiHud->SetSurrender();
+	if (btnSurrender)
+	{
+		SetButton();
+		btnSurrender->Update(dt);
+	}
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -253,18 +264,18 @@ void SceneGame::UpdateBackGround()
 	}
 }
 
-/*
 void SceneGame::SetButton()
 {
 	// 항복 버튼
-	btnSurrender = (ButtonGo*)AddGameObject(new ButtonGo());
 	btnSurrender->sortingLayer = SortingLayers::UI;
 	btnSurrender->sortingOrder = 10;
-	uiHud->SetBtnSurrender(btnSurrender);
-
+	btnSurrender->SetFont("fonts/Maplestory_Light.ttf");
+	btnSurrender->SetText("Surrender");
+	btnSurrender->SetPosition({ uiHud->GetHpBarBg().getPosition().x + uiHud->GetHpBarBg().getLocalBounds().width + btnSurrender->GetLocalBounds().width + 40.f, uiHud->GetHpBarBg().getPosition().y});
+	//btnSurrender->SetSize({ 50.f, 25.f });
+	btnSurrender->SetFontSize(10);
+	
 }
-*/
-
 
 void SceneGame::SpawnMonster(int count)
 {

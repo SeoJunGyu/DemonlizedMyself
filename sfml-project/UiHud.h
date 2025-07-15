@@ -36,8 +36,6 @@ protected:
 	sf::RectangleShape expBarbg; //53 53 63
 	float expPer = 0.f;
 
-	//ButtonGo* btnSurrender = nullptr;
-
 public:
 	UiHud(const std::string& name = "");
 	virtual ~UiHud() = default;
@@ -58,7 +56,6 @@ public:
 	void SetTextLevel(int level);
 	void SetTextReward(int gold, int gem);
 
-	//void SetBtnSurrender(ButtonGo* btn) { btnSurrender = btn; }
-	//void SetSurrender();
+	sf::RectangleShape GetHpBarBg() const { return playerHpBarbg; }
 };
 

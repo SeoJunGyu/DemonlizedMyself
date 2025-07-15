@@ -42,8 +42,8 @@ protected:
 	int statPoints = 0;
 
 	int strLevel = 0;
-	int dexLevel = 0;
-	int agiLevel = 0;
+	float dexLevel = 0.f;
+	float agiLevel = 0.f;
 	int lukLevel = 0;
 
 public:
@@ -90,5 +90,14 @@ public:
 
 	int GetGold() const { return gold; }
 	int GetGem() const { return gem; }
+
+	void SetStr(int str) { strLevel += str; }
+	int GetStr() const { return strLevel; }
+	void SetDex(float dex) { dexLevel += dex; }
+	int GetDex() const { return dexLevel; }
+	void SetAgi(float agi) { agiLevel += agi; }
+	int GetAgi() const { return agiLevel; }
+	void SetLuk(int luk) { lukLevel += luk; }
+	int GetLuk() const { return lukLevel; }
 };
 

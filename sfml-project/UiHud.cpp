@@ -61,7 +61,7 @@ void UiHud::Reset()
 	playerHpBarbg.setSize({ 300.f, 25.f });
 	Utils::SetOrigin(playerHpBarbg, Origins::ML);
 
-	playerHpBar.setFillColor(sf::Color(32, 150, 128, 255));
+	playerHpBar.setFillColor(sf::Color(35, 117, 157));
 	playerHpBar.setSize({ 300.f, 25.f });
 	Utils::SetOrigin(playerHpBar, Origins::ML);
 
@@ -72,7 +72,7 @@ void UiHud::Reset()
 	expBarbg.setSize({ size.x - 30.f, 8.f });
 	Utils::SetOrigin(expBarbg, Origins::ML);
 
-	expBar.setFillColor(sf::Color(15, 201, 224, 255));
+	expBar.setFillColor(sf::Color(15, 201, 224));
 	expBar.setSize({ size.x - 30.f, 8.f });
 	Utils::SetOrigin(expBar, Origins::ML);
 

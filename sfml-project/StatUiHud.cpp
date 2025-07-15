@@ -54,6 +54,15 @@ void StatUiHud::Reset()
 	textAgi.setFont(FONT_MGR.Get(fontId));
 	textLuk.setFont(FONT_MGR.Get(fontId));
 
+	textValueStr.setFont(FONT_MGR.Get(fontId));
+	textValueDex.setFont(FONT_MGR.Get(fontId));
+	textValueAgi.setFont(FONT_MGR.Get(fontId));
+	textValueLuk.setFont(FONT_MGR.Get(fontId));
+	textLevelStr.setFont(FONT_MGR.Get(fontId));
+	textLevelDex.setFont(FONT_MGR.Get(fontId));
+	textLevelAgi.setFont(FONT_MGR.Get(fontId));
+	textLevelLuk.setFont(FONT_MGR.Get(fontId));
+
 	// Player ExpBar
 	expBarbg.setFillColor(sf::Color(53, 53, 63, 255));
 	expBarbg.setSize({ 300.f, 20.f });
@@ -71,7 +80,7 @@ void StatUiHud::Reset()
 void StatUiHud::Update(float dt)
 {
 	UpdateExpBar();
-	//UpdateStat();
+	UpdateStat();
 }
 
 void StatUiHud::Draw(sf::RenderWindow& window)
@@ -83,10 +92,22 @@ void StatUiHud::Draw(sf::RenderWindow& window)
 	window.draw(lukBack);
 
 	window.draw(textLevel);
+
+	//플레이어 스탯
 	window.draw(textStr);
 	window.draw(textDex);
 	window.draw(textAgi);
 	window.draw(textLuk);
+
+	window.draw(textValueStr);
+	window.draw(textValueDex);
+	window.draw(textValueAgi);
+	window.draw(textValueLuk);
+
+	window.draw(textLevelStr);
+	window.draw(textLevelDex);
+	window.draw(textLevelAgi);
+	window.draw(textLevelLuk);
 
 	//플레이어 exp
 	window.draw(expBarbg);
@@ -117,6 +138,67 @@ void StatUiHud::UpdateExpBar()
 	textExp.setFillColor(sf::Color::White);
 
 	Utils::SetOrigin(textExp, Origins::MC);
+}
+
+void StatUiHud::UpdateStat()
+{
+	// STR
+	textValueStr.setString("Damage +" + std::to_string(player->GetDamage()));
+	textValueStr.setPosition({ textStr.getPosition().x + textStr.getLocalBounds().width + 30.f, textStr.getPosition().y});
+	textValueStr.setCharacterSize(20);
+	textValueStr.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textValueStr, Origins::ML);
+
+	textLevelStr.setString("Lv." + std::to_string(player->GetStr()));
+	textLevelStr.setPosition({ strBack.getLocalBounds().width - 150.f, strBack.getPosition().y + 10.f });
+	textLevelStr.setCharacterSize(20);
+	textLevelStr.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textLevelStr, Origins::ML);
+
+	// DEX
+	std::stringstream tmpdex;
+	tmpdex << std::fixed << std::setprecision(2) << player->GetCriticalDamagePlus();
+	textValueDex.setString("Critical Damage +" + tmpdex.str() + "%");
+	textValueDex.setPosition({ textDex.getPosition().x + textDex.getLocalBounds().width + 30.f, textDex.getPosition().y });
+	textValueDex.setCharacterSize(20);
+	textValueDex.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textValueDex, Origins::ML);
+
+	textLevelDex.setString("Lv." + std::to_string(player->GetDex()));
+	textLevelDex.setPosition({ dexBack.getLocalBounds().width - 150.f, dexBack.getPosition().y + 10.f });
+	textLevelDex.setCharacterSize(20);
+	textLevelDex.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textLevelDex, Origins::ML);
+
+	// AGI
+	std::stringstream tmpagi;
+	tmpagi << std::fixed << std::setprecision(2) << player->GetCriticalChance();
+	textValueAgi.setString("Critical +" + tmpagi.str() + "%");
+	textValueAgi.setPosition({ textAgi.getPosition().x + textAgi.getLocalBounds().width + 30.f, textAgi.getPosition().y });
+	textValueAgi.setCharacterSize(20);
+	textValueAgi.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textValueAgi, Origins::ML);
+
+	textLevelAgi.setString("Lv." + std::to_string(player->GetAgi()));
+	textLevelAgi.setPosition({ agiBack.getLocalBounds().width - 150.f, agiBack.getPosition().y + 10.f });
+	textLevelAgi.setCharacterSize(20);
+	textLevelAgi.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textLevelAgi, Origins::ML);
+
+	// LUK
+	std::stringstream tmpluk;
+	tmpluk << std::fixed << std::setprecision(2) << player->GetRewardChance();
+	textValueLuk.setString("Reward +" + tmpluk.str() + "%");
+	textValueLuk.setPosition({ textLuk.getPosition().x + textLuk.getLocalBounds().width + 30.f, textLuk.getPosition().y });
+	textValueLuk.setCharacterSize(20);
+	textValueLuk.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textValueLuk, Origins::ML);
+
+	textLevelLuk.setString("Lv." + std::to_string(player->GetLuk()));
+	textLevelLuk.setPosition({ lukBack.getLocalBounds().width - 150.f, lukBack.getPosition().y + 10.f });
+	textLevelLuk.setCharacterSize(20);
+	textLevelLuk.setFillColor(sf::Color::White);
+	Utils::SetOrigin(textLevelLuk, Origins::ML);
 }
 
 void StatUiHud::SetStat()

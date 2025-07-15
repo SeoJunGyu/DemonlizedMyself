@@ -65,8 +65,16 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
+	sf::RectangleShape GetStrBack() const { return strBack; }
+	sf::RectangleShape GetDexBack() const { return dexBack; }
+	sf::RectangleShape GetAgiBack() const { return agiBack; }
+	sf::RectangleShape GetLukBack() const { return lukBack; }
+
 	// Update
 	void UpdateExpBar();
+	void UpdateStat();
+
+	// Set
 	void SetStat();
 };
 

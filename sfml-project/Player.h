@@ -42,9 +42,13 @@ protected:
 	int statPoints = 0;
 
 	int strLevel = 0;
-	float dexLevel = 0.f;
-	float agiLevel = 0.f;
+	int dexLevel = 0;
+	int agiLevel = 0;
 	int lukLevel = 0;
+
+	float critChance = 0.f;
+	float critDamagePlus = 1.f;
+	float rewardChance = 0.f;
 
 public:
 	Player(const std::string& name = "");
@@ -99,5 +103,10 @@ public:
 	int GetAgi() const { return agiLevel; }
 	void SetLuk(int luk) { lukLevel += luk; }
 	int GetLuk() const { return lukLevel; }
+
+	int GetDamage() const { return damage; }
+	float GetCriticalChance() const { return critChance; }
+	float GetCriticalDamagePlus() const { return critDamagePlus; }
+	float GetRewardChance() const { return rewardChance; }
 };
 

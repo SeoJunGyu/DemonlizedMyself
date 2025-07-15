@@ -29,8 +29,12 @@ protected:
 	std::list<SpriteGo*> groundList;
 	int backCount = 0;
 
-	//Button* btnSurrender = nullptr;
 	ButtonGo* btnSurrender = nullptr;
+
+	ButtonGo* btnStrUp = nullptr;
+	ButtonGo* btnDexUp = nullptr;
+	ButtonGo* btnAgiUp = nullptr;
+	ButtonGo* btnLukUp = nullptr;
 	
 public:
 	SceneGame();

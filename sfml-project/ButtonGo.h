@@ -9,7 +9,7 @@ protected:
 	sf::Text text;
 
 	sf::Color normalColor = sf::Color(132, 153, 172);
-	sf::Color hoverColor = sf::Color(150, 150, 150);
+	sf::Color hoverColor = sf::Color(94, 99, 92);
 	sf::Color pressedColor = sf::Color(200, 200, 200);
 
 	std::function<void()> onClick = nullptr;

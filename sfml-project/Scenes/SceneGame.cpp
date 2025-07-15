@@ -81,10 +81,40 @@ void SceneGame::Init()
 	statUi = (StatUiHud*)AddGameObject(new StatUiHud("StatUiHud"));
 	statUi->sortingLayer = SortingLayers::UI;
 
-	btnSurrender = (ButtonGo*)AddGameObject(new ButtonGo());
+	// 항복 버튼
+	btnSurrender = (ButtonGo*)AddGameObject(new ButtonGo("btnSurrender"));
 	btnSurrender->SetClick([]()
 		{
 			SCENE_MGR.ChangeScene(SceneIds::Game);
+		}
+	);
+
+	// 스탯 업 버튼
+	btnStrUp = (ButtonGo*)AddGameObject(new ButtonGo("btnStrUp"));
+	btnStrUp->SetClick([]()
+		{
+
+		}
+	);
+
+	btnDexUp = (ButtonGo*)AddGameObject(new ButtonGo("btnDexUp"));
+	btnDexUp->SetClick([]()
+		{
+			
+		}
+	);
+
+	btnAgiUp = (ButtonGo*)AddGameObject(new ButtonGo("btnAgiUp"));
+	btnAgiUp->SetClick([]()
+		{
+			
+		}
+	);
+
+	btnLukUp = (ButtonGo*)AddGameObject(new ButtonGo("btnLukUp"));
+	btnLukUp->SetClick([]()
+		{
+			
 		}
 	);
 
@@ -272,8 +302,44 @@ void SceneGame::SetButton()
 	btnSurrender->SetFont("fonts/Maplestory_Light.ttf");
 	btnSurrender->SetText("Surrender");
 	btnSurrender->SetPosition({ uiHud->GetHpBarBg().getPosition().x + uiHud->GetHpBarBg().getLocalBounds().width + btnSurrender->GetLocalBounds().width + 40.f, uiHud->GetHpBarBg().getPosition().y});
-	//btnSurrender->SetSize({ 50.f, 25.f });
 	btnSurrender->SetFontSize(10);
+
+	// 스탯 업 버튼
+	btnStrUp->sortingLayer = SortingLayers::UI;
+	btnStrUp->sortingOrder = 10;
+	btnStrUp->SetFont("fonts/Maplestory_Light.ttf");
+	btnStrUp->SetText("Str Up");
+	btnStrUp->SetPosition({ statUi->GetStrBack().getPosition().x + statUi->GetStrBack().getLocalBounds().width - 140, statUi->GetStrBack().getPosition().y + statUi->GetStrBack().getLocalBounds().height * 0.5f + 13.f });
+	btnStrUp->SetFontSize(15);
+	btnStrUp->SetOrigin(Origins::MC);
+	btnStrUp->SetFillColor(sf::Color(67, 179, 105));
+
+	btnDexUp->sortingLayer = SortingLayers::UI;
+	btnDexUp->sortingOrder = 10;
+	btnDexUp->SetFont("fonts/Maplestory_Light.ttf");
+	btnDexUp->SetText("Dex Up");
+	btnDexUp->SetPosition({ statUi->GetDexBack().getPosition().x + statUi->GetDexBack().getLocalBounds().width -140, statUi->GetDexBack().getPosition().y + statUi->GetDexBack().getLocalBounds().height * 0.5f + 13.f});
+	btnDexUp->SetFontSize(15);
+	btnDexUp->SetOrigin(Origins::MC);
+	btnDexUp->SetFillColor(sf::Color(67, 179, 105));
+
+	btnAgiUp->sortingLayer = SortingLayers::UI;
+	btnAgiUp->sortingOrder = 10;
+	btnAgiUp->SetFont("fonts/Maplestory_Light.ttf");
+	btnAgiUp->SetText("Agi Up");
+	btnAgiUp->SetPosition({ statUi->GetAgiBack().getPosition().x + statUi->GetAgiBack().getLocalBounds().width - 140, statUi->GetAgiBack().getPosition().y + statUi->GetAgiBack().getLocalBounds().height * 0.5f + 13.f });
+	btnAgiUp->SetFontSize(15);
+	btnAgiUp->SetOrigin(Origins::MC);
+	btnAgiUp->SetFillColor(sf::Color(67, 179, 105));
+
+	btnLukUp->sortingLayer = SortingLayers::UI;
+	btnLukUp->sortingOrder = 10;
+	btnLukUp->SetFont("fonts/Maplestory_Light.ttf");
+	btnLukUp->SetText("Luk Up");
+	btnLukUp->SetPosition({ statUi->GetLukBack().getPosition().x + statUi->GetLukBack().getLocalBounds().width - 140, statUi->GetLukBack().getPosition().y + statUi->GetLukBack().getLocalBounds().height * 0.5f + 13.f });
+	btnLukUp->SetFontSize(15);
+	btnLukUp->SetOrigin(Origins::MC);
+	btnLukUp->SetFillColor(sf::Color(67, 179, 105));
 	
 }
 

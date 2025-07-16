@@ -258,7 +258,7 @@ void Monster::SetType(Type type)
 	case Monster::HeroKnight:
 		animator.Play("animations/HeroKnight_Idle.csv");
 		damage = 3;
-		maxHp = 100;
+		maxHp = 120;
 		buffer = SOUNDBUFFER_MGR.Get("audios/Hero_whoosh.wav");
 		break;
 	case Monster::Worrior:

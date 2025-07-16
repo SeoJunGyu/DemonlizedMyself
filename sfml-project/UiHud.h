@@ -3,7 +3,6 @@
 
 class ButtonGo;
 class Player;
-class SceneGame;
 
 class UiHud :
     public GameObject
@@ -25,6 +24,10 @@ protected:
 	std::string texIdGold = "graphics/Gold.png";
 	std::string texIdGem = "graphics/Gem.png";
 
+	sf::Sprite iconEnemyHealth;
+	sf::Sprite iconHealth;
+	std::string texIdEnemyIcon = "graphics/Enemy.png";
+	std::string texIdHealth = "graphics/Player.png";
 
 	sf::Text textTime;
 	float time;
@@ -42,6 +45,13 @@ protected:
 	sf::RectangleShape expBar;
 	sf::RectangleShape expBarbg; //53 53 63
 	float expPer = 0.f;
+
+	// Monster HpBar
+	sf::RectangleShape monsterHpBar;
+	sf::RectangleShape monsterHpBarbg; //53 53 63
+	float monsterHpPer = 0.f;
+	int totalMaxHp = 0;
+	int totalCurrentHp = 0;
 
 public:
 	UiHud(const std::string& name = "");
@@ -62,6 +72,8 @@ public:
 	void SetTextTime(float t);
 	void SetTextLevel(int level);
 	void SetTextReward(int gold, int gem);
+
+	void SetTotalHp(int currentHp, int MaxHp);
 
 	sf::RectangleShape GetHpBarBg() const { return playerHpBarbg; }
 };

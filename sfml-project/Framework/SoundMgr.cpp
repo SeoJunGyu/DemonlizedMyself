@@ -113,3 +113,8 @@ void SoundMgr::StopAllSfx()
 	}
 	playing.clear();
 }
+
+bool SoundMgr::IsBgmPlaying() const
+{
+	return bgm.getStatus() == sf::Sound::Playing;
+}

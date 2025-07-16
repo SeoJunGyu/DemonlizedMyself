@@ -25,6 +25,9 @@ protected:
 	float groupSpace = 300.f; //4마리 출력 후 그룹 간격
 	int groupSize = 4; //출력할 한 그룹 총 마리 수
 
+	int totalCurrentHp = 0;
+	int totalMaxHp = 0;
+
 	// Background
 	std::vector<SpriteGo*> backList;
 	std::list<SpriteGo*> groundList;

@@ -25,6 +25,8 @@ void SceneGame::Init()
 	texIds.push_back("graphics/Icon_frame.png");
 	texIds.push_back("graphics/Gold.png");
 	texIds.push_back("graphics/Gem.png");
+	texIds.push_back("graphics/Enemy.png");
+	texIds.push_back("graphics/Player.png");
 	texIds.push_back("graphics/GrassGround.png");
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");
@@ -172,7 +174,13 @@ void SceneGame::Init()
 
 void SceneGame::Enter()
 {
-	SOUND_MGR.PlayBgm("audios/BattleBGM.wav");
+	if (!SOUND_MGR.IsBgmPlaying())
+	{
+		SOUND_MGR.PlayBgm("audios/BattleBGM.wav");
+	}
+
+	totalCurrentHp = 0;
+	totalMaxHp = 0;
 
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
@@ -208,7 +216,7 @@ void SceneGame::Exit()
 	}
 	groundList.clear();
 
-	SOUND_MGR.StopBgm();
+	//SOUND_MGR.StopBgm();
 	SOUND_MGR.StopAllSfx();
 
 	Scene::Exit();
@@ -272,7 +280,19 @@ void SceneGame::Update(float dt)
 	{
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
-	
+
+	//몬스터 총 HP 넘기기
+	totalCurrentHp = 0;
+	for (auto monster : monsterList)
+	{
+		if (!monster->GetActive())
+		{
+			continue; //몬스터 없으면 다음 반복 진행
+		}
+
+		totalCurrentHp += monster->GetHp();
+	}
+	uiHud->SetTotalHp(totalCurrentHp, totalMaxHp);
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -462,5 +482,7 @@ void SceneGame::SpawnMonster(int count)
 		monster->SetPosition({ spawnX, player->GetPosition().y });
 		monsterList.push_back(monster);
 		spawnCount++;
+
+		totalMaxHp += monster->GetMaxHp();
 	}
 }

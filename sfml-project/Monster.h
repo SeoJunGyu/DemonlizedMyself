@@ -74,6 +74,7 @@ public:
 	void SetAlive(bool live) { isAlive = live; }
 
 	int GetHp() const { return hp; }
+	int GetMaxHp() const { return maxHp; }
 	void UpdateHpBar();
 
 	Animator GetAnimator() const { return animator; }

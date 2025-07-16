@@ -51,6 +51,8 @@ void UiHud::Reset()
 	playerIcon.setTexture(TEXTURE_MGR.Get(iconTexId), true);
 	Gold.setTexture(TEXTURE_MGR.Get(texIdGold), true);
 	Gem.setTexture(TEXTURE_MGR.Get(texIdGem), true);
+	iconEnemyHealth.setTexture(TEXTURE_MGR.Get(texIdEnemyIcon), true);
+	iconHealth.setTexture(TEXTURE_MGR.Get(texIdHealth), true);
 
 	time = 0.f;
 
@@ -81,6 +83,15 @@ void UiHud::Reset()
 	Utils::SetOrigin(expBar, Origins::ML);
 
 	expPer = expBar.getSize().x / player->GetMaxExp();
+
+	// Monster HpBar
+	monsterHpBarbg.setFillColor(sf::Color(53, 53, 63, 255));
+	monsterHpBarbg.setSize({ 300.f, 25.f });
+	Utils::SetOrigin(monsterHpBarbg, Origins::ML);
+
+	monsterHpBar.setFillColor(sf::Color(168, 41, 0));
+	monsterHpBar.setSize({ 300.f, 25.f });
+	Utils::SetOrigin(monsterHpBar, Origins::ML);
 	
 }
 
@@ -89,8 +100,6 @@ void UiHud::Update(float dt)
 	UpdateTextTime(dt);
 	UpdateHpBar();
 	UpdateExpBar();
-
-	
 }
 
 void UiHud::Draw(sf::RenderWindow& window)
@@ -107,6 +116,8 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(playerIcon);
 	window.draw(Gold);
 	window.draw(Gem);
+	window.draw(iconEnemyHealth);
+	window.draw(iconHealth);
 
 	//플레이어 hp
 	window.draw(playerHpBarbg);
@@ -116,13 +127,18 @@ void UiHud::Draw(sf::RenderWindow& window)
 	//플레이어 exp
 	window.draw(expBarbg);
 	window.draw(expBar);
+
+	//몬스터 hp
+	window.draw(monsterHpBarbg);
+	window.draw(monsterHpBar);
 	
 }
 
 void UiHud::UpdateHpBar()
 {
+	// Player HpBar
+	playerHpBar.setPosition({ 200.f, 100.f });
 	playerHpBarbg.setPosition(playerHpBar.getPosition());
-	playerHpBar.setPosition({200.f, 100.f});
 
 	float fill = hpPer * player->GetHp();
 	playerHpBar.setSize({ fill, playerHpBar.getSize().y });
@@ -133,6 +149,20 @@ void UiHud::UpdateHpBar()
 	textHp.setFillColor(sf::Color::White);
 
 	Utils::SetOrigin(textHp, Origins::BC);
+
+	// Monster HpBar
+	monsterHpBar.setPosition({ 200.f, 130.f });
+	monsterHpBarbg.setPosition(monsterHpBar.getPosition());
+
+	float monsterFill = monsterHpPer * totalCurrentHp;
+	monsterHpBar.setSize({ monsterFill, monsterHpBar.getSize().y });
+
+	// Icon
+	iconHealth.setPosition({ playerHpBarbg.getPosition().x - 20.f, playerHpBarbg.getPosition().y });
+	Utils::SetOrigin(iconHealth, Origins::MR);
+	iconEnemyHealth.setPosition({ monsterHpBarbg.getPosition().x - 20.f, monsterHpBarbg.getPosition().y });
+	Utils::SetOrigin(iconEnemyHealth, Origins::MR);
+	
 }
 
 void UiHud::UpdateExpBar()
@@ -202,4 +232,19 @@ void UiHud::SetTextReward(int gold, int gem)
 	Utils::SetOrigin(textGem, Origins::MR);
 
 	Gem.setPosition({ textGem.getPosition().x - 140.f , textGem.getPosition().y - 10.f });
+}
+
+void UiHud::SetTotalHp(int currentHp, int MaxHp)
+{
+	totalMaxHp = MaxHp;
+	totalCurrentHp = currentHp;
+
+	if (totalMaxHp > 0)
+	{
+		monsterHpPer = 300.f / totalMaxHp;
+	}
+	else
+	{
+		monsterHpPer = 0.f;
+	}
 }

@@ -43,6 +43,8 @@ public:
 	void PlaySfx(sf::SoundBuffer& buffer, bool loop = false);
 
 	void StopAllSfx(); //사운드효과 일괄정지
+
+	bool IsBgmPlaying() const;
 };
 
 #define SOUND_MGR (SoundMgr::Instance())

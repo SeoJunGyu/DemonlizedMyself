@@ -75,17 +75,21 @@ void Player::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 				{
-					if (Utils::RandomRange(0.f, 1.f) < critChance)
+					if (!(monster->GetHp() == 0))
 					{
-						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
-						damage *= critDamagePlus;
-						monster->OnDamage(damage);
+						if (Utils::RandomRange(0.f, 1.f) < critChance)
+						{
+							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+							damage *= critDamagePlus;
+							monster->OnDamage(damage);
+						}
+						else
+						{
+							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+							monster->OnDamage(damage);
+						}
 					}
-					else
-					{
-						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
-						monster->OnDamage(damage);
-					}
+					
 					//std::cout << damage << std::endl;
 				}
 				damage = baseDamage;
@@ -93,7 +97,7 @@ void Player::Init()
 		}
 	);
 
-	animator.AddEvent("Attack", 9,
+	animator.AddEvent("Attack", 8,
 		[this]()
 		{
 			SceneGame* scene = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
@@ -112,24 +116,28 @@ void Player::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
 				{
-					if (Utils::RandomRange(0.f, 1.f) < critChance)
+					if (!(monster->GetHp() == 0))
 					{
-						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
-						damage *= critDamagePlus;
-						monster->OnDamage(damage);
+						if (Utils::RandomRange(0.f, 1.f) < critChance)
+						{
+							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+							damage *= critDamagePlus;
+							monster->OnDamage(damage);
+						}
+						else
+						{
+							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+							monster->OnDamage(damage);
+						}
 					}
-					else
-					{
-						SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
-						monster->OnDamage(damage);
-					}
+					
 					//std::cout << monster->GetHp() << std::endl;
 				}
 			}
 		}
 	);
 
-	animator.AddEvent("Death", 11, [this]()
+	animator.AddEvent("Death", 10, [this]()
 		{
 			SOUNDBUFFER_MGR.Get("audios/Death.wav");
 			hp = 0;
@@ -225,7 +233,7 @@ void Player::Update(float dt)
 	bound.width *= 0.5f;
 	hitBox.UpdateTransform(body, bound);
 
-	std::cout << animator.GetCurrentClipId() << std::endl;
+	//std::cout << animator.GetCurrentClipId() << std::endl;
 	//std::cout << animator.IsPlaying() << std::endl;
 	//std::cout << maxExp << std::endl;
 }

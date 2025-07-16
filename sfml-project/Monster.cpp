@@ -95,6 +95,15 @@ void Monster::Init()
 				}
 			}
 		);
+
+		animator.AddEvent("Death", 9,
+			[this]()
+			{
+				hp = 0;
+				isAlive = false;
+				SetActive(false);
+			}
+		);
 		break;
 	case Monster::Worrior:
 		animator.AddEvent("Attack", 5,
@@ -128,17 +137,19 @@ void Monster::Init()
 				}
 			}
 		);
+
+		animator.AddEvent("Death", 10,
+			[this]()
+			{
+				hp = 0;
+				isAlive = false;
+				SetActive(false);
+			}
+		);
 		break;
 	}
 
-	animator.AddEvent("Death", 10,
-		[this]()
-		{
-			hp = 0;
-			isAlive = false;
-			SetActive(false);
-		}
-	);
+	
 }
 
 void Monster::Release()
@@ -175,15 +186,16 @@ void Monster::Update(float dt)
 {
 	animator.Update(dt); //애니메이터 호출
 
-	if (hp != 0 && animator.GetCurrentClipId() == "Attack")
+	if (hp != 0 && animator.GetCurrentClipId() == "Death")
 	{
-
+		animator.Play(aniIdIdle);
 	}
 
 	if (animator.GetCurrentClipId() == "Attack") //좌우키 안눌린 가만히 있는 자리 
 	{
 		if (!isBattle)
 		{
+			/*
 			switch (type)
 			{
 			case Monster::HeroKnight:
@@ -195,6 +207,8 @@ void Monster::Update(float dt)
 			default:
 				break;
 			}
+			*/
+			animator.Play(aniIdIdle);
 		}
 	}
 
@@ -206,6 +220,7 @@ void Monster::Update(float dt)
 		if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 		{
 			isBattle = true;
+			/*
 			switch (type)
 			{
 			case Monster::HeroKnight:
@@ -217,6 +232,8 @@ void Monster::Update(float dt)
 			default:
 				break;
 			}
+			*/
+			animator.Play(aniIdAttack);
 			//player->OnDamage(damage);
 			attackTimer = 0.f;
 		}
@@ -228,7 +245,7 @@ void Monster::Update(float dt)
 	//bound.height = GetLocalBounds().height * 0.5f;
 	
 	hitBox.UpdateTransform(body, bound);
-	
+	//std::cout << animator.GetCurrentClipId() << std::endl;
 }
 
 void Monster::Draw(sf::RenderWindow& window)

@@ -128,6 +128,15 @@ void Player::Init()
 			}
 		}
 	);
+
+	animator.AddEvent("Death", 11, [this]()
+		{
+			SOUNDBUFFER_MGR.Get("audios/Death.wav");
+			hp = 0;
+			Reset();
+			SCENE_MGR.ChangeScene(SceneIds::Game);
+		}
+	);
 }
 
 void Player::Release()
@@ -162,7 +171,7 @@ void Player::Update(float dt)
 	//애니메이션 재생 + 이동
 	animator.Update(dt); //애니메이터 호출
 
-	velocity = direction * speed;
+	velocity = direction * speed;	
 	position += velocity * dt;
 
 	SetPosition(position);
@@ -172,6 +181,12 @@ void Player::Update(float dt)
 	isBattle = false;
 
 	// Ani
+	if (hp != 0 && animator.GetCurrentClipId() == "Death")
+	{
+		animator.Play("animations/warrior_Attack.csv");
+		speed = 300.f;
+	}
+
 	for (auto monster : list)
 	{
 		if (monster->GetActive() && Utils::CheckCollision(hitBox.rect, monster->GetHitBox().rect))
@@ -210,9 +225,9 @@ void Player::Update(float dt)
 	bound.width *= 0.5f;
 	hitBox.UpdateTransform(body, bound);
 
-	//std::cout << animator.GetCurrentClipId() << std::endl;
+	std::cout << animator.GetCurrentClipId() << std::endl;
 	//std::cout << animator.IsPlaying() << std::endl;
-	std::cout << maxExp << std::endl;
+	//std::cout << maxExp << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -232,10 +247,7 @@ void Player::OnDamage(int damage)
 	hp = Utils::Clamp(hp - damage, 0, maxHp);
 	if (hp == 0)
 	{
-		SOUNDBUFFER_MGR.Get("audios/Death.wav");
-		hp = 0;
-		Reset();
-		SCENE_MGR.ChangeScene(SceneIds::Game);
+		animator.Play("animations/warrior_Death.csv");
 	}
 }
 

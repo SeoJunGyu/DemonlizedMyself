@@ -39,8 +39,10 @@ void SceneGame::Init()
 	ANI_CLIP_MGR.Load("animations/warrior_Idle.csv");
 	ANI_CLIP_MGR.Load("animations/warrior_Run.csv");
 	ANI_CLIP_MGR.Load("animations/warrior_Attack.csv");
+	ANI_CLIP_MGR.Load("animations/warrior_Death.csv");
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Idle.csv");
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Attack.csv");
+	ANI_CLIP_MGR.Load("animations/HeroKnight_Death.csv");
 
 	SOUNDBUFFER_MGR.Load("audios/TitleBGM.wav");
 	SOUNDBUFFER_MGR.Load("audios/BattleBGM.wav");
@@ -184,18 +186,20 @@ void SceneGame::Enter()
 
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
-	sf::Vector2f playerPos = player->GetPosition();
+	
 
 	//뷰 설정
 	uiView.setSize(size);
 	uiView.setCenter(center);
-	worldView.setSize(size);
-	worldView.setCenter({ playerPos.x, playerPos.y - size.y * 0.25f });
+	
+	//worldView.setCenter({ playerPos.x, playerPos.y - size.y * 0.5f });
+	
 
 	SetBackGround();
 
 	Scene::Enter();
-
+	sf::Vector2f playerPos = player->GetPosition();
+	worldView.setSize(size);
 	SetButton();
 	spawnCount = 0;
 }
@@ -229,7 +233,7 @@ void SceneGame::Update(float dt)
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f playerPos = player->GetPosition();
 
-	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.2f });
+	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.1f });
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
@@ -318,7 +322,7 @@ void SceneGame::SetBackGround()
 		auto back = (SpriteGo*)AddGameObject(new SpriteGo(texList[i]));
 		back->SetScale({ 3.f, 4.f });
 		back->SetOrigin(Origins::MC);
-		back->SetPosition(player->GetPosition());
+		back->SetPosition({ player->GetPosition().x, player->GetPosition().y - 100.f });
 		back->sortingLayer = SortingLayers::Background;
 		back->sortingOrder = i - 4;
 		backList.push_back(back);
@@ -350,7 +354,7 @@ void SceneGame::UpdateBackGround()
 
 	for (auto back : backList)
 	{
-		back->SetPosition(player->GetPosition());
+		back->SetPosition({ player->GetPosition().x, player->GetPosition().y - 100.f });
 	}
 
 	//왼쪽 경계 검사

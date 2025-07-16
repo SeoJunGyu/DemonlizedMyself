@@ -1,0 +1,14 @@
+ID,FPS,"LoopType (0: Single, 1: Loop)",,,
+Death,10,1,,,
+"				",,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT,"FLIPX (0:Fale, 1:True)"
+graphics/HeroKnight.png,800,220,100,55,0
+graphics/HeroKnight.png,900,220,100,55,0
+graphics/HeroKnight.png,0,275,100,55,0
+graphics/HeroKnight.png,100,275,100,55,0
+graphics/HeroKnight.png,200,275,100,55,0
+graphics/HeroKnight.png,300,275,100,55,0
+graphics/HeroKnight.png,400,275,100,55,0
+graphics/HeroKnight.png,500,275,100,55,0
+graphics/HeroKnight.png,600,275,100,55,0
+graphics/HeroKnight.png,700,275,100,55,0

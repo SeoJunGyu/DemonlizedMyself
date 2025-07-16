@@ -41,6 +41,10 @@ protected:
 	float attackInterval = 0.f;
 	float attackTimer = 0.f;
 
+	std::string aniIdDeath;
+	std::string aniIdIdle;
+	std::string aniIdAttack;
+
 public:
 	Monster(const std::string& name = "");
 	virtual ~Monster() = default;

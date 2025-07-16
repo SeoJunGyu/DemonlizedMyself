@@ -67,8 +67,11 @@ void Monster::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 				{
-					SOUND_MGR.PlaySfx(buffer);
-					player->OnDamage(damage);
+					if (!(player->GetHp() == 0))
+					{
+						SOUND_MGR.PlaySfx(buffer);
+						player->OnDamage(damage);
+					}
 				}
 			}
 		);
@@ -84,8 +87,11 @@ void Monster::Init()
 
 				if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 				{
-					SOUND_MGR.PlaySfx(buffer);
-					player->OnDamage(damage);
+					if (!(player->GetHp() == 0))
+					{
+						SOUND_MGR.PlaySfx(buffer);
+						player->OnDamage(damage);
+					}
 				}
 			}
 		);
@@ -124,6 +130,15 @@ void Monster::Init()
 		);
 		break;
 	}
+
+	animator.AddEvent("Death", 10,
+		[this]()
+		{
+			hp = 0;
+			isAlive = false;
+			SetActive(false);
+		}
+	);
 }
 
 void Monster::Release()
@@ -159,6 +174,11 @@ void Monster::Reset()
 void Monster::Update(float dt)
 {
 	animator.Update(dt); //애니메이터 호출
+
+	if (hp != 0 && animator.GetCurrentClipId() == "Attack")
+	{
+
+	}
 
 	if (animator.GetCurrentClipId() == "Attack") //좌우키 안눌린 가만히 있는 자리 
 	{
@@ -233,9 +253,7 @@ void Monster::OnDamage(int damage)
 	hp = Utils::Clamp(hp - damage, 0, maxHp);
 	if (hp == 0)
 	{
-		hp = 0;
-		isAlive = false;
-		SetActive(false);
+		animator.Play(aniIdDeath);
 	}
 	//std::cout << hp << std::endl;
 }
@@ -260,12 +278,18 @@ void Monster::SetType(Type type)
 		damage = 3;
 		maxHp = 120;
 		buffer = SOUNDBUFFER_MGR.Get("audios/Hero_whoosh.wav");
+		aniIdDeath = "animations/HeroKnight_Death.csv";
+		aniIdIdle = "animations/HeroKnight_Idle.csv";
+		aniIdAttack = "animations/HeroKnight_Attack.csv";
 		break;
 	case Monster::Worrior:
 		animator.Play("animations/warrior_Idle.csv");
 		damage = 3;
 		maxHp = 100;
 		buffer = SOUNDBUFFER_MGR.Get("audios/Worrior_whoosh.wav");
+		aniIdDeath = "animations/warrior_Death.csv";
+		aniIdIdle = "animations/warrior_Idle.csv";
+		aniIdAttack = "animations/warrior_Attack.csv";
 		break;
 	}
 

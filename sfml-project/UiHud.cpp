@@ -49,6 +49,8 @@ void UiHud::Reset()
 	player = (Player*)SCENE_MGR.GetCurrentScene()->FindGameObject("Player");
 
 	playerIcon.setTexture(TEXTURE_MGR.Get(iconTexId), true);
+	Gold.setTexture(TEXTURE_MGR.Get(texIdGold), true);
+	Gem.setTexture(TEXTURE_MGR.Get(texIdGem), true);
 
 	time = 0.f;
 
@@ -101,7 +103,10 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(textGold);
 	window.draw(textGem);
 	window.draw(textTime);
+
 	window.draw(playerIcon);
+	window.draw(Gold);
+	window.draw(Gem);
 
 	//플레이어 hp
 	window.draw(playerHpBarbg);
@@ -178,6 +183,7 @@ void UiHud::SetTextLevel(int level)
 
 void UiHud::SetTextReward(int gold, int gem)
 {
+	// Gold
 	textGold.setString(std::to_string(gold));
 	textGold.setPosition(goldBack.getPosition().x + goldBack.getLocalBounds().width - 10.f, goldBack.getPosition().y - 5.f);
 	textGold.setCharacterSize(20);
@@ -185,10 +191,15 @@ void UiHud::SetTextReward(int gold, int gem)
 
 	Utils::SetOrigin(textGold, Origins::MR);
 
+	Gold.setPosition({ textGold.getPosition().x - 140.f , textGold.getPosition().y - 10.f });
+
+	// Gem
 	textGem.setString(std::to_string(gem));
 	textGem.setPosition(gemBack.getPosition().x + gemBack.getLocalBounds().width - 10.f, gemBack.getPosition().y - 5.f);
 	textGem.setCharacterSize(20);
 	textGem.setFillColor(sf::Color::White);
 
 	Utils::SetOrigin(textGem, Origins::MR);
+
+	Gem.setPosition({ textGem.getPosition().x - 140.f , textGem.getPosition().y - 10.f });
 }

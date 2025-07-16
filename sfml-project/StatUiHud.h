@@ -12,9 +12,13 @@ protected:
 	Player* player = nullptr;
 
 	sf::Sprite playerIcon;
+	sf::Sprite iconFrame;
 	std::string playerIcontexId = "graphics/Worrior_Icon.png";
+	std::string texIdFrame = "graphics/Icon_frame.png";
 
-	sf::RectangleShape back;
+	//sf::RectangleShape back;
+	sf::Sprite back;
+	std::string texIdBack = "graphics/big_bar.png";
 
 	//레벨, 경험치, 경험치바, 스탯 포인트, 스탯 텍스트, 스탯 레벨, 스탯 업 버튼
 	//스탯 < - > 강화 전환 버튼
@@ -29,10 +33,13 @@ protected:
 	float expPer = 0.f;
 
 	// 스탯 창
-	sf::RectangleShape strBack;
-	sf::RectangleShape dexBack;
-	sf::RectangleShape agiBack;
-	sf::RectangleShape lukBack;
+	//sf::RectangleShape strBack;
+	sf::Sprite strBack;
+	sf::Sprite dexBack;
+	sf::Sprite agiBack;
+	sf::Sprite lukBack;
+
+	std::string texIdstatBack = "graphics/basic_bar.png";
 
 	sf::Text textStr;
 	sf::Text textValueStr;
@@ -60,10 +67,10 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	sf::RectangleShape GetStrBack() const { return strBack; }
-	sf::RectangleShape GetDexBack() const { return dexBack; }
-	sf::RectangleShape GetAgiBack() const { return agiBack; }
-	sf::RectangleShape GetLukBack() const { return lukBack; }
+	sf::Sprite GetStrBack() const { return strBack; }
+	sf::Sprite GetDexBack() const { return dexBack; }
+	sf::Sprite GetAgiBack() const { return agiBack; }
+	sf::Sprite GetLukBack() const { return lukBack; }
 
 	// Update
 	void UpdateExpBar();

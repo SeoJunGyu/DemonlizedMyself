@@ -16,25 +16,17 @@ void StatUiHud::Init()
 	auto size = FRAMEWORK.GetWindowSizeF();
 
 	// 하단 배경
-	back.setSize({ size.x, size.y * 0.5f });
 	back.setPosition({ 0.f, size.y * 0.5f });
-	back.setFillColor(sf::Color(32, 43, 61, 255));
 
+	/*
 	strBack.setSize({ size.x - 20.f, 70.f });
 	strBack.setPosition({ 10.f, back.getPosition().y + 130.f });
 	strBack.setFillColor(sf::Color(46, 69, 85, 255));
-
-	dexBack.setSize({ size.x - 20.f, 70.f });
-	dexBack.setPosition({ 10.f, back.getPosition().y + 220.f });
-	dexBack.setFillColor(sf::Color(46, 69, 85, 255));
-
-	agiBack.setSize({ size.x - 20.f, 70.f });
-	agiBack.setPosition({ 10.f, back.getPosition().y + 310.f });
-	agiBack.setFillColor(sf::Color(46, 69, 85, 255));
-
-	lukBack.setSize({ size.x - 20.f, 70.f });
-	lukBack.setPosition({ 10.f, back.getPosition().y + 400.f });
-	lukBack.setFillColor(sf::Color(46, 69, 85, 255));
+	*/
+	strBack.setPosition({ 15.f, back.getPosition().y + 130.f });
+	dexBack.setPosition({ 15.f, back.getPosition().y + 220.f });
+	agiBack.setPosition({ 15.f, back.getPosition().y + 310.f });
+	lukBack.setPosition({ 15.f, back.getPosition().y + 400.f });
 }
 
 void StatUiHud::Release()
@@ -67,6 +59,12 @@ void StatUiHud::Reset()
 	textLevelLuk.setFont(FONT_MGR.Get(fontId));
 
 	playerIcon.setTexture(TEXTURE_MGR.Get(playerIcontexId));
+	iconFrame.setTexture(TEXTURE_MGR.Get(texIdFrame));
+	back.setTexture(TEXTURE_MGR.Get(texIdBack));
+	strBack.setTexture(TEXTURE_MGR.Get(texIdstatBack));
+	dexBack.setTexture(TEXTURE_MGR.Get(texIdstatBack));
+	agiBack.setTexture(TEXTURE_MGR.Get(texIdstatBack));
+	lukBack.setTexture(TEXTURE_MGR.Get(texIdstatBack));
 
 	// Player ExpBar
 	expBarbg.setFillColor(sf::Color(53, 53, 63, 255));
@@ -97,6 +95,7 @@ void StatUiHud::Draw(sf::RenderWindow& window)
 	window.draw(lukBack);
 
 	window.draw(playerIcon);
+	window.draw(iconFrame);
 
 	window.draw(textLevel);
 
@@ -129,14 +128,14 @@ void StatUiHud::UpdateExpBar()
 {
 	// Exp Bar
 	expBarbg.setPosition(expBar.getPosition());
-	expBar.setPosition({ 100.f, back.getPosition().y + 100.f });
+	expBar.setPosition({ 110.f, back.getPosition().y + 100.f });
 
 	float fill = expPer * player->GetExp();
 	expBar.setSize({ fill, expBar.getSize().y });
 
 	// TextLevel
 	textLevel.setString("Lv. " + std::to_string(player->GetLevel()) + " " + player->GetName());
-	textLevel.setPosition(expBar.getPosition().x, expBar.getPosition().y - 40);
+	textLevel.setPosition(expBar.getPosition().x + 10.f, expBar.getPosition().y - 40);
 	textLevel.setCharacterSize(20);
 	textLevel.setFillColor(sf::Color::White);
 
@@ -155,6 +154,8 @@ void StatUiHud::UpdateExpBar()
 	// PlayerIcon
 	playerIcon.setPosition({ textLevel.getPosition().x - 70.f , textLevel.getPosition().y + 8.f });
 	playerIcon.setScale({ 2.5f, 2.5f });
+
+	iconFrame.setPosition({ playerIcon.getPosition().x - 7.f , playerIcon.getPosition().y - 7.f });
 }
 
 void StatUiHud::UpdateStat()
@@ -181,7 +182,7 @@ void StatUiHud::UpdateStat()
 	Utils::SetOrigin(textValueStr, Origins::ML);
 
 	textLevelStr.setString("Lv." + std::to_string(player->GetStr()));
-	textLevelStr.setPosition({ strBack.getLocalBounds().width - 150.f, strBack.getPosition().y + 10.f });
+	textLevelStr.setPosition({ strBack.getLocalBounds().width - 145.f, strBack.getPosition().y + 10.f });
 	textLevelStr.setCharacterSize(20);
 	textLevelStr.setFillColor(sf::Color::White);
 	Utils::SetOrigin(textLevelStr, Origins::ML);
@@ -196,7 +197,7 @@ void StatUiHud::UpdateStat()
 	Utils::SetOrigin(textValueDex, Origins::ML);
 
 	textLevelDex.setString("Lv." + std::to_string(player->GetDex()));
-	textLevelDex.setPosition({ dexBack.getLocalBounds().width - 150.f, dexBack.getPosition().y + 10.f });
+	textLevelDex.setPosition({ dexBack.getLocalBounds().width - 145.f, dexBack.getPosition().y + 10.f });
 	textLevelDex.setCharacterSize(20);
 	textLevelDex.setFillColor(sf::Color::White);
 	Utils::SetOrigin(textLevelDex, Origins::ML);
@@ -211,7 +212,7 @@ void StatUiHud::UpdateStat()
 	Utils::SetOrigin(textValueAgi, Origins::ML);
 
 	textLevelAgi.setString("Lv." + std::to_string(player->GetAgi()));
-	textLevelAgi.setPosition({ agiBack.getLocalBounds().width - 150.f, agiBack.getPosition().y + 10.f });
+	textLevelAgi.setPosition({ agiBack.getLocalBounds().width - 145.f, agiBack.getPosition().y + 10.f });
 	textLevelAgi.setCharacterSize(20);
 	textLevelAgi.setFillColor(sf::Color::White);
 	Utils::SetOrigin(textLevelAgi, Origins::ML);
@@ -226,7 +227,7 @@ void StatUiHud::UpdateStat()
 	Utils::SetOrigin(textValueLuk, Origins::ML);
 
 	textLevelLuk.setString("Lv." + std::to_string(player->GetLuk()));
-	textLevelLuk.setPosition({ lukBack.getLocalBounds().width - 150.f, lukBack.getPosition().y + 10.f });
+	textLevelLuk.setPosition({ lukBack.getLocalBounds().width - 145.f, lukBack.getPosition().y + 10.f });
 	textLevelLuk.setCharacterSize(20);
 	textLevelLuk.setFillColor(sf::Color::White);
 	Utils::SetOrigin(textLevelLuk, Origins::ML);
@@ -235,25 +236,25 @@ void StatUiHud::UpdateStat()
 void StatUiHud::SetStat()
 {
 	textStr.setString("STR");
-	textStr.setPosition({ strBack.getPosition().x + 10.f, strBack.getPosition().y + strBack.getLocalBounds().height * 0.5f - 7.f});
+	textStr.setPosition({ strBack.getPosition().x + 20.f, strBack.getPosition().y + strBack.getLocalBounds().height * 0.5f - 7.f});
 	textStr.setCharacterSize(30);
 	textStr.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(textStr, Origins::ML);
 
 	textDex.setString("DEX");
-	textDex.setPosition({ dexBack.getPosition().x + 10.f, dexBack.getPosition().y + dexBack.getLocalBounds().height * 0.5f - 7.f });
+	textDex.setPosition({ dexBack.getPosition().x + 20.f, dexBack.getPosition().y + dexBack.getLocalBounds().height * 0.5f - 7.f });
 	textDex.setCharacterSize(30);
 	textDex.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(textDex, Origins::ML);
 
 	textAgi.setString("AGI");
-	textAgi.setPosition({ agiBack.getPosition().x + 10.f, agiBack.getPosition().y + agiBack.getLocalBounds().height * 0.5f - 7.f });
+	textAgi.setPosition({ agiBack.getPosition().x + 20.f, agiBack.getPosition().y + agiBack.getLocalBounds().height * 0.5f - 7.f });
 	textAgi.setCharacterSize(30);
 	textAgi.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(textAgi, Origins::ML);
 
 	textLuk.setString("LUK");
-	textLuk.setPosition({ lukBack.getPosition().x + 10.f, lukBack.getPosition().y + lukBack.getLocalBounds().height * 0.5f - 7.f });
+	textLuk.setPosition({ lukBack.getPosition().x + 20.f, lukBack.getPosition().y + lukBack.getLocalBounds().height * 0.5f - 7.f });
 	textLuk.setCharacterSize(30);
 	textLuk.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(textLuk, Origins::ML);

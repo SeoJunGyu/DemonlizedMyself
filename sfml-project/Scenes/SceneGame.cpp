@@ -20,6 +20,11 @@ void SceneGame::Init()
 	texIds.push_back("graphics/Background5.png");
 	texIds.push_back("graphics/Background1.png");
 	texIds.push_back("graphics/Worrior_Icon.png");
+	texIds.push_back("graphics/big_bar.png");
+	texIds.push_back("graphics/basic_bar.png");
+	texIds.push_back("graphics/Icon_frame.png");
+	texIds.push_back("graphics/Gold.png");
+	texIds.push_back("graphics/Gem.png");
 	texIds.push_back("graphics/GrassGround.png");
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");

@@ -20,6 +20,12 @@ protected:
 	sf::RectangleShape goldBack;
 	sf::RectangleShape gemBack;
 
+	sf::Sprite Gold;
+	sf::Sprite Gem;
+	std::string texIdGold = "graphics/Gold.png";
+	std::string texIdGem = "graphics/Gem.png";
+
+
 	sf::Text textTime;
 	float time;
 

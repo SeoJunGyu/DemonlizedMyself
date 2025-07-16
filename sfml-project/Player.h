@@ -35,7 +35,7 @@ protected:
 
 	float exp = 0.f;
 	float baseExp = 40.f;
-	float maxExp = 100.f;
+	float maxExp = 100.f; //100.f : 1레벨 최소 경험치
 
 	int level = 1;
 	int gold = 0;

@@ -212,7 +212,7 @@ void Player::Update(float dt)
 
 	//std::cout << animator.GetCurrentClipId() << std::endl;
 	//std::cout << animator.IsPlaying() << std::endl;
-	//std::cout << GetPosition().x << std::endl;
+	std::cout << maxExp << std::endl;
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -252,6 +252,7 @@ void Player::AddExp(float amount)
 	if (exp >= maxExp)
 	{
 		exp = 0.f;
+		maxExp = 100 + (level - 1) * 50 + std::pow(level, 2) * 2;
 		level++;
 		statPoints += 10;
 		SOUND_MGR.PlaySfx("audios/LevelUp.wav");

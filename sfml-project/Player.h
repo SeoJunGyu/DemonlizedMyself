@@ -34,6 +34,7 @@ protected:
 	float attackTimer = 0.f;
 
 	float exp = 0.f;
+	float baseExp = 40.f;
 	float maxExp = 100.f;
 
 	int level = 1;
@@ -89,6 +90,7 @@ public:
 
 	float GetExp() const { return exp; }
 	float GetMaxExp() const { return maxExp; }
+	void AddExp(float amount);
 
 	int GetLevel() const { return level; }
 

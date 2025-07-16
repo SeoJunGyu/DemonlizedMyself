@@ -191,7 +191,8 @@ void Player::Update(float dt)
 	{
 		animator.Play("animations/warrior_Run.csv");
 		speed = 300.f;
-		exp+=40;
+		
+		AddExp(baseExp);
 
 		if (Utils::RandomRange(0.f, 1.f) < rewardChance)
 		{
@@ -202,14 +203,6 @@ void Player::Update(float dt)
 		{
 			gold += 10;
 			gem += 1;
-		}
-		
-		if (exp >= maxExp)
-		{
-			SOUND_MGR.PlaySfx("audios/LevelUp.wav");
-			exp = 0.f;
-			level++;
-			statPoints += 10;
 		}
 	}
 
@@ -249,6 +242,20 @@ void Player::OnDamage(int damage)
 void Player::OnDie()
 {
 	OnDamage(maxHp);
+}
+
+void Player::AddExp(float amount)
+{
+	float getExp = std::max(1.0f - level * 0.05f, 0.1f);
+	exp += amount * getExp;
+
+	if (exp >= maxExp)
+	{
+		exp = 0.f;
+		level++;
+		statPoints += 10;
+		SOUND_MGR.PlaySfx("audios/LevelUp.wav");
+	}
 }
 
 void Player::SetStr(int str)

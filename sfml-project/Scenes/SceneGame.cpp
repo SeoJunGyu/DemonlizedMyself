@@ -184,24 +184,30 @@ void SceneGame::Enter()
 	totalCurrentHp = 0;
 	totalMaxHp = 0;
 
+	sf::Vector2f playerPos = player->GetPosition();
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
-	
 
 	//뷰 설정
 	uiView.setSize(size);
 	uiView.setCenter(center);
 	
-	//worldView.setCenter({ playerPos.x, playerPos.y - size.y * 0.5f });
+	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.1f });
 	
 
 	SetBackGround();
 
 	Scene::Enter();
-	sf::Vector2f playerPos = player->GetPosition();
+	
 	worldView.setSize(size);
 	SetButton();
 	spawnCount = 0;
+
+	// 페이드 인 아웃 설정
+	SetupFadeEffect();
+
+	// 카메라 쉐이크 설정
+	originalViewCenter = worldView.getCenter();
 }
 
 void SceneGame::Exit()
@@ -230,10 +236,15 @@ void SceneGame::Update(float dt)
 {
 	SOUND_MGR.Update(dt);
 
+	UpdateFade(dt); //페이드 인 아웃 업데이트
+
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f playerPos = player->GetPosition();
 
 	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.1f });
+	originalViewCenter = worldView.getCenter();
+
+	UpdateScreenShake(dt);
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
@@ -302,6 +313,8 @@ void SceneGame::Update(float dt)
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+	
+	window.draw(fadeRect);
 }
 
 void SceneGame::SetBackGround()
@@ -393,9 +406,10 @@ void SceneGame::SetButton()
 	btnSurrender->sortingLayer = SortingLayers::UI;
 	btnSurrender->sortingOrder = 10;
 	btnSurrender->SetFont("fonts/Maplestory_Light.ttf");
-	btnSurrender->SetText("Surrender");
-	btnSurrender->SetPosition({ uiHud->GetHpBarBg().getPosition().x + uiHud->GetHpBarBg().getLocalBounds().width + btnSurrender->GetLocalBounds().width + 40.f, uiHud->GetHpBarBg().getPosition().y});
-	btnSurrender->SetFontSize(10);
+	//btnSurrender->SetText("Surrender");
+	btnSurrender->SetPosition({ uiHud->GetHpBarBg().getPosition().x + uiHud->GetHpBarBg().getLocalBounds().width + btnSurrender->GetLocalBounds().width + 40.f, uiHud->GetHpBarBg().getPosition().y + 15.f});
+	//btnSurrender->SetFontSize(10);
+	btnSurrender->SetSize({ 57.f, 57.f });
 
 	// 스탯 업 버튼
 	btnStrUp->sortingLayer = SortingLayers::UI;
@@ -488,5 +502,114 @@ void SceneGame::SpawnMonster(int count)
 		spawnCount++;
 
 		totalMaxHp += monster->GetMaxHp();
+	}
+}
+
+void SceneGame::SetupFadeEffect()
+{
+	sf::Vector2f size = FRAMEWORK.GetWindowSizeF();
+
+	fadeRect.setSize({ size.x, size.y * 0.5f });
+	fadeRect.setPosition(0.f, 0.f);
+	fadeRect.setFillColor(sf::Color(0, 0, 0, 255));
+
+	fadeAlpha = 255.0f;
+	fadeIn = true;
+	fadeOut = false;
+	fadeTimer = 0.0f;
+}
+
+void SceneGame::UpdateFade(float dt)
+{
+	if (fadeIn)
+	{
+		FadeIn(dt);
+	}
+	else if (fadeOut)
+	{
+		FadeOut(dt);
+	}
+}
+
+void SceneGame::FadeIn(float dt)
+{
+	fadeTimer += dt;
+
+	float progress = fadeTimer / fadeInterval;
+	if (progress > 1.0f)
+	{
+		progress = 1.0f; //진행률이 더 올라가지 않도록 고정
+	}
+
+	fadeAlpha = 255.0f * (1.0f - progress); //255에서 0으로 감소
+
+	if (progress >= 1.0f)
+	{
+		fadeAlpha = 0.0f;
+		fadeIn = false;
+		fadeTimer = 0.0f;
+	}
+
+	UpdateFadeColor();
+}
+
+void SceneGame::FadeOut(float dt)
+{
+	fadeTimer += dt * 2.7f;
+
+	float progress = fadeTimer / fadeInterval;
+	if (progress > 1.0f)
+	{
+		progress = 1.0f; //진행률이 더 올라가지 않도록 고정
+	}
+
+	fadeAlpha = 255.0f * progress; //0에서 255로 증가
+
+	if (progress >= 1.0f)
+	{
+		fadeAlpha = 255.0f;
+		fadeTimer = 0.0f;
+	}
+	UpdateFadeColor();
+}
+
+void SceneGame::UpdateFadeColor()
+{
+	int alphaInt = static_cast<int>(fadeAlpha + 0.5f);
+	fadeRect.setFillColor(sf::Color(0, 0, 0, static_cast<sf::Uint8>(alphaInt)));
+}
+
+void SceneGame::StartSceenShake(float duration, float magnitude)
+{
+	shakeDuration = duration;
+	shakeTimer = 0.f;
+	shakeMagnitude = magnitude;
+}
+
+void SceneGame::UpdateScreenShake(float dt)
+{
+	if (shakeTimer < shakeDuration)
+	{
+		shakeTimer += dt;
+
+		float progress = shakeTimer / shakeDuration;
+		if (progress > 1.0f)
+		{
+			progress = 1.0f; //진행률이 더 올라가지 않도록 고정
+		}
+		float currentMagnitude = shakeMagnitude * (1.f - progress);
+
+		float offsetX = Utils::RandomRange(-currentMagnitude, currentMagnitude);
+		float offsetY = Utils::RandomRange(-currentMagnitude, currentMagnitude);
+
+		worldView.setCenter(originalViewCenter + sf::Vector2f(offsetX, offsetY));
+		std::cout << "Camera Shake" << std::endl;
+	}
+	else
+	{
+		sf::Vector2f playerPos = player->GetPosition();
+		auto size = FRAMEWORK.GetWindowSizeF();
+
+		worldView.setCenter(originalViewCenter);
 	}
 }

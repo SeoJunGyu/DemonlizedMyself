@@ -137,7 +137,7 @@ void UiHud::Draw(sf::RenderWindow& window)
 void UiHud::UpdateHpBar()
 {
 	// Player HpBar
-	playerHpBar.setPosition({ 200.f, 100.f });
+	playerHpBar.setPosition({ 200.f, 140.f });
 	playerHpBarbg.setPosition(playerHpBar.getPosition());
 
 	float fill = hpPer * player->GetHp();
@@ -151,7 +151,7 @@ void UiHud::UpdateHpBar()
 	Utils::SetOrigin(textHp, Origins::BC);
 
 	// Monster HpBar
-	monsterHpBar.setPosition({ 200.f, 130.f });
+	monsterHpBar.setPosition({ 200.f, 170.f });
 	monsterHpBarbg.setPosition(monsterHpBar.getPosition());
 
 	float monsterFill = monsterHpPer * totalCurrentHp;

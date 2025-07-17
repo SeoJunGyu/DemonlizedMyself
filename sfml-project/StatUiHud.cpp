@@ -143,7 +143,7 @@ void StatUiHud::UpdateExpBar()
 
 	// TextExp
 	std::stringstream tmp;
-	tmp << std::fixed << std::setprecision(4) << player->GetExp();
+	tmp << std::fixed << std::setprecision(4) << player->GetExp() / player->GetMaxExp() * 100.f;
 	textExp.setString(tmp.str() + "%");
 	textExp.setPosition(expBar.getPosition().x + expBarbg.getLocalBounds().width * 0.5f, expBar.getPosition().y - 5.f);
 	textExp.setCharacterSize(20);

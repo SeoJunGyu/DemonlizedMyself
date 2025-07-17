@@ -33,6 +33,7 @@ protected:
 	std::list<SpriteGo*> groundList;
 	int backCount = 0;
 
+	// Button
 	ButtonGo* btnSurrender = nullptr;
 
 	ButtonGo* btnStrUp = nullptr;
@@ -41,6 +42,21 @@ protected:
 	ButtonGo* btnLukUp = nullptr;
 
 	ButtonGo* btnStatReset = nullptr;
+
+	// Fade In Out
+	sf::RectangleShape fadeRect;
+	float fadeAlpha = 100.f;
+	bool fadeIn = false;
+	bool fadeOut = false;
+	float fadeInterval = 3.0f;
+	float fadeTimer = 0.0f;
+
+	// CameraShake
+	sf::Vector2f originalViewCenter;
+
+	float shakeDuration = 0.f;
+	float shakeTimer = 0.f;
+	float shakeMagnitude = 10.f; //Èçµé¸² °­µµ
 	
 public:
 	SceneGame();
@@ -60,5 +76,22 @@ public:
 	void SetButton();
 
 	void SpawnMonster(int count);
+
+	// Fade In Out
+	void SetupFadeEffect();
+
+	void UpdateFade(float dt);
+	void FadeIn(float dt);
+	void FadeOut(float dt);
+	void UpdateFadeColor();
+
+	void SetFadeOut(bool fadeOut) { this->fadeOut = fadeOut; }
+	bool GetFadeOut() const { return fadeOut; }
+
+	float GetFadeAlpha() const { return fadeAlpha; }
+
+	// CameraShake
+	void StartSceenShake(float duration, float magnitude);
+	void UpdateScreenShake(float dt);
 };
 

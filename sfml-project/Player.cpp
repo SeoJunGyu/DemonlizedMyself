@@ -81,11 +81,13 @@ void Player::Init()
 						{
 							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
 							damage *= critDamagePlus;
+							sceneGame->StartSceenShake(0.3f, 20.f); //0.3초, 15강도
 							monster->OnDamage(damage);
 						}
 						else
 						{
 							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+							sceneGame->StartSceenShake(0.3f, 15.f); //0.3초, 15강도
 							monster->OnDamage(damage);
 						}
 					}
@@ -122,11 +124,13 @@ void Player::Init()
 						{
 							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
 							damage *= critDamagePlus;
+							sceneGame->StartSceenShake(0.3f, 20.f); //0.3초, 15강도
 							monster->OnDamage(damage);
 						}
 						else
 						{
 							SOUND_MGR.PlaySfx("audios/Player_whoosh.wav");
+							sceneGame->StartSceenShake(0.3f, 15.f); //0.3초, 15강도
 							monster->OnDamage(damage);
 						}
 					}
@@ -251,11 +255,12 @@ void Player::OnDamage(int damage)
 		return;
 	}
 
-	SOUND_MGR.PlaySfx("audios/hit.wav");
+	//SOUND_MGR.PlaySfx("audios/hit.wav");
 	hp = Utils::Clamp(hp - damage, 0, maxHp);
 	if (hp == 0)
 	{
 		animator.Play("animations/warrior_Death.csv");
+		sceneGame->SetFadeOut(true);
 	}
 }
 

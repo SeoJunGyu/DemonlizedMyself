@@ -45,6 +45,9 @@ protected:
 
 	ButtonGo* btnStatReset = nullptr;
 
+	ButtonGo* btnChangeStat = nullptr;
+	ButtonGo* btnChangeSkill = nullptr;
+
 	// Fade In Out
 	sf::RectangleShape fadeRect;
 	float fadeAlpha = 100.f;
@@ -59,6 +62,9 @@ protected:
 	float shakeDuration = 0.f;
 	float shakeTimer = 0.f;
 	float shakeMagnitude = 10.f; //Èçµé¸² °­µµ
+
+	// Skill
+	bool isStat = true;
 	
 public:
 	SceneGame();
@@ -76,6 +82,7 @@ public:
 	void UpdateBackGround();
 
 	void SetButton();
+	void ChangeButton();
 
 	void SpawnMonster(int count);
 

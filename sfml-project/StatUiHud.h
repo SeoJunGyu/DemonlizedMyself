@@ -66,11 +66,18 @@ protected:
 	sf::Text textLevelLuk;
 
 	// Skill
+	int slotCount = 10;
+	sf::RectangleShape slotBack;
 	std::vector<SkillIcon> skillIcons;
-	std::vector<sf::RectangleShape> skillSlots;
+	std::vector<sf::Sprite> skillSlots;
 	std::vector<SkillIcon> iconInSlot;
 
 	sf::Texture* selectedSkillIcon = nullptr;
+	std::string texIdSlot = "graphics/skillSlot.png";
+
+	// UI 전환 플래그
+	bool isStat = true;
+	bool isSkill = false;
 
 public:
 	StatUiHud(const std::string& name = "");
@@ -82,6 +89,7 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
+	sf::Sprite GetBack() const { return back; }
 	sf::Sprite GetStrBack() const { return strBack; }
 	sf::Sprite GetDexBack() const { return dexBack; }
 	sf::Sprite GetAgiBack() const { return agiBack; }
@@ -93,6 +101,9 @@ public:
 
 	// Set
 	void SetStat();
+	void SetIsStat(bool isStat) { this->isStat = isStat; }
+	void SetIsSkill(bool isSkill) { this->isSkill = isSkill; }
+	void SetUiChange();
 
 	// Skill
 	void HandleEvent(const sf::Event& event);

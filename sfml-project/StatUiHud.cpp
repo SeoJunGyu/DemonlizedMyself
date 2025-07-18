@@ -23,8 +23,10 @@ void StatUiHud::Init()
 	agiBack.setPosition({ 15.f, back.getPosition().y + 310.f });
 	lukBack.setPosition({ 15.f, back.getPosition().y + 400.f });
 
-	// 스킬창 배치
-	
+	// 스킬창 배경
+	slotBack.setSize({ size.x, 63.f });
+	slotBack.setFillColor(sf::Color::Black);
+	slotBack.setPosition({ 0.f, back.getPosition().y - slotBack.getLocalBounds().height });
 }
 
 void StatUiHud::Release()
@@ -76,6 +78,27 @@ void StatUiHud::Reset()
 	expPer = expBar.getSize().x / player->GetMaxExp();
 
 	SetStat();
+
+	// 스킬창 배치
+	if (skillSlots.empty())
+	{
+		for (int i = 0; i < slotCount; i++)
+		{
+			sf::Sprite slot;
+			slot.setTexture(TEXTURE_MGR.Get(texIdSlot));
+			slot.setPosition({ 50.f + i * 60.f, back.getPosition().y - slot.getLocalBounds().height - 2.f });
+			skillSlots.push_back(slot);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < slotCount; i++)
+		{
+			skillSlots[i].setTexture(TEXTURE_MGR.Get(texIdSlot));
+			skillSlots[i].setPosition({ 50.f + i * 60.f, back.getPosition().y - skillSlots[0].getLocalBounds().height - 2.f});
+		}
+	}
+	
 }
 
 void StatUiHud::Update(float dt)
@@ -87,39 +110,52 @@ void StatUiHud::Update(float dt)
 void StatUiHud::Draw(sf::RenderWindow& window)
 {
 	window.draw(back);
-	window.draw(strBack);
-	window.draw(dexBack);
-	window.draw(agiBack);
-	window.draw(lukBack);
 
-	window.draw(playerIcon);
-	window.draw(iconFrame);
+	//스킬창 및 스킬
+	window.draw(slotBack);
+	for (int i = 0; i < slotCount; i++)
+	{
+		window.draw(skillSlots[i]);
+	}
 
-	window.draw(textLevel);
+	//스탯 UI
+	if (isStat)
+	{
+		window.draw(strBack);
+		window.draw(dexBack);
+		window.draw(agiBack);
+		window.draw(lukBack);
 
-	//플레이어 스탯
-	window.draw(textNameStatPoint);
-	window.draw(textStatPoint);
+		window.draw(playerIcon);
+		window.draw(iconFrame);
 
-	window.draw(textStr);
-	window.draw(textDex);
-	window.draw(textAgi);
-	window.draw(textLuk);
+		window.draw(textLevel);
 
-	window.draw(textValueStr);
-	window.draw(textValueDex);
-	window.draw(textValueAgi);
-	window.draw(textValueLuk);
+		//플레이어 스탯
+		window.draw(textNameStatPoint);
+		window.draw(textStatPoint);
 
-	window.draw(textLevelStr);
-	window.draw(textLevelDex);
-	window.draw(textLevelAgi);
-	window.draw(textLevelLuk);
+		window.draw(textStr);
+		window.draw(textDex);
+		window.draw(textAgi);
+		window.draw(textLuk);
 
-	//플레이어 exp
-	window.draw(expBarbg);
-	window.draw(expBar);
-	window.draw(textExp);
+		window.draw(textValueStr);
+		window.draw(textValueDex);
+		window.draw(textValueAgi);
+		window.draw(textValueLuk);
+
+		window.draw(textLevelStr);
+		window.draw(textLevelDex);
+		window.draw(textLevelAgi);
+		window.draw(textLevelLuk);
+
+		//플레이어 exp
+		window.draw(expBarbg);
+		window.draw(expBar);
+		window.draw(textExp);
+	}
+	
 }
 
 void StatUiHud::UpdateExpBar()
@@ -256,6 +292,12 @@ void StatUiHud::SetStat()
 	textLuk.setCharacterSize(30);
 	textLuk.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(textLuk, Origins::ML);
+}
+
+void StatUiHud::SetUiChange()
+{
+	isStat = !isStat;
+	isSkill = !isSkill;
 }
 
 void StatUiHud::HandleEvent(const sf::Event& event)

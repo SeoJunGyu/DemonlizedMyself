@@ -28,6 +28,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/Enemy.png");
 	texIds.push_back("graphics/Player.png");
 	texIds.push_back("graphics/flag.png");
+	texIds.push_back("graphics/skillSlot.png");
 	texIds.push_back("graphics/GrassGround.png");
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");
@@ -173,6 +174,25 @@ void SceneGame::Init()
 		}
 	);
 
+	// UI 전환 버튼
+	btnChangeStat = (ButtonGo*)AddGameObject(new ButtonGo("btnChangeStat"));
+	btnChangeStat->SetClick([this]()
+		{
+			isStat = true;
+			statUi->SetIsStat(isStat);
+			statUi->SetIsSkill(!isStat);
+		}
+	);
+
+	btnChangeSkill = (ButtonGo*)AddGameObject(new ButtonGo("btnChangeSkill"));
+	btnChangeSkill->SetClick([this]()
+		{
+			isStat = false;
+			statUi->SetIsStat(isStat);
+			statUi->SetIsSkill(!isStat);
+		}
+	);
+
 	Scene::Init();
 }
 
@@ -202,7 +222,7 @@ void SceneGame::Enter()
 	Scene::Enter();
 	
 	worldView.setSize(size);
-	SetButton();
+	//SetStatButton();
 	spawnCount = 0;
 
 	// 페이드 인 아웃 설정
@@ -243,7 +263,7 @@ void SceneGame::Update(float dt)
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f playerPos = player->GetPosition();
 
-	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.1f });
+	worldView.setCenter({ playerPos.x, playerPos.y + size.y * 0.15f });
 	originalViewCenter = worldView.getCenter();
 
 	UpdateScreenShake(dt);
@@ -254,7 +274,7 @@ void SceneGame::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
-		SCENE_MGR.ChangeScene(SceneIds::Game);
+		
 	}
 
 	//몬스터 풀 관리
@@ -290,6 +310,7 @@ void SceneGame::Update(float dt)
 	if (btnSurrender)
 	{
 		SetButton();
+		ChangeButton();
 		btnSurrender->Update(dt);
 	}
 	
@@ -419,52 +440,84 @@ void SceneGame::SetButton()
 	Utils::SetOrigin(iconBtnSurrender, Origins::MC);
 
 	// 스탯 업 버튼
-	btnStrUp->sortingLayer = SortingLayers::UI;
-	btnStrUp->sortingOrder = 10;
-	btnStrUp->SetFont("fonts/Maplestory_Light.ttf");
-	btnStrUp->SetText("Str Up");
-	btnStrUp->SetPosition({ statUi->GetStrBack().getPosition().x + statUi->GetStrBack().getLocalBounds().width - 140, statUi->GetStrBack().getPosition().y + statUi->GetStrBack().getLocalBounds().height * 0.5f + 13.f });
-	btnStrUp->SetFontSize(15);
-	btnStrUp->SetOrigin(Origins::MC);
-	btnStrUp->SetFillColor(sf::Color(67, 179, 105));
+	if (isStat)
+	{
+		btnStrUp->sortingLayer = SortingLayers::UI;
+		btnStrUp->sortingOrder = 10;
+		btnStrUp->SetFont("fonts/Maplestory_Light.ttf");
+		btnStrUp->SetText("Str Up");
+		btnStrUp->SetPosition({ statUi->GetStrBack().getPosition().x + statUi->GetStrBack().getLocalBounds().width - 140, statUi->GetStrBack().getPosition().y + statUi->GetStrBack().getLocalBounds().height * 0.5f + 13.f });
+		btnStrUp->SetFontSize(15);
+		btnStrUp->SetOrigin(Origins::MC);
+		btnStrUp->SetFillColor(sf::Color(67, 179, 105));
 
-	btnDexUp->sortingLayer = SortingLayers::UI;
-	btnDexUp->sortingOrder = 10;
-	btnDexUp->SetFont("fonts/Maplestory_Light.ttf");
-	btnDexUp->SetText("Dex Up");
-	btnDexUp->SetPosition({ statUi->GetDexBack().getPosition().x + statUi->GetDexBack().getLocalBounds().width -140, statUi->GetDexBack().getPosition().y + statUi->GetDexBack().getLocalBounds().height * 0.5f + 13.f});
-	btnDexUp->SetFontSize(15);
-	btnDexUp->SetOrigin(Origins::MC);
-	btnDexUp->SetFillColor(sf::Color(67, 179, 105));
+		btnDexUp->sortingLayer = SortingLayers::UI;
+		btnDexUp->sortingOrder = 10;
+		btnDexUp->SetFont("fonts/Maplestory_Light.ttf");
+		btnDexUp->SetText("Dex Up");
+		btnDexUp->SetPosition({ statUi->GetDexBack().getPosition().x + statUi->GetDexBack().getLocalBounds().width - 140, statUi->GetDexBack().getPosition().y + statUi->GetDexBack().getLocalBounds().height * 0.5f + 13.f });
+		btnDexUp->SetFontSize(15);
+		btnDexUp->SetOrigin(Origins::MC);
+		btnDexUp->SetFillColor(sf::Color(67, 179, 105));
 
-	btnAgiUp->sortingLayer = SortingLayers::UI;
-	btnAgiUp->sortingOrder = 10;
-	btnAgiUp->SetFont("fonts/Maplestory_Light.ttf");
-	btnAgiUp->SetText("Agi Up");
-	btnAgiUp->SetPosition({ statUi->GetAgiBack().getPosition().x + statUi->GetAgiBack().getLocalBounds().width - 140, statUi->GetAgiBack().getPosition().y + statUi->GetAgiBack().getLocalBounds().height * 0.5f + 13.f });
-	btnAgiUp->SetFontSize(15);
-	btnAgiUp->SetOrigin(Origins::MC);
-	btnAgiUp->SetFillColor(sf::Color(67, 179, 105));
+		btnAgiUp->sortingLayer = SortingLayers::UI;
+		btnAgiUp->sortingOrder = 10;
+		btnAgiUp->SetFont("fonts/Maplestory_Light.ttf");
+		btnAgiUp->SetText("Agi Up");
+		btnAgiUp->SetPosition({ statUi->GetAgiBack().getPosition().x + statUi->GetAgiBack().getLocalBounds().width - 140, statUi->GetAgiBack().getPosition().y + statUi->GetAgiBack().getLocalBounds().height * 0.5f + 13.f });
+		btnAgiUp->SetFontSize(15);
+		btnAgiUp->SetOrigin(Origins::MC);
+		btnAgiUp->SetFillColor(sf::Color(67, 179, 105));
 
-	btnLukUp->sortingLayer = SortingLayers::UI;
-	btnLukUp->sortingOrder = 10;
-	btnLukUp->SetFont("fonts/Maplestory_Light.ttf");
-	btnLukUp->SetText("Luk Up");
-	btnLukUp->SetPosition({ statUi->GetLukBack().getPosition().x + statUi->GetLukBack().getLocalBounds().width - 140, statUi->GetLukBack().getPosition().y + statUi->GetLukBack().getLocalBounds().height * 0.5f + 13.f });
-	btnLukUp->SetFontSize(15);
-	btnLukUp->SetOrigin(Origins::MC);
-	btnLukUp->SetFillColor(sf::Color(67, 179, 105));
+		btnLukUp->sortingLayer = SortingLayers::UI;
+		btnLukUp->sortingOrder = 10;
+		btnLukUp->SetFont("fonts/Maplestory_Light.ttf");
+		btnLukUp->SetText("Luk Up");
+		btnLukUp->SetPosition({ statUi->GetLukBack().getPosition().x + statUi->GetLukBack().getLocalBounds().width - 140, statUi->GetLukBack().getPosition().y + statUi->GetLukBack().getLocalBounds().height * 0.5f + 13.f });
+		btnLukUp->SetFontSize(15);
+		btnLukUp->SetOrigin(Origins::MC);
+		btnLukUp->SetFillColor(sf::Color(67, 179, 105));
 
-	btnStatReset->sortingLayer = SortingLayers::UI;
-	btnStatReset->sortingOrder = 10;
-	btnStatReset->SetFont("fonts/Maplestory_Light.ttf");
-	btnStatReset->SetText("Stat Reset");
-	btnStatReset->SetPosition({ 611.f, 577.f });
-	btnStatReset->SetFontSize(15);
-	btnStatReset->SetOrigin(Origins::ML);
-	btnStatReset->SetTextOrigin();
-	btnStatReset->SetFillColor(sf::Color(184, 152, 91));
+		btnStatReset->sortingLayer = SortingLayers::UI;
+		btnStatReset->sortingOrder = 10;
+		btnStatReset->SetFont("fonts/Maplestory_Light.ttf");
+		btnStatReset->SetText("Stat Reset");
+		btnStatReset->SetPosition({ 611.f, 577.f });
+		btnStatReset->SetFontSize(15);
+		btnStatReset->SetOrigin(Origins::ML);
+		btnStatReset->SetTextOrigin();
+		btnStatReset->SetFillColor(sf::Color(184, 152, 91));
+	}
 	
+	// UI 전환 버튼
+	btnChangeStat->sortingLayer = SortingLayers::UI;
+	btnChangeStat->sortingOrder = 10;
+	btnChangeStat->SetFont("fonts/Maplestory_Light.ttf");
+	btnChangeStat->SetText("Stat");
+	btnChangeStat->SetPosition({ 100.f, statUi->GetBack().getPosition().y + 30.f});
+	btnChangeStat->SetFontSize(15);
+	btnChangeStat->SetSize({ 50.f, 30.f });
+	btnChangeStat->SetOrigin(Origins::MC);
+	btnChangeStat->SetFillColor(sf::Color(22, 30, 43));
+
+	btnChangeSkill->sortingLayer = SortingLayers::UI;
+	btnChangeSkill->sortingOrder = 10;
+	btnChangeSkill->SetFont("fonts/Maplestory_Light.ttf");
+	btnChangeSkill->SetText("Skill");
+	btnChangeSkill->SetPosition({ btnChangeStat->GetPosition().x + 100.f , statUi->GetBack().getPosition().y + 30.f});
+	btnChangeSkill->SetFontSize(15);
+	btnChangeSkill->SetSize({ 50.f, 30.f });
+	btnChangeSkill->SetOrigin(Origins::MC);
+	btnChangeSkill->SetFillColor(sf::Color(22, 30, 43));
+}
+
+void SceneGame::ChangeButton()
+{
+	btnStatReset->SetActive(isStat);
+	btnStrUp->SetActive(isStat);
+	btnDexUp->SetActive(isStat);
+	btnAgiUp->SetActive(isStat);
+	btnLukUp->SetActive(isStat);
 }
 
 void SceneGame::SpawnMonster(int count)

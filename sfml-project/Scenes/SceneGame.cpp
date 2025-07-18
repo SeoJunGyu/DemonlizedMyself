@@ -27,6 +27,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/Gem.png");
 	texIds.push_back("graphics/Enemy.png");
 	texIds.push_back("graphics/Player.png");
+	texIds.push_back("graphics/flag.png");
 	texIds.push_back("graphics/GrassGround.png");
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");
@@ -91,7 +92,8 @@ void SceneGame::Init()
 	btnSurrender->SetClick([this]()
 		{
 			//Enter();
-			SCENE_MGR.ChangeScene(SceneIds::Game);
+			//SCENE_MGR.ChangeScene(SceneIds::Game);
+			player->OnDamage(player->GetMaxHp());
 		}
 	);
 
@@ -314,6 +316,7 @@ void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 	
+	window.draw(iconBtnSurrender);
 	window.draw(fadeRect);
 }
 
@@ -410,6 +413,10 @@ void SceneGame::SetButton()
 	btnSurrender->SetPosition({ uiHud->GetHpBarBg().getPosition().x + uiHud->GetHpBarBg().getLocalBounds().width + btnSurrender->GetLocalBounds().width + 40.f, uiHud->GetHpBarBg().getPosition().y + 15.f});
 	//btnSurrender->SetFontSize(10);
 	btnSurrender->SetSize({ 57.f, 57.f });
+
+	iconBtnSurrender.setPosition({ btnSurrender->GetPosition().x + btnSurrender->GetLocalBounds().width * 0.5f, btnSurrender->GetPosition().y + btnSurrender->GetLocalBounds().height * 0.5f});
+	iconBtnSurrender.setTexture(TEXTURE_MGR.Get("graphics/flag.png")); //항복 아이콘 텍스쳐 설정
+	Utils::SetOrigin(iconBtnSurrender, Origins::MC);
 
 	// 스탯 업 버튼
 	btnStrUp->sortingLayer = SortingLayers::UI;
@@ -603,13 +610,10 @@ void SceneGame::UpdateScreenShake(float dt)
 		float offsetY = Utils::RandomRange(-currentMagnitude, currentMagnitude);
 
 		worldView.setCenter(originalViewCenter + sf::Vector2f(offsetX, offsetY));
-		std::cout << "Camera Shake" << std::endl;
+		//std::cout << "Camera Shake" << std::endl;
 	}
 	else
 	{
-		sf::Vector2f playerPos = player->GetPosition();
-		auto size = FRAMEWORK.GetWindowSizeF();
-
 		worldView.setCenter(originalViewCenter);
 	}
 }

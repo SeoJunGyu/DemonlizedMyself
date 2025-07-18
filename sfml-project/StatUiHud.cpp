@@ -18,15 +18,13 @@ void StatUiHud::Init()
 	// 하단 배경
 	back.setPosition({ 0.f, size.y * 0.5f });
 
-	/*
-	strBack.setSize({ size.x - 20.f, 70.f });
-	strBack.setPosition({ 10.f, back.getPosition().y + 130.f });
-	strBack.setFillColor(sf::Color(46, 69, 85, 255));
-	*/
 	strBack.setPosition({ 15.f, back.getPosition().y + 130.f });
 	dexBack.setPosition({ 15.f, back.getPosition().y + 220.f });
 	agiBack.setPosition({ 15.f, back.getPosition().y + 310.f });
 	lukBack.setPosition({ 15.f, back.getPosition().y + 400.f });
+
+	// 스킬창 배치
+	
 }
 
 void StatUiHud::Release()
@@ -258,4 +256,9 @@ void StatUiHud::SetStat()
 	textLuk.setCharacterSize(30);
 	textLuk.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(textLuk, Origins::ML);
+}
+
+void StatUiHud::HandleEvent(const sf::Event& event)
+{
+
 }

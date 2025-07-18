@@ -6,6 +6,14 @@ class Player;
 class StatUiHud :
     public GameObject
 {
+	struct SkillIcon
+	{
+		sf::Sprite sprite;
+		sf::Texture* texture;
+		sf::FloatRect Bounds;
+		std::function<void()> onClick;
+	};
+
 protected:
 	std::string fontId = "fonts/Maplestory_Light.ttf";
 
@@ -57,6 +65,13 @@ protected:
 	sf::Text textValueLuk;
 	sf::Text textLevelLuk;
 
+	// Skill
+	std::vector<SkillIcon> skillIcons;
+	std::vector<sf::RectangleShape> skillSlots;
+	std::vector<SkillIcon> iconInSlot;
+
+	sf::Texture* selectedSkillIcon = nullptr;
+
 public:
 	StatUiHud(const std::string& name = "");
 	virtual ~StatUiHud() = default;
@@ -78,5 +93,8 @@ public:
 
 	// Set
 	void SetStat();
+
+	// Skill
+	void HandleEvent(const sf::Event& event);
 };
 

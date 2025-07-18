@@ -259,6 +259,7 @@ void Player::OnDamage(int damage)
 	hp = Utils::Clamp(hp - damage, 0, maxHp);
 	if (hp == 0)
 	{
+		speed = 0;
 		animator.Play("animations/warrior_Death.csv");
 		sceneGame->SetFadeOut(true);
 	}

@@ -35,6 +35,8 @@ protected:
 
 	// Button
 	ButtonGo* btnSurrender = nullptr;
+	sf::Sprite iconBtnSurrender;
+	std::string texIdIconBtnSurrender = "graphics/flag.png";
 
 	ButtonGo* btnStrUp = nullptr;
 	ButtonGo* btnDexUp = nullptr;

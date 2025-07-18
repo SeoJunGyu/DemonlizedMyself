@@ -7,6 +7,7 @@ class Monster;
 class UiHud;
 class StatUiHud;
 class ButtonGo;
+class Skill;
 
 class SceneGame :
     public Scene
@@ -15,6 +16,9 @@ protected:
 	Player* player = nullptr;
 	UiHud* uiHud = nullptr;
 	StatUiHud* statUi = nullptr;
+
+	Skill* skill = nullptr;
+	bool drawSkill = false;
 
 	// Monster
 	std::list<Monster*> monsterList;
@@ -102,5 +106,7 @@ public:
 	// CameraShake
 	void StartSceenShake(float duration, float magnitude);
 	void UpdateScreenShake(float dt);
+
+
 };
 

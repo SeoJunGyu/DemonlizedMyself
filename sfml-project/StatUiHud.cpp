@@ -85,14 +85,16 @@ void StatUiHud::Reset()
 		for (int i = 0; i < slotCount; i++)
 		{
 			SkillSlot slot;
+			slot.texId = texIdSlot;
 			slot.spriteFrame.setTexture(TEXTURE_MGR.Get(texIdSlot));
-			slot.spriteFrame.setPosition({ 50.f + i * 60.f, back.getPosition().y - slot.spriteFrame.getLocalBounds().height - 2.f });
-			//Utils::SetOrigin(slot.spriteFrame, Origins::MC);
+			slot.spriteFrame.setPosition({ 80.f + i * 60.f, back.getPosition().y - slot.spriteFrame.getLocalBounds().height + 30.f });
+			Utils::SetOrigin(slot.spriteFrame, Origins::MC);
 
 			slot.sprite.setTexture(TEXTURE_MGR.Get(texIdSlot));
-			slot.sprite.setPosition({ 50.f + i * 60.f, back.getPosition().y - slot.spriteFrame.getLocalBounds().height - 2.f });
-			skillSlots.push_back(slot);
+			slot.sprite.setPosition({ 80.f + i * 60.f, back.getPosition().y - slot.spriteFrame.getLocalBounds().height + 30.f });
 			Utils::SetOrigin(slot.sprite, Origins::MC);
+
+			skillSlots.push_back(slot);
 		}
 	}
 	else
@@ -100,24 +102,34 @@ void StatUiHud::Reset()
 		for (int i = 0; i < slotCount; i++)
 		{
 			skillSlots[i].spriteFrame.setTexture(TEXTURE_MGR.Get(texIdSlot));
-			skillSlots[i].spriteFrame.setPosition({ 50.f + i * 60.f, back.getPosition().y - skillSlots[i].spriteFrame.getLocalBounds().height - 2.f });
+			skillSlots[i].spriteFrame.setPosition({ 80.f + i * 60.f, back.getPosition().y - skillSlots[i].spriteFrame.getLocalBounds().height + 30.f });
+			Utils::SetOrigin(skillSlots[i].spriteFrame, Origins::MC);
 
-			skillSlots[i].sprite.setTexture(TEXTURE_MGR.Get(texIdSlot));
-			skillSlots[i].sprite.setPosition({ 50.f + i * 60.f, back.getPosition().y - skillSlots[0].sprite.getLocalBounds().height - 2.f});
+			skillSlots[i].sprite.setTexture(TEXTURE_MGR.Get(skillSlots[i].texId));
+			skillSlots[i].sprite.setPosition({ 80.f + i * 60.f, back.getPosition().y - skillSlots[0].spriteFrame.getLocalBounds().height + 30.f });
+			Utils::SetOrigin(skillSlots[i].sprite, Origins::MC);
 		}
 	}
 
 	/*
 	
 	*/
+
+	int rowCount = 9;
+	float spaceX = 70.f;
+	float spaceY = 70.f;
+	sf::Vector2f startPos = { 50.f, back.getPosition().y + 100.f };
 	if (skillIcons.empty())
 	{
 		for (int i = 0; i < slotCount; i++)
 		{
+			int row = i / rowCount;
+			int col = i % rowCount;
+
 			SkillIcon icon;
 			icon.texId = "graphics/Explode.png";
 			icon.sprite.setTexture(TEXTURE_MGR.Get(icon.texId));
-			icon.sprite.setPosition({ 50.f + i * 70.f, back.getPosition().y + 100.f });
+			icon.sprite.setPosition({ startPos.x + col * spaceX, startPos.y + row * spaceY });
 
 			skillIcons.push_back(icon);
 		}
@@ -126,8 +138,11 @@ void StatUiHud::Reset()
 	{
 		for (int i = 0; i < slotCount; i++)
 		{
+			int row = i / rowCount;
+			int col = i % rowCount;
+
 			skillIcons[i].sprite.setTexture(TEXTURE_MGR.Get(skillIcons[i].texId));
-			skillIcons[i].sprite.setPosition({ 50.f + i * 70.f, back.getPosition().y + 100.f });
+			skillIcons[i].sprite.setPosition({ startPos.x + col * spaceX, startPos.y + row * spaceY });
 		}
 	}
 	
@@ -157,6 +172,7 @@ void StatUiHud::Update(float dt)
 			{
 				if (slot.sprite.getGlobalBounds().contains(mousePos))
 				{
+
 					slot.SetIcon(selectedSkillIcon->texId);
 					selectedSkillIcon = nullptr; //선택 해체
 					break;

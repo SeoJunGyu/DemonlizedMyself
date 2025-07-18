@@ -1,0 +1,14 @@
+ID,FPS,"LoopType (0: Single, 1: Loop)",,,
+Skill,12,1,,,
+"				",,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT,"FLIPX (0:Fale, 1:True)"
+ExplodeEffect.png,0,0,59,57,0
+ExplodeEffect.png,59,0,59,57,0
+ExplodeEffect.png,118,0,59,57,0
+ExplodeEffect.png,177,0,59,57,0
+ExplodeEffect.png,236,0,59,57,0
+ExplodeEffect.png,295,0,59,57,0
+ExplodeEffect.png,354,0,59,57,0
+ExplodeEffect.png,413,0,59,57,0
+ExplodeEffect.png,472,0,59,57,0
+ExplodeEffect.png,531,0,59,57,0

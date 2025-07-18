@@ -195,19 +195,6 @@ void Monster::Update(float dt)
 	{
 		if (!isBattle)
 		{
-			/*
-			switch (type)
-			{
-			case Monster::HeroKnight:
-				animator.Play("animations/HeroKnight_Idle.csv");
-				break;
-			case Monster::Worrior:
-				animator.Play("animations/warrior_Idle.csv");
-				break;
-			default:
-				break;
-			}
-			*/
 			animator.Play(aniIdIdle);
 		}
 	}
@@ -220,30 +207,14 @@ void Monster::Update(float dt)
 		if (Utils::CheckCollision(hitBox.rect, player->GetHitBox().rect))
 		{
 			isBattle = true;
-			/*
-			switch (type)
-			{
-			case Monster::HeroKnight:
-				animator.Play("animations/HeroKnight_Attack.csv");
-				break;
-			case Monster::Worrior:
-				animator.Play("animations/warrior_Attack.csv");
-				break;
-			default:
-				break;
-			}
-			*/
 			animator.Play(aniIdAttack);
-			//player->OnDamage(damage);
+
 			attackTimer = 0.f;
 		}
 
 	}
 
-	bound = player->GetLocalBounds();
-	//bound.width = GetLocalBounds().width * 0.5f;
-	//bound.height = GetLocalBounds().height * 0.5f;
-	
+	bound = player->GetLocalBounds();	
 	hitBox.UpdateTransform(body, bound);
 	//std::cout << animator.GetCurrentClipId() << std::endl;
 }
@@ -288,12 +259,17 @@ void Monster::SetType(Type type)
 {
 	this->type = type;
 
+	int playerLevel = player ? player->GetLevel() : 1;
+
+	float hpApply = 1.0f + 0.1f * (playerLevel - 1); // 레벨 1은 100%, 레벨 2는 110%
+
 	switch (type)
 	{
 	case Monster::HeroKnight:
 		animator.Play("animations/HeroKnight_Idle.csv");
 		damage = 3;
-		maxHp = 120;
+		//damage = (int)(3 * (1.0f + 0.05f * (playerLevel - 1))); //레벨에 따른 데미지 증가
+		maxHp = (int)(120 * hpApply);
 		buffer = SOUNDBUFFER_MGR.Get("audios/Hero_whoosh.wav");
 		aniIdDeath = "animations/HeroKnight_Death.csv";
 		aniIdIdle = "animations/HeroKnight_Idle.csv";
@@ -302,7 +278,7 @@ void Monster::SetType(Type type)
 	case Monster::Worrior:
 		animator.Play("animations/warrior_Idle.csv");
 		damage = 3;
-		maxHp = 100;
+		maxHp = (int)(100 * hpApply);
 		buffer = SOUNDBUFFER_MGR.Get("audios/Worrior_whoosh.wav");
 		aniIdDeath = "animations/warrior_Death.csv";
 		aniIdIdle = "animations/warrior_Idle.csv";

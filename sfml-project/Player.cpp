@@ -43,8 +43,6 @@ void Player::SetOrigin(Origins preset)
 
 void Player::Init()
 {
-	
-
 	animator.SetTarget(&body); //갱신할 스프라이트를 애니메이터에 설정
 
 	//idle의 0번? 프레임에 호출된다.

@@ -5,6 +5,7 @@
 #include "UiHud.h"
 #include "StatUiHud.h"
 #include "ButtonGo.h"
+#include "Skill.h"
 
 SceneGame::SceneGame()
 	: Scene(SceneIds::Game)
@@ -46,6 +47,7 @@ void SceneGame::Init()
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Idle.csv");
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Attack.csv");
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Death.csv");
+	ANI_CLIP_MGR.Load("animations/skill_Explode.csv");
 
 	SOUNDBUFFER_MGR.Load("audios/TitleBGM.wav");
 	SOUNDBUFFER_MGR.Load("audios/BattleBGM.wav");
@@ -77,6 +79,8 @@ void SceneGame::Init()
 		monster->SetScale({ -2.5f, 2.5f });
 		monsterPool.push_back(monster);
 	}
+
+	skill = (Skill*)AddGameObject(new Skill("Skill"));
 
 	//백그라운드 설정
 	SetBackGround();
@@ -275,7 +279,9 @@ void SceneGame::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
-		
+		drawSkill = !drawSkill;
+		skill->SetPosition(player->GetPosition());
+		skill->SetDraw(drawSkill);
 	}
 
 	//몬스터 풀 관리

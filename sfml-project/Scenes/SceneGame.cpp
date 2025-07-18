@@ -29,6 +29,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/Player.png");
 	texIds.push_back("graphics/flag.png");
 	texIds.push_back("graphics/skillSlot.png");
+	texIds.push_back("graphics/Explode.png");
 	texIds.push_back("graphics/GrassGround.png");
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");

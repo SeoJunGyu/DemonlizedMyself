@@ -6,12 +6,30 @@ class Player;
 class StatUiHud :
     public GameObject
 {
+	struct SkillSlot
+	{
+		sf::Sprite spriteFrame;
+		sf::Sprite sprite;
+		std::string texId;
+		sf::FloatRect Bounds;
+		bool isFilled = false; //초기화 : 비어있는 상태
+		
+		void SetIcon(std::string& newTexId)
+		{
+			texId = newTexId;
+			sprite.setTexture(TEXTURE_MGR.Get(newTexId));
+			isFilled = true; //아이콘이 배치된 상태
+		}
+	};
+
 	struct SkillIcon
 	{
 		sf::Sprite sprite;
-		sf::Texture* texture;
+		std::string texId;
 		sf::FloatRect Bounds;
 		std::function<void()> onClick;
+
+		
 	};
 
 protected:
@@ -68,12 +86,15 @@ protected:
 	// Skill
 	int slotCount = 10;
 	sf::RectangleShape slotBack;
-	std::vector<SkillIcon> skillIcons;
-	std::vector<sf::Sprite> skillSlots;
-	std::vector<SkillIcon> iconInSlot;
 
-	sf::Texture* selectedSkillIcon = nullptr;
+	std::vector<SkillIcon> skillIcons; //하단 스킬 아이콘
+	std::vector<SkillSlot> skillSlots; //스킬 슬롯
+	std::vector<sf::Sprite> iconInSlot; //스킬 슬롯과 동일한 위치에 스프라이트
+
+	SkillIcon* selectedSkillIcon = nullptr;
 	std::string texIdSlot = "graphics/skillSlot.png";
+
+
 
 	// UI 전환 플래그
 	bool isStat = true;
@@ -106,6 +127,6 @@ public:
 	void SetUiChange();
 
 	// Skill
-	void HandleEvent(const sf::Event& event);
+
 };
 

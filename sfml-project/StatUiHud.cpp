@@ -84,18 +84,50 @@ void StatUiHud::Reset()
 	{
 		for (int i = 0; i < slotCount; i++)
 		{
-			sf::Sprite slot;
-			slot.setTexture(TEXTURE_MGR.Get(texIdSlot));
-			slot.setPosition({ 50.f + i * 60.f, back.getPosition().y - slot.getLocalBounds().height - 2.f });
+			SkillSlot slot;
+			slot.spriteFrame.setTexture(TEXTURE_MGR.Get(texIdSlot));
+			slot.spriteFrame.setPosition({ 50.f + i * 60.f, back.getPosition().y - slot.spriteFrame.getLocalBounds().height - 2.f });
+			//Utils::SetOrigin(slot.spriteFrame, Origins::MC);
+
+			slot.sprite.setTexture(TEXTURE_MGR.Get(texIdSlot));
+			slot.sprite.setPosition({ 50.f + i * 60.f, back.getPosition().y - slot.spriteFrame.getLocalBounds().height - 2.f });
 			skillSlots.push_back(slot);
+			Utils::SetOrigin(slot.sprite, Origins::MC);
 		}
 	}
 	else
 	{
 		for (int i = 0; i < slotCount; i++)
 		{
-			skillSlots[i].setTexture(TEXTURE_MGR.Get(texIdSlot));
-			skillSlots[i].setPosition({ 50.f + i * 60.f, back.getPosition().y - skillSlots[0].getLocalBounds().height - 2.f});
+			skillSlots[i].spriteFrame.setTexture(TEXTURE_MGR.Get(texIdSlot));
+			skillSlots[i].spriteFrame.setPosition({ 50.f + i * 60.f, back.getPosition().y - skillSlots[i].spriteFrame.getLocalBounds().height - 2.f });
+
+			skillSlots[i].sprite.setTexture(TEXTURE_MGR.Get(texIdSlot));
+			skillSlots[i].sprite.setPosition({ 50.f + i * 60.f, back.getPosition().y - skillSlots[0].sprite.getLocalBounds().height - 2.f});
+		}
+	}
+
+	/*
+	
+	*/
+	if (skillIcons.empty())
+	{
+		for (int i = 0; i < slotCount; i++)
+		{
+			SkillIcon icon;
+			icon.texId = "graphics/Explode.png";
+			icon.sprite.setTexture(TEXTURE_MGR.Get(icon.texId));
+			icon.sprite.setPosition({ 50.f + i * 70.f, back.getPosition().y + 100.f });
+
+			skillIcons.push_back(icon);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < slotCount; i++)
+		{
+			skillIcons[i].sprite.setTexture(TEXTURE_MGR.Get(skillIcons[i].texId));
+			skillIcons[i].sprite.setPosition({ 50.f + i * 70.f, back.getPosition().y + 100.f });
 		}
 	}
 	
@@ -105,6 +137,33 @@ void StatUiHud::Update(float dt)
 {
 	UpdateExpBar();
 	UpdateStat();
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		sf::Vector2f mousePos = (sf::Vector2f)InputMgr::GetMousePosition();
+
+		for (auto& icon : skillIcons)
+		{
+			if (icon.sprite.getGlobalBounds().contains(mousePos))
+			{
+				selectedSkillIcon = &icon;
+				break;
+			}
+		}
+
+		if (selectedSkillIcon != nullptr)
+		{
+			for (auto& slot : skillSlots)
+			{
+				if (slot.sprite.getGlobalBounds().contains(mousePos))
+				{
+					slot.SetIcon(selectedSkillIcon->texId);
+					selectedSkillIcon = nullptr; //선택 해체
+					break;
+				}
+			}
+		}
+	}
 }
 
 void StatUiHud::Draw(sf::RenderWindow& window)
@@ -115,7 +174,19 @@ void StatUiHud::Draw(sf::RenderWindow& window)
 	window.draw(slotBack);
 	for (int i = 0; i < slotCount; i++)
 	{
-		window.draw(skillSlots[i]);
+		window.draw(skillSlots[i].sprite);
+		window.draw(skillSlots[i].spriteFrame);
+	}
+
+	/*
+	
+	*/
+	if (isSkill)
+	{
+		for (int i = 0; i < slotCount; i++)
+		{
+			window.draw(skillIcons[i].sprite);
+		}
 	}
 
 	//스탯 UI
@@ -298,9 +369,4 @@ void StatUiHud::SetUiChange()
 {
 	isStat = !isStat;
 	isSkill = !isSkill;
-}
-
-void StatUiHud::HandleEvent(const sf::Event& event)
-{
-
 }

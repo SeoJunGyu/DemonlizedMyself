@@ -18,7 +18,7 @@ protected:
 	StatUiHud* statUi = nullptr;
 
 	Skill* skill = nullptr;
-	bool drawSkill = false;
+	
 
 	// Monster
 	std::list<Monster*> monsterList;

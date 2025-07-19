@@ -20,6 +20,7 @@ protected:
 
 	SceneGame* sceneGame;
 	Monster* monster;
+	Monster* targetMonster = nullptr; //한 몬스터만 타겟으로 삼기
 	Player* player;
 	HitBox hitbox;
 
@@ -44,17 +45,19 @@ public:
 
 	sf::FloatRect GetLocalBounds() const override
 	{
-		return { 0.f, 0.f, 0.f, 0.f };
+		return body.getLocalBounds();
 	}
 
 	sf::FloatRect GetGlobalBounds() const override
 	{
-		return { 0.f, 0.f, 0.f, 0.f };
+		return body.getGlobalBounds();
 	}
 
 	HitBox& GetHitbox() { return hitbox; }
 
 	//test
 	void SetDraw(bool draw) { isDraw = draw; }
+	void SetLifeTime(float lifeTime) { this->lifeTime = lifeTime; }
+
 };
 

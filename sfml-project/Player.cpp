@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "SceneGame.h"
+#include "Skill.h"
 
 Player::Player(const std::string& name)
 	: GameObject(name)
@@ -164,6 +165,9 @@ void Player::Reset()
 		sceneGame = nullptr;
 	}
 
+	skill = new Skill("skill");
+	sceneGame->AddGameObject(skill);
+
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
 
@@ -207,6 +211,13 @@ void Player::Update(float dt)
 				animator.Play("animations/warrior_Attack.csv");
 				speed = 0.f;
 			}
+
+			drawSkill = !drawSkill;
+			skill->SetPosition({ monster->GetPosition().x, -60.f});
+			skill->SetActive(true);
+			skill->SetLifeTime(0);
+			skill->SetDraw(drawSkill);
+			drawSkill = !drawSkill;
 			
 			break;
 		}
@@ -234,6 +245,11 @@ void Player::Update(float dt)
 	bound = GetLocalBounds();
 	bound.width *= 0.5f;
 	hitBox.UpdateTransform(body, bound);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::D))
+	{
+		
+	}
 
 	//std::cout << animator.GetCurrentClipId() << std::endl;
 	//std::cout << animator.IsPlaying() << std::endl;

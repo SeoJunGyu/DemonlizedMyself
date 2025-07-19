@@ -47,7 +47,13 @@ void Skill::Init()
 	animator.SetTarget(&body);
 
 	sortingLayer = SortingLayers::Foreground;
-	sortingOrder = 1;
+	sortingOrder = 10;
+
+	animator.AddEvent("Skill", 10, [this]()
+		{
+			SetActive(false);
+		}
+	);
 }
 
 void Skill::Release()
@@ -75,26 +81,65 @@ void Skill::Reset()
 
 	damage = 0;
 	lifeTime = 0.f;
+	SetActive(false);
 
+	targetMonster = nullptr;
+
+	animator.SetTarget(&body);
+	//animator.Play("animations/skill_Explode.csv");
+	
 }
 
 void Skill::Update(float dt)
 {
+	hitbox.UpdateTransform(body, GetLocalBounds());
+
 	lifeTime += dt;
-	
-	for (auto monster : sceneGame->GetMonsters())
+	animator.Update(dt);
+
+	if (targetMonster && !targetMonster->GetActive())
 	{
-		if (monster->GetActive() && Utils::CheckCollision(hitbox.rect, monster->GetHitBox().rect))
+		if (lifeTime > duration)
 		{
-			SetPosition(monster->GetPosition());
-			monster->OnDamage(damage);
-			return;
+			SetActive(false);
+		}
+		return;
+	}
+	
+	if (!targetMonster)
+	{
+		for (auto monster : sceneGame->GetMonsters())
+		{
+			if (!monster->GetActive())
+			{
+				return;
+			}
+
+			bool skillHit = Utils::CheckCollision(hitbox.rect, monster->GetHitBox().rect);
+			bool playerHit = Utils::CheckCollision(player->GetHitBox().rect, monster->GetHitBox().rect);
+
+			if (skillHit && playerHit)
+			{
+				targetMonster = monster;
+				SetPosition({ monster->GetPosition().x, -60.f });
+				//monster->OnDamage(damage);
+				break;
+			}
 		}
 	}
+	
+	if (targetMonster)
+	{
+		//targetMonster->OnDamage(damage);
+		SetPosition({ targetMonster->GetPosition().x, -60.f });
+	}
+	
 	if (lifeTime > duration)
 	{
 		SetActive(false);
 	}
+
+	std::cout << "스킬 위치: " << player->GetPosition().x << ", " << player->GetPosition().y << "\n";
 }
 
 void Skill::Draw(sf::RenderWindow& window)
@@ -104,4 +149,6 @@ void Skill::Draw(sf::RenderWindow& window)
 		window.draw(body);
 		hitbox.Draw(window);
 	}
+
+	
 }

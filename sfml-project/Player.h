@@ -3,6 +3,7 @@
 
 class SceneGame;
 class Monster;
+class Skill;
 
 class Player :
     public GameObject
@@ -19,11 +20,13 @@ protected:
 
 	SceneGame* sceneGame;
 	Monster* monster;
+	Skill* skill;
 
 	//플래그 변수
 	bool isBattle = false;
 	bool isAlive = true;
 	bool isHit = false;
+	bool drawSkill = false;
 
 	//배틀 설정 변수
 	float speed = 300.f;

@@ -31,6 +31,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/flag.png");
 	texIds.push_back("graphics/skillSlot.png");
 	texIds.push_back("graphics/Explode.png");
+	texIds.push_back("graphics/ExplodeEffect.png");
 	texIds.push_back("graphics/GrassGround.png");
 	texIds.push_back("graphics/sprite_sheet.png");
 	texIds.push_back("graphics/Warrior_Sheet-Effect.png");
@@ -277,12 +278,7 @@ void SceneGame::Update(float dt)
 	{
 		std::cout << InputMgr::GetMousePosition().x << ", " << InputMgr::GetMousePosition().y << std::endl;
 	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::D))
-	{
-		drawSkill = !drawSkill;
-		skill->SetPosition(player->GetPosition());
-		skill->SetDraw(drawSkill);
-	}
+	
 
 	//몬스터 풀 관리
 	auto it = monsterList.begin();

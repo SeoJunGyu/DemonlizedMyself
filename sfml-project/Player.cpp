@@ -214,13 +214,14 @@ void Player::Update(float dt)
 
 			if (!isSkillPlyaing)
 			{
-				drawSkill = !drawSkill;
-				skill->SetPosition({ monster->GetPosition().x, -60.f });
-				skill->SetActive(true);
-				skill->SetLifeTime(0);
-				skill->SetDraw(drawSkill);
-				drawSkill = !drawSkill;
+				/*
+				
 
+				isSkillPlyaing = true;
+				*/
+				//skill->SetActive(true);
+				//skill->SetLifeTime(0);
+				skill->TryUse();
 				isSkillPlyaing = true;
 			}
 			
@@ -255,6 +256,11 @@ void Player::Update(float dt)
 	if (!skill->GetActive())
 	{
 		isSkillPlyaing = false;
+	}
+
+	if (skill != nullptr)
+	{
+		skill->Update(dt);
 	}
 
 	//std::cout << animator.GetCurrentClipId() << std::endl;

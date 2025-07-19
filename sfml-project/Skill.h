@@ -26,6 +26,13 @@ protected:
 	//test
 	bool isDraw = false;
 
+	float coolDown = 2.f;
+	float coolDownTimer = 0.f;
+	bool skillReady = false;
+
+	float attackInterval = 0.f;
+	float attackTimer = 0.f;
+
 public:
 	Skill(const std::string& name = "");
 	virtual ~Skill() = default;
@@ -55,11 +62,14 @@ public:
 	HitBox& GetHitbox() { return hitbox; }
 
 	//test
-	void SetDraw(bool draw) { isDraw = draw; }
+	//void SetDraw(bool draw) { isDraw = draw; }
 	void SetLifeTime(float lifeTime) { this->lifeTime = lifeTime; }
 
 	float GetLifeTime() const { return lifeTime; }
 	float GetDuration() const { return duration; }
+
+	bool IsReady() const { return skillReady; }
+	void TryUse();
 
 };
 

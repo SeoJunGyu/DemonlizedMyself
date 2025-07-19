@@ -26,7 +26,6 @@ protected:
 	bool isBattle = false;
 	bool isAlive = true;
 	bool isHit = false;
-	bool drawSkill = false;
 	bool isSkillPlyaing = false;
 
 	//배틀 설정 변수

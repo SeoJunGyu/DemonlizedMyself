@@ -15,8 +15,7 @@ void SceneTitle::Init()
 
 	auto size = FRAMEWORK.GetWindowSizeF();
 
-	background.setPosition({ 0.f, 0.f });
-	
+	background.setPosition({ 500.f, size.y * 0.5f });
 
 	Scene::Init();
 }
@@ -70,8 +69,8 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 
 void SceneTitle::UpdateTitleBar(float dt)
 {
-	//time += dt * 10.f;
-	time = 100.f;
+	time += dt * 10.f;
+	//time = 100.f;
 	std::stringstream tmp;
 	tmp << std::fixed << std::setprecision(2) << time;
 	std::string str = tmp.str();
@@ -93,6 +92,8 @@ void SceneTitle::UpdateTitleBar(float dt)
 	text.setCharacterSize(22);
 	text.setFillColor(sf::Color::White);
 	Utils::SetOrigin(text, Origins::MC);
+
+	Utils::SetOrigin(background, Origins::MC);
 }
 
 void SceneTitle::SetupFadeEffect()
@@ -118,6 +119,10 @@ void SceneTitle::UpdateFade(float dt)
 	else if (fadeOut)
 	{
 		FadeOut(dt);
+
+		float scaleSpeed = 0.5f; // 배경 확대 속도 (필요시 조절)
+		sf::Vector2f currentScale = background.getScale();
+		background.setScale(currentScale + sf::Vector2f(scaleSpeed * dt, scaleSpeed * dt));
 	}
 }
 

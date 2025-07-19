@@ -179,6 +179,17 @@ void StatUiHud::Update(float dt)
 				}
 			}
 		}
+		else
+		{
+			for (auto& slot : skillSlots)
+			{
+				if (slot.sprite.getGlobalBounds().contains(mousePos))
+				{
+					slot.SetIcon(texIdSlot);
+					break;
+				}
+			}
+		}
 	}
 }
 

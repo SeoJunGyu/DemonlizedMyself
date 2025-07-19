@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
+#include "Skill.h"
 
 class Player;
-class Skill;
 
 class StatUiHud :
     public GameObject
@@ -14,15 +14,17 @@ class StatUiHud :
 		std::string texId;
 		sf::FloatRect Bounds;
 		bool isFilled = false; //초기화 : 비어있는 상태
-		Skill* skill = nullptr;
 		
 		void SetIcon(std::string& newTexId)
 		{
 			texId = newTexId;
 			sprite.setTexture(TEXTURE_MGR.Get(newTexId));
 			isFilled = true; //아이콘이 배치된 상태
+		}
 
-			
+		bool InIcon() const
+		{
+			return !(texId == "graphics/skillSlot.png");
 		}
 	};
 
@@ -131,6 +133,6 @@ public:
 	void SetUiChange();
 
 	// Skill
-
+	std::vector<SkillSlot> GetSkillSlot() const { return skillSlots; }
 };
 

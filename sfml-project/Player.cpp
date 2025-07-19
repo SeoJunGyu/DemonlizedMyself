@@ -212,20 +212,11 @@ void Player::Update(float dt)
 				speed = 0.f;
 			}
 
-			if (!isSkillPlyaing)
+			if (!isSkillPlyaing && sceneGame->IsAnySkillSlotFilled())
 			{
-				/*
-				
-
-				isSkillPlyaing = true;
-				*/
-				//skill->SetActive(true);
-				//skill->SetLifeTime(0);
 				skill->TryUse();
 				isSkillPlyaing = true;
 			}
-			
-			
 			break;
 		}
 	}

@@ -673,3 +673,16 @@ void SceneGame::UpdateScreenShake(float dt)
 		worldView.setCenter(originalViewCenter);
 	}
 }
+
+bool SceneGame::IsAnySkillSlotFilled() const
+{
+	for (auto& slot : statUi->GetSkillSlot())
+	{
+		if (slot.InIcon())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

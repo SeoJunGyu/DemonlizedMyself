@@ -35,6 +35,8 @@ protected:
 
 	bool isEquipped = false;
 
+	int count = 0;
+
 public:
 	Skill(const std::string& name = "");
 	virtual ~Skill() = default;

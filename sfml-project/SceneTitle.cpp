@@ -70,7 +70,8 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 
 void SceneTitle::UpdateTitleBar(float dt)
 {
-	time += dt * 10.f;
+	//time += dt * 10.f;
+	time = 100.f;
 	std::stringstream tmp;
 	tmp << std::fixed << std::setprecision(2) << time;
 	std::string str = tmp.str();

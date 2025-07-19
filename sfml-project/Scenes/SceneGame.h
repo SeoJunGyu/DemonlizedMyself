@@ -107,6 +107,7 @@ public:
 	void StartSceenShake(float duration, float magnitude);
 	void UpdateScreenShake(float dt);
 
+	bool IsAnySkillSlotFilled() const;
 
 };
 

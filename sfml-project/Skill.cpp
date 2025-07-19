@@ -99,11 +99,7 @@ void Skill::Reset()
 void Skill::Update(float dt)
 {
 	/*
-	if (!isEquipped)
-	{
-		SetActive(false);
-		return;
-	}
+	
 	*/
 	
 
@@ -126,12 +122,18 @@ void Skill::Update(float dt)
 		}
 		else
 		{
-			//std::cout << "스킬 준비 완료!" << std::endl;
+			//std::cout << "스킬 준비 완료!" << count++ << std::endl;
 		}
 		return;
 	}
 
 	lifeTime += dt;
+
+	if (!isEquipped)
+	{
+		SetActive(false);
+		return;
+	}
 
 	if (targetMonster && !targetMonster->GetActive())
 	{
@@ -179,6 +181,12 @@ void Skill::Update(float dt)
 		SetPosition({ targetMonster->GetPosition().x, -60.f });
 	}
 
+	if (lifeTime > duration)
+	{
+		//std::cout << "lifeTime 종료, SetActive(false) 호출됨\n";
+		SetActive(false);
+	}
+
 	//std::cout << "스킬 위치: " << player->GetPosition().x << ", " << player->GetPosition().y << "\n";
 }
 
@@ -200,7 +208,7 @@ void Skill::TryUse()
 	SetActive(true);
 	skillReady = false;
 	coolDownTimer = 0.f;
-
+	isEquipped = true;
 	targetMonster = nullptr;
 
 	animator.Play("animations/skill_Explode.csv");

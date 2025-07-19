@@ -47,7 +47,7 @@ void Skill::Init()
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 10;
 
-	animator.AddEvent("Skill", 9, [this]()
+	animator.AddEvent("Skill", 10, [this]()
 		{
 			SetActive(false);
 		}
@@ -92,12 +92,21 @@ void Skill::Reset()
 	coolDown = 2.f;
 	coolDownTimer = 0.f;
 
-	attackInterval = 3.f;
+	attackInterval = 2.f;
 	attackTimer = 0.f;
 }
 
 void Skill::Update(float dt)
 {
+	/*
+	if (!isEquipped)
+	{
+		SetActive(false);
+		return;
+	}
+	*/
+	
+
 	//std::cout << GetActive() << std::endl;
 	animator.Update(dt);
 	hitbox.UpdateTransform(body, GetLocalBounds());
@@ -158,27 +167,17 @@ void Skill::Update(float dt)
 		}
 	}
 	
-	if (targetMonster)
+	if (targetMonster && !(targetMonster->GetHp() == 0))
 	{
 		attackTimer += dt;
 		if (attackTimer > attackInterval)
 		{
 			targetMonster->OnDamage(damage);
-			std::cout << "monster->OnDamage(damage); 호출" << std::endl;
 			attackTimer = 0.f;
 		}
 		
 		SetPosition({ targetMonster->GetPosition().x, -60.f });
 	}
-	
-	/*
-	if (lifeTime > duration)
-	{
-		//std::cout << "lifeTime 종료, SetActive(false) 호출됨\n";
-		SetActive(false);
-	}
-	*/
-	
 
 	//std::cout << "스킬 위치: " << player->GetPosition().x << ", " << player->GetPosition().y << "\n";
 }

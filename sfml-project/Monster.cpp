@@ -96,7 +96,7 @@ void Monster::Init()
 			}
 		);
 
-		animator.AddEvent("Death", 9,
+		animator.AddEvent("Death", 8,
 			[this]()
 			{
 				hp = 0;
@@ -138,7 +138,7 @@ void Monster::Init()
 			}
 		);
 
-		animator.AddEvent("Death", 10,
+		animator.AddEvent("Death", 9,
 			[this]()
 			{
 				hp = 0;

@@ -20,6 +20,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/Background4.png");
 	texIds.push_back("graphics/Background5.png");
 	texIds.push_back("graphics/Background1.png");
+	
 	texIds.push_back("graphics/Worrior_Icon.png");
 	texIds.push_back("graphics/big_bar.png");
 	texIds.push_back("graphics/basic_bar.png");
@@ -38,7 +39,7 @@ void SceneGame::Init()
 	texIds.push_back("graphics/HeroKnight.png");
 
 	fontIds.push_back("fonts/DS-DIGIT.ttf");
-	fontIds.push_back("fonts/Maplestory_Light.ttf");	
+	fontIds.push_back("fonts/Maplestory_Light.ttf");
 
 	//애니메이션 로드
 	ANI_CLIP_MGR.Load("animations/warrior_Idle.csv");
@@ -50,7 +51,6 @@ void SceneGame::Init()
 	ANI_CLIP_MGR.Load("animations/HeroKnight_Death.csv");
 	ANI_CLIP_MGR.Load("animations/skill_Explode.csv");
 
-	SOUNDBUFFER_MGR.Load("audios/TitleBGM.wav");
 	SOUNDBUFFER_MGR.Load("audios/BattleBGM.wav");
 	SOUNDBUFFER_MGR.Load("audios/LevelUp.wav");
 	SOUNDBUFFER_MGR.Load("audios/StatUp.wav");

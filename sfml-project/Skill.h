@@ -33,6 +33,8 @@ protected:
 	float attackInterval = 0.f;
 	float attackTimer = 0.f;
 
+	bool isEquipped = false;
+
 public:
 	Skill(const std::string& name = "");
 	virtual ~Skill() = default;
@@ -70,6 +72,11 @@ public:
 
 	bool IsReady() const { return skillReady; }
 	void TryUse();
+
+	void SetEquipped(bool value) { isEquipped = value; }
+	bool IsEquipeed() const { return isEquipped; }
+
+	void Use();
 
 };
 

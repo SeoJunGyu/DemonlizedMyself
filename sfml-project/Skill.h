@@ -10,7 +10,6 @@ class Skill :
 {
 protected:
 	sf::Sprite body;
-	sf::String texId = "graphics/Explode.png";
 	Animator animator;
 
 	float lifeTime = 0.f;
@@ -58,6 +57,9 @@ public:
 	//test
 	void SetDraw(bool draw) { isDraw = draw; }
 	void SetLifeTime(float lifeTime) { this->lifeTime = lifeTime; }
+
+	float GetLifeTime() const { return lifeTime; }
+	float GetDuration() const { return duration; }
 
 };
 

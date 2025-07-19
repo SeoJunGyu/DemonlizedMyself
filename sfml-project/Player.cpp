@@ -212,12 +212,18 @@ void Player::Update(float dt)
 				speed = 0.f;
 			}
 
-			drawSkill = !drawSkill;
-			skill->SetPosition({ monster->GetPosition().x, -60.f});
-			skill->SetActive(true);
-			skill->SetLifeTime(0);
-			skill->SetDraw(drawSkill);
-			drawSkill = !drawSkill;
+			if (!isSkillPlyaing)
+			{
+				drawSkill = !drawSkill;
+				skill->SetPosition({ monster->GetPosition().x, -60.f });
+				skill->SetActive(true);
+				skill->SetLifeTime(0);
+				skill->SetDraw(drawSkill);
+				drawSkill = !drawSkill;
+
+				isSkillPlyaing = true;
+			}
+			
 			
 			break;
 		}
@@ -246,9 +252,9 @@ void Player::Update(float dt)
 	bound.width *= 0.5f;
 	hitBox.UpdateTransform(body, bound);
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::D))
+	if (!skill->GetActive())
 	{
-		
+		isSkillPlyaing = false;
 	}
 
 	//std::cout << animator.GetCurrentClipId() << std::endl;

@@ -44,14 +44,12 @@ void Skill::SetOrigin(Origins preset)
 
 void Skill::Init()
 {
-	animator.SetTarget(&body);
-
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 10;
 
 	animator.AddEvent("Skill", 10, [this]()
 		{
-			SetActive(false);
+			//SetActive(false);
 		}
 	);
 }
@@ -62,6 +60,8 @@ void Skill::Release()
 
 void Skill::Reset()
 {
+	animator.SetTarget(&body);
+
 	if (SCENE_MGR.GetCurrentSceneId() == SceneIds::Game)
 	{
 		sceneGame = (SceneGame*)SCENE_MGR.GetCurrentScene();
@@ -73,11 +73,7 @@ void Skill::Reset()
 
 	player = (Player*)SCENE_MGR.GetCurrentScene()->FindGameObject("Player");
 
-	body.setTexture(TEXTURE_MGR.Get(texId), true);
-	SetOrigin(Origins::MC);
-
-	SetPosition({ 0.f, 0.f });
-	SetScale({ 3.f, 3.f });
+	//body.setTexture(TEXTURE_MGR.Get(texId), true);
 
 	damage = 0;
 	lifeTime = 0.f;
@@ -85,9 +81,11 @@ void Skill::Reset()
 
 	targetMonster = nullptr;
 
-	animator.SetTarget(&body);
-	//animator.Play("animations/skill_Explode.csv");
-	
+	animator.Play("animations/skill_Explode.csv");
+
+	SetPosition({ 0.f, 0.f });
+	SetScale({ 3.f, 3.f });
+	SetOrigin(Origins::MC);
 }
 
 void Skill::Update(float dt)
@@ -103,6 +101,7 @@ void Skill::Update(float dt)
 		{
 			SetActive(false);
 		}
+		targetMonster = nullptr;
 		return;
 	}
 	
@@ -122,6 +121,8 @@ void Skill::Update(float dt)
 			{
 				targetMonster = monster;
 				SetPosition({ monster->GetPosition().x, -60.f });
+
+				animator.Play("animations/skill_Explode.csv");
 				//monster->OnDamage(damage);
 				break;
 			}
@@ -139,7 +140,7 @@ void Skill::Update(float dt)
 		SetActive(false);
 	}
 
-	std::cout << "스킬 위치: " << player->GetPosition().x << ", " << player->GetPosition().y << "\n";
+	//std::cout << "스킬 위치: " << player->GetPosition().x << ", " << player->GetPosition().y << "\n";
 }
 
 void Skill::Draw(sf::RenderWindow& window)
